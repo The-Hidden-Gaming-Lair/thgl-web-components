@@ -278,7 +278,9 @@ export function proxy(req: NextRequest) {
     // requests + votes) — www.th.gl/stats and /requests fetch it same-origin.
     path !== "/api/build-id" && // Global build-identity probe (deploy drain
     // detection + NewVersionWatcher) — must answer on every host incl. www.
-    path !== "/api/patreon" // Global perks-refresh route (exact match).
+    path !== "/api/patreon" && // Global perks-refresh route (exact match).
+    !path.startsWith("/api/auth/") // Global email sign-in (app/api/auth) —
+    // www, the game sites and the Companion App share it.
     // /api/patreon/authorize, /api/patreon/overwolf, and
     // /api/patreon/redirect still rewrite to /www/ — those handlers
     // are www-tenant-only in prod.

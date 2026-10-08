@@ -45,11 +45,13 @@ export function GlobalSearch({
       <button
         onClick={() => setShowSearch(true)}
         aria-label="Search"
-        className="flex items-center gap-2 h-8 rounded-md border border-neutral-700 bg-zinc-800/50 px-3 text-sm text-muted-foreground hover:text-foreground hover:border-neutral-600 transition-colors"
+        className="flex items-center gap-2 h-8 rounded-md border border-neutral-700 bg-zinc-800/50 px-2 sm:px-3 text-sm text-muted-foreground hover:text-foreground hover:border-neutral-600 transition-colors"
       >
         <Search className="h-3.5 w-3.5" />
-        <span>Search</span>
-        <kbd className="inline-flex h-5 items-center rounded border border-neutral-700 bg-zinc-900 px-1.5 font-mono text-[10px] text-muted-foreground">
+        {/* Phones: icon only - the label + shortcut squeezed the menu button
+            on top of the search box and pushed the account button off-screen. */}
+        <span className="hidden sm:inline">Search</span>
+        <kbd className="hidden sm:inline-flex h-5 items-center rounded border border-neutral-700 bg-zinc-900 px-1.5 font-mono text-[10px] text-muted-foreground">
           /
         </kbd>
       </button>

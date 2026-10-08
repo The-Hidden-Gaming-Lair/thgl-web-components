@@ -5,7 +5,7 @@ import {
   signTokenCookie,
 } from "@/lib/token-cookie";
 import { verify } from "jsonwebtoken";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import Link from "next/link";
 import { AppSubscriptionCard } from "@/games/thgl-web/components/app-subscription-card";
 import { ProfileEditor } from "@/games/thgl-web/components/profile-editor";
@@ -31,7 +31,9 @@ import {
   resolveTebexAccount,
 } from "@/lib/tebex";
 import { SupporterKey } from "@/games/thgl-web/components/supporter-key";
+import { emailsForAccount } from "@/lib/email-login";
 import { SupporterKeyLogin } from "@/games/thgl-web/components/supporter-key-login";
+import { EmailSignInSection } from "@/games/thgl-web/components/email-sign-in-section";
 
 // Tebex's customer portal: buyers sign in with their purchase email to view
 // payments and cancel their subscription.
@@ -43,10 +45,16 @@ function TebexAccountContent({
   tebexId,
   tebex,
   pending,
+  emails,
+  zh,
 }: {
   secret: string;
   tebexId: string;
   tebex: TebexAccount | null;
+  /** Emails that sign in to this account (lib/email-login.ts). */
+  emails: string[];
+  /** Chinese copy (browser prefers Chinese), else English. */
+  zh: boolean;
   /** Tier of a just-finished checkout (?tebex=complete&tier=…), else null. */
   pending: TebexTierKey | null;
 }) {
@@ -75,21 +83,21 @@ function TebexAccountContent({
     <>
       {account && <InitializeAccount account={account} />}
       {waiting && <meta httpEquiv="refresh" content="4" />}
-      <div className="bg-muted/30 rounded-lg p-8 max-w-3xl mx-auto space-y-6">
-        <h2 className="text-2xl font-bold text-center">Account</h2>
+      <div className="bg-muted/30 rounded-lg p-4 sm:p-8 max-w-3xl mx-auto space-y-6">
+        <h2 className="text-2xl font-bold text-center">
+          {zh ? "账户" : "Account"}
+        </h2>
         {tebex === null ? (
           <p className="text-amber-500 text-center text-sm">
-            Your subscription status is temporarily unavailable. Please try
-            again in a minute.
-            <br />
-            暂时无法获取订阅状态，请一分钟后再试。
+            {zh
+              ? "暂时无法获取订阅状态，请一分钟后再试。"
+              : "Your subscription status is temporarily unavailable. Please try again in a minute."}
           </p>
         ) : waiting ? (
           <p className="text-center text-sm text-muted-foreground">
-            Thank you! Processing your payment — this page updates
-            automatically.
-            <br />
-            谢谢！正在处理你的付款，此页面会自动更新。
+            {zh
+              ? "谢谢！正在处理你的付款，此页面会自动更新。"
+              : "Thank you! Processing your payment - this page updates automatically."}
           </p>
         ) : active.length > 0 ? (
           <div className="text-center space-y-2">
@@ -104,56 +112,64 @@ function TebexAccountContent({
               ))}
             </div>
             <p className="text-xs text-muted-foreground">
-              Active until{" "}
+              {zh ? "有效期至 " : "Active until "}
               {new Date(active[0].expiresAt * 1000).toLocaleDateString(
-                "en-US",
+                zh ? "zh-CN" : "en-US",
                 { dateStyle: "medium" },
               )}
-              {active[0].status === "Active" && " · renews automatically"}
+              {active[0].status === "Active" &&
+                (zh ? " · 自动续订" : " · renews automatically")}
             </p>
           </div>
         ) : all.length > 0 ? (
           <p className="text-center text-sm text-muted-foreground">
-            Free account - you can write comments.{" "}
+            {zh
+              ? "免费账户：可以发表评论。"
+              : "Free account - you can write comments. "}
             <Link href="/support-me/tebex" className="text-primary underline">
-              Upgrade to Pro or Elite
-            </Link>
-            <br />
-            免费账户：可以发表评论。
-            <Link href="/support-me/tebex" className="text-primary underline">
-              升级到 Pro 或 Elite
+              {zh ? "升级到 Pro 或 Elite" : "Upgrade to Pro or Elite"}
             </Link>
           </p>
         ) : (
           <p className="text-amber-500 font-medium text-center text-sm">
-            You have no active subscription.{" "}
+            {zh ? "你没有有效的订阅。" : "You have no active subscription. "}
             <Link href="/support-me/tebex" className="text-primary underline">
-              Choose a tier
+              {zh ? "选择等级" : "Choose a tier"}
             </Link>
           </p>
         )}
 
+        {emails.length > 0 && (
+          <div className="border-t border-border pt-4 space-y-1 text-sm">
+            <p className="font-semibold">{zh ? "邮箱" : "Email"}</p>
+            <p className="break-all">{emails.join(", ")}</p>
+            <p className="text-muted-foreground">
+              {zh
+                ? "在其他设备或伴侣应用中，点击“使用邮箱登录”，我们会向此邮箱发送一次性验证码。"
+                : 'Sign in on other devices and in the Companion App with "Sign in with E-Mail" - we send a one-time code to this email.'}
+            </p>
+          </div>
+        )}
+
         <div className="border-t border-border pt-4 space-y-3 text-sm">
-          <p className="font-semibold">Your Supporter Key / 你的支持者密钥</p>
-          <p className="text-muted-foreground">
-            Keep this key safe. To unlock your perks in the Companion App, in
-            another browser or on another device, open the sign-in dialog there,
-            click &quot;Have a Supporter Key?&quot; and paste it.
+          <p className="font-semibold">
+            {zh ? "你的账户密钥" : "Your Account Key"}
           </p>
           <p className="text-muted-foreground">
-            请妥善保存此密钥。在伴侣应用、其他浏览器或其他设备中，打开登录窗口，点击“Have
-            a Supporter Key?”并粘贴此密钥，即可恢复你的账户和权益。
+            {zh
+              ? "备用登录方式：在伴侣应用、其他浏览器或其他设备中，打开登录窗口，点击“有账户密钥？”并粘贴此密钥。"
+              : 'A backup way to sign in: in the Companion App, another browser or on another device, open the sign-in dialog, click "Have an Account Key?" and paste it.'}
           </p>
-          <SupporterKey secret={secret} />
+          <SupporterKey secret={secret} zh={zh} />
         </div>
 
-        <div className="flex gap-3 justify-center pt-4 border-t border-border">
+        <div className="flex flex-wrap items-center gap-3 justify-center pt-4 border-t border-border">
           <Button variant="secondary" asChild>
             <Link href={TEBEX_PAYMENT_HISTORY_URL} target="_blank">
-              Manage Subscription
+              {zh ? "管理订阅" : "Manage Subscription"}
             </Link>
           </Button>
-          <SignOut isTebexAccount />
+          <SignOut isTebexAccount zh={zh} />
         </div>
       </div>
     </>
@@ -181,6 +197,9 @@ export default async function SupportMeAccount({
   const cookieStore = await cookies();
   const userId = cookieStore.get("userId");
   const { tebex: tebexParam, tier: tierParam } = await searchParams;
+  // Chinese only for browsers that prefer Chinese (the Tebex / Alipay test is
+  // China-only); English for everyone else.
+  const zh = /^zh\b/i.test((await headers()).get("accept-language") ?? "");
 
   let content;
   let entitledTierIDs: string[] = [];
@@ -199,13 +218,18 @@ export default async function SupportMeAccount({
     : null;
 
   if (tebexId && userId?.value) {
-    const tebex = await resolveTebexAccount(tebexId);
+    const [tebex, emails] = await Promise.all([
+      resolveTebexAccount(tebexId),
+      emailsForAccount(tebexId).catch(() => [] as string[]),
+    ]);
     entitledTierIDs = tebex?.tierIds ?? [];
     content = (
       <TebexAccountContent
         secret={userId.value}
         tebexId={tebexId}
         tebex={tebex}
+        emails={emails}
+        zh={zh}
         pending={
           tebexParam === "complete"
             ? isTebexTierKey(tierParam)
@@ -461,21 +485,26 @@ export default async function SupportMeAccount({
   if (!content) {
     content = (
       <div className="bg-muted/30 rounded-lg p-8 max-w-2xl mx-auto text-center">
-        <h2 className="text-2xl font-bold mb-6">Activate Your Perks</h2>
+        <h2 className="text-2xl font-bold mb-6">{zh ? "登录" : "Sign in"}</h2>
         <p className="text-muted-foreground mb-6">
-          You are not authenticated. Connect your Patreon account to activate
-          your perks for Overwolf apps and web tools.
+          {zh
+            ? "登录以在 Overwolf 应用和网站中激活你的权益。"
+            : "Sign in to activate your perks for Overwolf apps and web tools."}
         </p>
-        <Button size="lg" asChild>
-          <Link href="/support-me/patreon" prefetch={false}>
-            Authenticate with Patreon
-          </Link>
-        </Button>
+        <div className="max-w-sm mx-auto space-y-3">
+          <Button size="lg" className="w-full" asChild>
+            <Link href="/support-me/patreon" prefetch={false}>
+              {zh ? "使用 Patreon 登录" : "Sign in with Patreon"}
+            </Link>
+          </Button>
+          <EmailSignInSection zh={zh} />
+        </div>
         <p className="italic text-sm text-muted-foreground mt-4">
-          This will store a cookie in your browser to remember your Patreon
-          account. You can sign out at any time.
+          {zh
+            ? "登录后，浏览器会保存一个 Cookie 以记住你的账户。你可以随时退出登录。"
+            : "Signing in stores a cookie in your browser to remember your account. You can sign out at any time."}
         </p>
-        <SupporterKeyLogin />
+        <SupporterKeyLogin zh={zh} />
       </div>
     );
   }

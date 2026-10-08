@@ -9,7 +9,14 @@ const Handler = require("../cache-handler.cjs");
 
 const versions = (globalThis.__thglDataVersions ??= new Map());
 const refreshed = [];
-globalThis.__thglRefreshDataVersion = (game) => refreshed.push(game);
+/** game → version id the next refresh "loads" ("hang" = never answers) */
+const upstream = new Map();
+globalThis.__thglRefreshDataVersion = (game) => {
+  refreshed.push(game);
+  const id = upstream.get(game);
+  if (id === "hang") return new Promise(() => {});
+  if (id) versions.set(game, { id, at: Date.now() });
+};
 
 const h = new Handler({
   dev: true, // no stats timer
@@ -79,6 +86,26 @@ const page = (html, n = 2000) => ({
     null,
     "render that straddled an update is re-done",
   );
+
+  // 4b. idle pod (#846): the version was last observed long ago and the data
+  // changed since - the lookup refreshes BEFORE comparing, so the old page is
+  // not served as a hit (the edge would keep it for a day)
+  const k3 = "/g/aniimo/web/ja/db/items/i";
+  versions.set("aniimo", { id: "a2", at: Date.now() });
+  await h.get(k3, ctx);
+  await h.set(k3, v, ctx); // stamped a2
+  versions.set("aniimo", { id: "a2", at: Date.now() - 10 * 60_000 }); // idle
+  upstream.set("aniimo", "a3");
+  assert.equal(await h.get(k3, ctx), null, "idle pod re-renders after update");
+  await h.set(k3, v, ctx);
+  assert.ok(await h.get(k3, ctx), "hit under the refreshed version");
+  // a refresh that never answers falls back to the known version after the cap
+  versions.set("aniimo", { id: "a3", at: Date.now() - 10 * 60_000 });
+  upstream.set("aniimo", "hang");
+  const t0 = Date.now();
+  assert.ok(await h.get(k3, ctx), "hanging refresh: known version kept");
+  assert.ok(Date.now() - t0 < 3000, "hanging refresh: lookup is capped");
+  upstream.delete("aniimo");
 
   // 5. LRU cap (1 MB): incompressible pages evict the oldest first
   versions.set("palia", { id: "p", at: Date.now() });

@@ -20,5 +20,15 @@
   "config.db.typeLabels.inventory": "아이템",
   "config.db.typeLabels.equipment": "장비",
   "config.db.typeLabels.recipes": "레시피",
-  "config.db.typeLabels.enemies": "적"
+  "config.db.typeLabels.enemies": "적",
+  "config.internalLinks.sources.title": "전리품 출처",
+  "config.internalLinks.sources.description": "잔해 더미와 상자: 각각에 들어 있을 수 있는 것과 지도상의 위치.",
+  "config.internalLinks.sources.linkText": "전리품 출처 열기",
+  "config.db.sources.description": "잔해 더미와 상자, 그리고 그 내용물.",
+  "config.db.typeLabels.sources": "전리품 출처",
+  "config.internalLinks.vendors.title": "상인",
+  "config.internalLinks.vendors.description": "데스, 집배원 피트, 그리고 그늘진 사막의 상인들: 각자 판매하고 구매하는 것, 가격과 평판 레벨, 지도상의 위치.",
+  "config.internalLinks.vendors.linkText": "상인 열기",
+  "config.db.vendors.description": "상인과 판매 품목, 가격, 구매 품목.",
+  "config.db.typeLabels.vendors": "상인"
 }

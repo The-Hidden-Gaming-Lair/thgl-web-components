@@ -251,6 +251,7 @@ export function createGuidesPage(appConfig: AppConfig) {
                         <li key={g.slug}>
                           <Link
                             href={`/guides/${g.slug}`}
+                            prefetch={false}
                             className="block h-full border rounded-lg p-4 hover:bg-accent transition"
                           >
                             <span className="block font-semibold">
@@ -279,6 +280,10 @@ export function createGuidesPage(appConfig: AppConfig) {
                           `/guides/${encodeURIComponent(t(guide.type, { fallback: translate(enDict, guide.type) }))}`,
                           locale,
                         )}
+                        // Viewport prefetch of every card (hundreds per game)
+                        // tripped Shield rate limit 55171 (200 req/10s on
+                        // /guides) and 429'd real readers' next click for 60s.
+                        prefetch={false}
                         className="block"
                       >
                         <div className="flex items-center gap-2 mb-2 text-left">

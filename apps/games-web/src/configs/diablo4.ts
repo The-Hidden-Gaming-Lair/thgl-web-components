@@ -26,28 +26,25 @@ export const diablo4 = resolveAppConfig({
   internalLinks: [
     {
       title: "Diablo IV Map",
-      description:
-        "Explore Diablo 4 Interactive Maps with real-time position tracking. Find Altars of Lilith, dungeons, bosses, events, and more.",
+      description: "config.internalLinks.maps-Sanctuary.description",
       href: "/maps/Sanctuary",
       iconName: "Map",
-      linkText: "Explore the Map",
+      linkText: "config.internalLinks.maps-Sanctuary.linkText",
       bgImage: preview("Sanctuary"),
     },
     {
-      title: "Aspects",
-      description:
-        "Browse all 600+ Legendary Aspects from the Codex of Power — filterable by class and type.",
+      title: "config.internalLinks.aspects.title",
+      description: "config.internalLinks.aspects.description",
       href: "/db/aspects",
       iconName: "BookOpen",
-      linkText: "Browse Aspects",
+      linkText: "config.internalLinks.aspects.linkText",
     },
     {
-      title: "Unique Items",
-      description:
-        "Every Unique item in Diablo IV with class restrictions, item type, and unique power descriptions.",
+      title: "config.internalLinks.uniques.title",
+      description: "config.internalLinks.uniques.description",
       href: "/db/uniques",
       iconName: "Gift",
-      linkText: "Browse Unique Items",
+      linkText: "config.internalLinks.uniques.linkText",
     },
     {
       title: "checklist.navTitle",
@@ -80,7 +77,7 @@ export const diablo4 = resolveAppConfig({
       { section: "strongholds_list", descriptions: true },
       { section: "dungeons_list", descriptions: true },
     ],
-    heroSubtitle: "Game Database",
+    heroSubtitle: "config.db.heroSubtitle",
     searchPlaceholder: "db_search_placeholder",
     sectionsInNav: true,
     homeSections: [

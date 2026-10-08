@@ -8,6 +8,9 @@ import {
   fetchDbDict,
   fetchVersion,
   findDbEntriesForFilterTypes,
+  findMixedDbEntries,
+  hasGuideTracker,
+  isSightingGuide,
   getDbSectionByType,
   FiltersConfig,
   getAllTypesFromVersion,
@@ -31,6 +34,7 @@ import { PageComments } from "../(data)/page-comments";
 import { Metadata } from "next";
 import { getFullDictionary } from "../../dicts";
 import { JSONLDScript } from "./json-ld-script";
+import { getMixedEntries, MixedEntriesTables } from "./mixed-entries";
 
 type PageProps = {
   params: Promise<{ locale?: string; type: string }>;
@@ -241,7 +245,13 @@ export function createGuidePage(appConfig: AppConfig) {
     // and the map tabs; the spawns themselves are loaded by the client
     // (MapGuides). Embedding every spawn in the render made a resource type
     // with 38k spawns (Dune: Scrap Metal) an 80 MB, 12 s origin render.
-    const [rawSummaries, dbLinks] = await Promise.all([
+    // A type guide whose markers mix several codex entries found in different places
+    // (`mixedDbEntries`) shows each entry's own table instead of the misleading map.
+    const mixedRefs =
+      allTypeIds.length > 0
+        ? findMixedDbEntries(typeIds, version.data.filters)
+        : [];
+    const [rawSummaries, dbLinks, mixedEntries] = await Promise.all([
       Promise.all(
         queries.map((query) => fetchGuideSummary(appConfig.name, query)),
       ),
@@ -252,7 +262,20 @@ export function createGuidePage(appConfig: AppConfig) {
         allTypeIds.length > 0 ? typeIds : [],
         version.data.filters,
       ),
+      getMixedEntries(appConfig, locale, mixedRefs),
     ]);
+    const mixed = mixedEntries.length > 0;
+    // Catch/sighting spots (fish, bugs) have nothing to tick off: map without the tracker.
+    const sightings = isSightingGuide(
+      typeIds,
+      version.data.filters,
+      appConfig.sightingFilters,
+    );
+    // Respawning nodes have nothing to tick off either: map without the tracker.
+    const tracker =
+      !sightings &&
+      hasGuideTracker(typeIds, version.data.filters, appConfig.trackerFilters);
+    const respawning = !sightings && !tracker;
     // A type with no plottable spawns (live-only NPCs, overlay-only types)
     // has nothing to guide — 404 it instead of rendering "0 known …"
     // boilerplate. Only when every summary actually answered: a search-API
@@ -352,9 +375,25 @@ export function createGuidePage(appConfig: AppConfig) {
                 }),
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: t("guide.jsonld.2.answer", {
-                    vars: { guide: guideTitle, title: appConfig.title },
-                  }),
+                  text: sightings
+                    ? t("guide.sightings", {
+                        vars: {
+                          guide: guideTitle,
+                          spawns: String(spawnCount),
+                          maps: String(maps.length),
+                        },
+                      })
+                    : respawning
+                      ? t("guide.respawning", {
+                          vars: {
+                            guide: guideTitle,
+                            spawns: String(spawnCount),
+                            maps: String(maps.length),
+                          },
+                        })
+                      : t("guide.jsonld.2.answer", {
+                          vars: { guide: guideTitle, title: appConfig.title },
+                        }),
                 },
               },
             ],
@@ -428,24 +467,50 @@ export function createGuidePage(appConfig: AppConfig) {
                   })}
                   order={2}
                 />
-                <p className="text-sm mt-2">
-                  {t.rich("guide.description", {
-                    components: {
-                      guide: <strong>{guideTitle}</strong>,
-                      title: <strong>{appConfig.title}</strong>,
-                    },
-                  })}
-                </p>
-                <p className="text-sm mt-2">
-                  {t.rich("guide.spawns", {
-                    components: {
-                      spawns: <strong>{spawnCount}</strong>,
-                      maps: <strong>{maps.length}</strong>,
-                      guide: <strong>{guideTitle}</strong>,
-                    },
-                  })}
-                </p>
-                {dbLinks.length > 0 && (
+                {!mixed && sightings && (
+                  <p className="text-sm mt-2">
+                    {t.rich("guide.sightings", {
+                      components: {
+                        spawns: <strong>{spawnCount}</strong>,
+                        maps: <strong>{maps.length}</strong>,
+                        guide: <strong>{guideTitle}</strong>,
+                      },
+                    })}
+                  </p>
+                )}
+                {!mixed && respawning && (
+                  <p className="text-sm mt-2">
+                    {t.rich("guide.respawning", {
+                      components: {
+                        spawns: <strong>{spawnCount}</strong>,
+                        maps: <strong>{maps.length}</strong>,
+                        guide: <strong>{guideTitle}</strong>,
+                      },
+                    })}
+                  </p>
+                )}
+                {!mixed && tracker && (
+                  <p className="text-sm mt-2">
+                    {t.rich("guide.description", {
+                      components: {
+                        guide: <strong>{guideTitle}</strong>,
+                        title: <strong>{appConfig.title}</strong>,
+                      },
+                    })}
+                  </p>
+                )}
+                {!mixed && tracker && (
+                  <p className="text-sm mt-2">
+                    {t.rich("guide.spawns", {
+                      components: {
+                        spawns: <strong>{spawnCount}</strong>,
+                        maps: <strong>{maps.length}</strong>,
+                        guide: <strong>{guideTitle}</strong>,
+                      },
+                    })}
+                  </p>
+                )}
+                {!mixed && dbLinks.length > 0 && (
                   <p className="text-sm mt-2">
                     {t("guide.dbLinks", { fallback: "In the database:" })}{" "}
                     {dbLinks.map((link, i) => (
@@ -475,23 +540,35 @@ export function createGuidePage(appConfig: AppConfig) {
             }
             content={
               <>
-                <MapGuides
-                  appName={appConfig.name}
-                  locale={locale}
-                  queries={queries}
-                  typeLabels={typeLabels}
-                  typeIcons={typeIcons}
-                  defaultMapName={defaultMapName}
-                  maps={maps}
-                  mapLabels={Object.fromEntries(maps.map((m) => [m, t(m)]))}
-                  tiles={version.data.tiles}
-                  iconsPath={version.more.icons}
-                  additionalTooltip={
-                    games.find((g) => g.id === appConfig.name)
-                      ?.additionalTooltip ?? appConfig.game?.additionalTooltip
-                  }
-                  typeGroupLabels={typeGroupLabels}
-                />
+                {mixed ? (
+                  <MixedEntriesTables
+                    intro={t("guide.mixed", {
+                      vars: { guide: guideTitle },
+                      fallback:
+                        "{{guide}} markers can stand for any of the entries below, so the map would mix their spots. Here is where each one is found:",
+                    })}
+                    entries={mixedEntries}
+                  />
+                ) : (
+                  <MapGuides
+                    appName={appConfig.name}
+                    locale={locale}
+                    queries={queries}
+                    typeLabels={typeLabels}
+                    typeIcons={typeIcons}
+                    defaultMapName={defaultMapName}
+                    maps={maps}
+                    mapLabels={Object.fromEntries(maps.map((m) => [m, t(m)]))}
+                    tiles={version.data.tiles}
+                    iconsPath={version.more.icons}
+                    additionalTooltip={
+                      games.find((g) => g.id === appConfig.name)
+                        ?.additionalTooltip ?? appConfig.game?.additionalTooltip
+                    }
+                    typeGroupLabels={typeGroupLabels}
+                    tracker={tracker}
+                  />
+                )}
                 {/* Keyed by the type/group ID, not the localized URL slug, so
                   every language shares one thread. */}
                 <PageComments

@@ -12,102 +12,94 @@ export const blueProtocolStarResonance = resolveAppConfig({
   internalLinks: [
     {
       title: "Asteria Plains Map",
-      description:
-        "Navigate Blue Protocol: Star Resonance's Asteria Plains with our interactive maps.",
+      description: "config.internalLinks.maps-Asteria%20Plains.description",
       href: "/maps/Asteria%20Plains",
       iconName: "Map",
       bgImage: preview("asteria_plains"),
-      linkText: "Explore the Asteria Plains Map",
+      linkText: "config.internalLinks.maps-Asteria%20Plains.linkText",
     },
     {
       title: "Asterleeds Map",
-      description:
-        "Navigate Blue Protocol: Star Resonance's Asterleeds with our interactive maps.",
+      description: "config.internalLinks.maps-Asterleeds.description",
       href: "/maps/Asterleeds",
       iconName: "Map",
       bgImage: preview("asterleeds"),
-      linkText: "Explore the Asterleeds Map",
+      linkText: "config.internalLinks.maps-Asterleeds.linkText",
     },
     {
       title: "Moonshadow Wilds Map",
-      description:
-        "Navigate Blue Protocol: Star Resonance's Moonshadow Wilds with our interactive maps.",
+      description: "config.internalLinks.maps-Moonshadow%20Wilds.description",
       href: "/maps/Moonshadow%20Wilds",
       iconName: "Map",
       bgImage: preview("moonshadow_wilds"),
-      linkText: "Explore the Moonshadow Wilds Map",
+      linkText: "config.internalLinks.maps-Moonshadow%20Wilds.linkText",
     },
     {
       title: "Bahamar Highlands Map",
-      description:
-        "Navigate Blue Protocol: Star Resonance's Bahamar Highlands with our interactive maps.",
+      description: "config.internalLinks.maps-Bahamar%20Highlands.description",
       href: "/maps/Bahamar%20Highlands",
       iconName: "Map",
       bgImage: preview("bahamar_highlands"),
-      linkText: "Explore the Bahamar Highlands Map",
+      linkText: "config.internalLinks.maps-Bahamar%20Highlands.linkText",
     },
     {
       title: "Bahamar Highlands (Deepreach) Map",
       description:
-        "Navigate Blue Protocol: Star Resonance's Bahamar Highlands Deepreach with our interactive maps.",
+        "config.internalLinks.maps-Bahamar%20Highlands%20(Deepreach).description",
       href: "/maps/Bahamar%20Highlands%20(Deepreach)",
       iconName: "Map",
       bgImage: preview("bahamar_highlands_deepreach"),
-      linkText: "Explore the Bahamar Highlands Deepreach Map",
+      linkText:
+        "config.internalLinks.maps-Bahamar%20Highlands%20(Deepreach).linkText",
     },
     {
       title: "Windhowl Canyon Map",
-      description:
-        "Navigate Blue Protocol: Star Resonance's Windhowl Canyon with our interactive maps.",
+      description: "config.internalLinks.maps-Windhowl%20Canyon.description",
       href: "/maps/Windhowl%20Canyon",
       iconName: "Map",
       bgImage: preview("windhowl_canyon"),
-      linkText: "Explore the Windhowl Canyon Map",
+      linkText: "config.internalLinks.maps-Windhowl%20Canyon.linkText",
     },
     {
       title: "Everfall Forest Map",
-      description:
-        "Navigate Blue Protocol: Star Resonance's Everfall Forest with our interactive maps.",
+      description: "config.internalLinks.maps-Everfall%20Forest.description",
       href: "/maps/Everfall%20Forest",
       iconName: "Map",
       bgImage: preview("everfall_forest"),
-      linkText: "Explore the Everfall Forest Map",
+      linkText: "config.internalLinks.maps-Everfall%20Forest.linkText",
     },
     {
       title: "Duskdye Woods Map",
-      description:
-        "Navigate Blue Protocol: Star Resonance's Duskdye Woods with our interactive maps.",
+      description: "config.internalLinks.maps-Duskdye%20Woods.description",
       href: "/maps/Duskdye%20Woods",
       iconName: "Map",
       bgImage: preview("duskdye_woods"),
-      linkText: "Explore the Duskdye Woods Map",
+      linkText: "config.internalLinks.maps-Duskdye%20Woods.linkText",
     },
     {
       title: "Underground District Map",
       description:
-        "Navigate Blue Protocol: Star Resonance's Underground District with our interactive maps.",
+        "config.internalLinks.maps-Underground%20District.description",
       href: "/maps/Underground%20District",
       iconName: "Map",
       bgImage: preview("underground_district"),
-      linkText: "Explore the Underground District Map",
+      linkText: "config.internalLinks.maps-Underground%20District.linkText",
     },
     {
       title: "Stray Starway Map",
-      description:
-        "Navigate Blue Protocol: Star Resonance's Stray Starway with our interactive maps.",
+      description: "config.internalLinks.maps-Stray%20Starway.description",
       href: "/maps/Stray%20Starway",
       iconName: "Map",
       bgImage: preview("stray_starway"),
-      linkText: "Explore the Stray Starway Map",
+      linkText: "config.internalLinks.maps-Stray%20Starway.linkText",
     },
     {
       title: "Skimmer's Lair Map",
-      description:
-        "Navigate Blue Protocol: Star Resonance's Skimmer's Lair with our interactive maps.",
+      description: "config.internalLinks.maps-Skimmer's%20Lair.description",
       href: "/maps/Skimmer's%20Lair",
       iconName: "Map",
       bgImage: preview("skimmer_s_lair"),
-      linkText: "Explore the Skimmer's Lair Map",
+      linkText: "config.internalLinks.maps-Skimmer's%20Lair.linkText",
     },
     {
       href: "/activities-tracker",
@@ -146,8 +138,8 @@ export const blueProtocolStarResonance = resolveAppConfig({
       { section: "imagines" },
       { section: "mounts" },
     ],
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items, gear, recipes, monsters…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
@@ -156,8 +148,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "inventory",
         titleFallback: "Items",
         icon: "🎒",
-        description:
-          "Consumables, materials, gems and growth items with the recipes, shops, monsters and gathering spots behind them.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/equipment",
@@ -165,8 +156,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "equipment",
         titleFallback: "Gear",
         icon: "🛡️",
-        description:
-          "Weapons, armor and accessories with gear score, class, base attributes and where they drop or are crafted.",
+        description: "config.db.equipment.description",
       },
       {
         href: "/db/recipes",
@@ -174,8 +164,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "recipes",
         titleFallback: "Recipes",
         icon: "⚒️",
-        description:
-          "Life Skill recipes, gear forging and Battle Imagine crafting with ingredients, yield and Focus cost.",
+        description: "config.db.recipes.description",
       },
       {
         href: "/db/imagines",
@@ -183,8 +172,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "imagines",
         titleFallback: "Battle Imagine",
         icon: "✨",
-        description:
-          "Every Battle Imagine with its skill, modifications and the monster it resonates with.",
+        description: "config.db.imagines.description",
       },
       {
         href: "/db/monsters",
@@ -192,8 +180,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "monsters",
         titleFallback: "Monster Hunt",
         icon: "👹",
-        description:
-          "The Monster Hunt list: where each monster lives, its hunt rewards and every spot on the map.",
+        description: "config.db.monsters.description",
       },
       {
         href: "/db/dungeons",
@@ -201,8 +188,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "dungeons",
         titleFallback: "Dungeons",
         icon: "🏰",
-        description:
-          "Dungeons and raids with their modes, recommended ability score, party size and rewards.",
+        description: "config.db.dungeons.description",
       },
       {
         href: "/db/gathering",
@@ -210,8 +196,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "gathering",
         titleFallback: "Gathering",
         icon: "🌿",
-        description:
-          "Life Skill gathering nodes with their yields, Focus cost and every node on the map.",
+        description: "config.db.gathering.description",
       },
       {
         href: "/db/fish",
@@ -219,8 +204,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "fish",
         titleFallback: "Fish",
         icon: "🐟",
-        description:
-          "Fish and ocean finds with size, fishing spots, the bait that catches them and what they cook into.",
+        description: "config.db.fish.description",
       },
       {
         href: "/db/mounts",
@@ -228,7 +212,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "mounts",
         titleFallback: "Mounts",
         icon: "🐗",
-        description: "Mount Imagines with their speed and skins.",
+        description: "config.db.mounts.description",
       },
       {
         href: "/db/furniture",
@@ -236,8 +220,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "furniture",
         titleFallback: "Furniture",
         icon: "🪑",
-        description:
-          "Homestead furniture with the materials to craft it and the Homestead EXP it gives.",
+        description: "config.db.furniture.description",
       },
       {
         href: "/db/shops",
@@ -245,8 +228,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "shops",
         titleFallback: "Shops",
         icon: "🏪",
-        description:
-          "Exchange shops and what they sell, with the price in Luno, tokens or materials.",
+        description: "config.db.shops.description",
       },
       {
         href: "/db/wardrobe",
@@ -254,8 +236,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "wardrobe",
         titleFallback: "Wardrobe",
         icon: "👗",
-        description:
-          "Outfits, fashion pieces and accessories with their Fashion Score, advanced styles, the Designs that craft them and how to get them.",
+        description: "config.db.wardrobe.description",
       },
       {
         href: "/db/weapon-skins",
@@ -263,7 +244,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "weapon-skins",
         titleFallback: "Weapon Skins",
         icon: "🗡️",
-        description: "Weapon appearances for every class and how to get them.",
+        description: "config.db.weapon-skins.description",
       },
       {
         href: "/db/emotes",
@@ -271,7 +252,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "emotes",
         titleFallback: "Emotes",
         icon: "💃",
-        description: "Every emote and where to unlock it.",
+        description: "config.db.emotes.description",
       },
       {
         href: "/db/personalization",
@@ -279,8 +260,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "personalization",
         titleFallback: "Personalization",
         icon: "🖼️",
-        description:
-          "Avatars, avatar frames, namecards, badges and profile backgrounds with how to unlock them.",
+        description: "config.db.personalization.description",
       },
       {
         href: "/db/titles",
@@ -288,7 +268,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "titles",
         titleFallback: "Titles",
         icon: "🏷️",
-        description: "Player titles and how to earn them.",
+        description: "config.db.titles.description",
       },
       {
         href: "/db/dictionary",
@@ -296,8 +276,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "dictionary",
         icon: "📚",
         titleFallback: "Lore Dictionary",
-        description:
-          "In-world encyclopedia entries — historical events, settings, concepts and circumstances from across the world.",
+        description: "config.db.dictionary.description",
       },
       {
         href: "/db/reading-books",
@@ -305,8 +284,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "reading-books",
         icon: "📖",
         titleFallback: "Reading Books",
-        description:
-          "Collectible books, letters, notices and records you find throughout the game.",
+        description: "config.db.reading-books.description",
       },
       {
         href: "/db/story",
@@ -314,7 +292,7 @@ export const blueProtocolStarResonance = resolveAppConfig({
         titleKey: "story",
         icon: "✦",
         titleFallback: "Story Episodes",
-        description: "The main story, episode by episode.",
+        description: "config.db.story.description",
       },
     ],
     typeColors: {

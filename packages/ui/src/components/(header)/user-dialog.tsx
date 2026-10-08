@@ -12,14 +12,15 @@ import {
   games,
   isOverwolf,
   TH_GL_URL,
-  type Perks,
   useAccountStore,
 } from "@repo/lib";
 import { Badge, Button } from "../(controls)";
 import { Separator } from "../ui/separator";
 import Cookies from "js-cookie";
 import { ExternalAnchor } from "./external-anchor";
-import { restoreUserIdCookie } from "./user-id-cookie";
+import { useUnlockWithSecret } from "./use-unlock-with-secret";
+import { EmailSignIn } from "./email-sign-in";
+import { useZh } from "./prefers-chinese";
 import { Input } from "../ui/input";
 import { useMemo, useState } from "react";
 import {
@@ -31,7 +32,6 @@ import {
   Ticket,
   Zap,
 } from "lucide-react";
-import { toast } from "sonner";
 import { toSvg } from "jdenticon";
 
 const PERK_CONFIG = [
@@ -132,7 +132,10 @@ function AuthenticatedView() {
           )}
           {account.decryptedUserId && (
             <p className="text-[10px] text-muted-foreground/70 truncate">
-              Patreon ID: {account.decryptedUserId}
+              {account.decryptedUserId.startsWith("tebex:")
+                ? "Account ID"
+                : "Patreon ID"}
+              : {account.decryptedUserId}
             </p>
           )}
         </div>
@@ -236,84 +239,13 @@ function AuthenticatedView() {
 }
 
 function UnauthenticatedView() {
-  const account = useAccountStore();
+  const zh = useZh();
   const [userId, setUserId] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { unlock, loading } = useUnlockWithSecret();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    if (loading) return;
-    setLoading(true);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch(`${TH_GL_URL}/api/patreon/overwolf`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId }),
-    });
-    try {
-      const body = (await response.json()) as {
-        expiresIn: number;
-        decryptedUserId: string;
-        email: string;
-        secret?: string;
-        invites?: string[];
-      } & Perks;
-      // Invite-only companion access rides on both the ok and the 403 body.
-      const invites = Array.isArray(body.invites) ? body.invites : undefined;
-      if (!response.ok) {
-        if (response.status === 403) {
-          account.setAccount({
-            userId,
-            decryptedUserId: null,
-            email: null,
-            perks: defaultPerks,
-            username: null,
-            avatarUrl: null,
-            invites,
-          });
-          // 403 = a valid account without a paid tier (e.g. a free Tebex
-          // account) - still signed in, so server pages need the cookie too.
-          if (!isOverwolf) restoreUserIdCookie(userId);
-          toast("User is not a subscriber");
-        } else if (response.status === 404) {
-          account.setAccount({
-            userId: null,
-            decryptedUserId: null,
-            email: null,
-            perks: defaultPerks,
-            username: null,
-            avatarUrl: null,
-          });
-          toast("Invalid secret");
-        } else if ("error" in body && typeof body.error === "string") {
-          toast(body.error);
-        }
-      } else {
-        account.setAccount({
-          // Prefer the server-minted enriched secret (carries the
-          // rotated Patreon token) — keeps unlocking working when the
-          // token store is unreachable.
-          userId: body.secret ?? userId,
-          decryptedUserId: body.decryptedUserId,
-          email: body.email,
-          perks: {
-            adRemoval: body.adRemoval,
-            previewReleaseAccess: body.previewReleaseAccess,
-            comments: body.comments,
-            premiumFeatures: body.premiumFeatures,
-          },
-          username: null,
-          avatarUrl: null,
-          invites,
-        });
-        // Web / Companion App: server-rendered pages read the cookie, so
-        // write it now instead of waiting for the next-load self-heal.
-        if (!isOverwolf) restoreUserIdCookie(body.secret ?? userId);
-        toast("Subscription enabled");
-      }
-    } catch {
-      toast("An error occurred. Please try again later.");
-    }
-    setLoading(false);
+    void unlock(userId);
   };
 
   // Production: round-trip through www.th.gl's authorize route (which
@@ -368,12 +300,25 @@ function UnauthenticatedView() {
         <ExternalLink className="w-3 h-3" />
       </ExternalAnchor>
 
-      {/* Existing user: sign in */}
+      {/* Existing user: sign in - Patreon, or E-Mail for Tebex (Alipay /
+          WeChat Pay) supporters (one-time code, active Tebex purchase only). */}
       <Button className="w-full" asChild>
-        <a href={authUrl}>Already a supporter? Sign In</a>
+        <a href={authUrl}>
+          {zh ? "使用 Patreon 登录" : "Sign in with Patreon"}
+        </a>
       </Button>
+      {!isOverwolf && (
+        <details className="group">
+          <summary className="list-none [&::-webkit-details-marker]:hidden">
+            <span className="flex h-9 w-full cursor-pointer items-center justify-center rounded-md border border-input text-sm font-medium hover:bg-accent">
+              {zh ? "使用邮箱登录" : "Sign in with E-Mail"}
+            </span>
+          </summary>
+          <EmailSignIn className="mt-2" />
+        </details>
+      )}
 
-      {/* Supporter Key (web + Companion App): accounts without a Patreon login
+      {/* Account Key (web + Companion App): accounts without a Patreon login
           (Tebex purchases) restore their perks with the key from their account
           page. Stored like a pasted Overwolf secret; the userId cookie is then
           restored from it by the session self-heal (restoreUserIdCookie).
@@ -381,13 +326,13 @@ function UnauthenticatedView() {
       {!isOverwolf && (
         <details className="text-xs">
           <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-            Have a Supporter Key?
+            {zh ? "有账户密钥？" : "Have an Account Key?"}
           </summary>
           <form onSubmit={handleSubmit} className="flex gap-2 mt-2">
             <Input
               value={userId}
               onChange={(e) => setUserId(e.target.value.trim())}
-              placeholder="Paste your Supporter Key"
+              placeholder={zh ? "粘贴你的账户密钥" : "Paste your Account Key"}
               className="text-xs h-8"
             />
             <Button

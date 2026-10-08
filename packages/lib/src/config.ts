@@ -78,6 +78,18 @@ export type AppConfig = {
   /** Featured filter IDs to highlight on the home page. If not set, first filters are shown. */
   topFilters?: string[];
   /**
+   * Filter groups or categories whose markers are spots players reported a catch or sighting
+   * at (Palia fish and bugs), not fixed spawns: their guide shows the map without the
+   * per-spot progress tracker, since there is nothing to tick off.
+   */
+  sightingFilters?: string[];
+  /**
+   * Filter groups, categories or type ids whose spots are gone for the player once
+   * gathered or opened (chests, unlockables): only their guides get the per-spot progress
+   * tracker. Unset = every guide has one. Respawning nodes have nothing to tick off.
+   */
+  trackerFilters?: string[];
+  /**
    * Live market prices in the crafting calculator. `"aodp"` = the Albion
    * Online Data Project's crowd-sourced price API (Albion only).
    */
@@ -545,6 +557,12 @@ type MemoryFetchOptions<T> = {
   onNotFound?: () => T | undefined;
   ttlMs?: number;
   immutable?: boolean;
+  /**
+   * How long past its TTL an entry may still be served while it refreshes in
+   * the background. Beyond that the call waits for the fresh copy (the stale
+   * one only on failure). Unset = serve stale forever, refresh behind it.
+   */
+  maxStaleMs?: number;
   /** Called whenever fresh data is stored — the first load and every background refresh. */
   onFresh?: (data: T) => void;
 };
@@ -631,6 +649,18 @@ export async function fetchJsonWithMemoryCache<T>(
   if (cached && (ttl > 0 || cached.expiresAt > Date.now())) {
     memoryFetchCache.delete(url);
     memoryFetchCache.set(url, cached);
+    const maxStale = options?.maxStaleMs;
+    if (
+      maxStale !== undefined &&
+      ttl > 0 &&
+      cached.expiresAt + maxStale <= Date.now()
+    ) {
+      return loadIntoMemoryCache(url, options).catch((error) => {
+        cached.expiresAt = Date.now() + ttl;
+        console.warn(`Refresh failed, serving stale ${url}:`, error);
+        return cached.data as T;
+      });
+    }
     if (cached.expiresAt <= Date.now() && !memoryFetchInflight.has(url)) {
       loadIntoMemoryCache(url, options).catch((error) => {
         // Keep serving the stale copy; retry after another TTL.
@@ -668,6 +698,11 @@ export async function fetchVersion(appName: string): Promise<Version> {
     getAppUrl(appName, "/version.json"),
     {
       ttlMs: process.env.NODE_ENV === "development" ? 0 : MEMORY_FETCH_TTL_MS,
+      // Bounded: every pod renders the new data version at most 90 s after a
+      // data update, even one that sat idle for hours - games-web's
+      // /api/revalidate re-purges the tenant's edge after 150 s and relies on
+      // it (an idle pod's first render must not refill the edge with old data).
+      maxStaleMs: 30_000,
       // A background refresh (stale-while-revalidate) reports the new version
       // as soon as it lands, not only on the next call.
       onFresh: observe,
@@ -1143,7 +1178,37 @@ export async function fetchDatabaseIndex(
   );
   // Games that ship a single monolith database.json (no split index, e.g. BPSR)
   // fall back to it so the home/db section counts and listings still work.
-  return index ?? fetchDatabase(appName);
+  return index ? expandIndexIcons(index) : fetchDatabase(appName);
+}
+
+// The memory cache hands every caller the same parsed object; expand it once.
+const expandedIndexes = new WeakSet<DatabaseConfig>();
+
+/**
+ * Undo data-forge's compact index icons (`compactIndexIcons` in its
+ * lib/database.ts): a category with `dbIcon: {width, height}` omits `icon` on
+ * every item whose icon is the standalone `db/<id>.webp` at 0,0, and marks items
+ * WITHOUT an icon `icon: null`. It keeps the index (every item of every section
+ * in one file) under the fetch-cache cap — Conan Exiles was at 1.48 MB with the
+ * repeated sprite object over half of it. Expanded in place, so every reader
+ * keeps seeing full icons.
+ */
+export function expandIndexIcons(index: DatabaseConfig): DatabaseConfig {
+  if (expandedIndexes.has(index)) return index;
+  for (const cat of index as (DatabaseConfig[number] & {
+    dbIcon?: { width: number; height: number };
+  })[]) {
+    const dbIcon = cat.dbIcon;
+    if (!dbIcon) continue;
+    for (const item of cat.items) {
+      if (item.icon === null) delete item.icon;
+      else if (item.icon === undefined)
+        item.icon = { url: `db/${item.id}.webp`, x: 0, y: 0, ...dbIcon };
+    }
+    delete cat.dbIcon;
+  }
+  expandedIndexes.add(index);
+  return index;
 }
 
 /**
@@ -1285,6 +1350,10 @@ export type FiltersConfig = {
     // siblings). Used by FilterSettingsPopover to offer a "Enable all
     // variants" toggle. Omitted for filters with no siblings.
     baseType?: string;
+    // Former filter ids this type took over (renamed or split). A saved filter
+    // selection that still holds one of them gets this type switched on
+    // instead (`migrateReplacedFilters` in user.ts).
+    replaces?: string[];
     // Codex/database section this marker type has an entry in. When set, the
     // marker panel/tooltip shows a "View in Codex" link to
     // `/db/<dbSection>/<spawn.dbEntryId ?? spawn.id ?? spawn.type>`: a spawn can
@@ -1306,6 +1375,11 @@ export type FiltersConfig = {
     rangeRadius?: number;
     // Hex colour (#RRGGBB) of the footprint outlines (`spawn.shape`) of this type's markers.
     shapeColor?: string;
+    // Codex entries this ONE marker type stands for when the game can't tell them apart and
+    // each is found somewhere else (Palia: Recipe: Fish Stew = Bahari ocean, Recipe: Sashimi
+    // = Bahari rivers, one fishing blueprint). The markers mix their spots, so the type's
+    // guide page shows each entry's own table instead of the map.
+    mixedDbEntries?: { section: string; id: string }[];
   }[];
 }[];
 

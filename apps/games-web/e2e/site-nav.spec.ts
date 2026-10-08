@@ -47,6 +47,29 @@ test("header groups render server-side and the active group is highlighted", asy
   ).toBeVisible();
 });
 
+test("groups that don't fit move into the ⋯ menu instead of overlapping (#694)", async ({
+  page,
+}) => {
+  // German labels at 1024px: palia's five groups don't fit next to the logo.
+  await page.setViewportSize({ width: 1024, height: 800 });
+  await page.goto(`${BASE_URL}/de`);
+  const header = page.locator("header");
+  // The fit runs after hydration; the last group leaves the row.
+  await expect(header.getByRole("button", { name: /^Tools/ })).toHaveCount(0);
+
+  // Nothing in the row reaches into the In-Game App button on the right.
+  const tabs = header.locator("div.max-md\\:hidden.flex-1 > div").first();
+  const lastTab = await tabs.locator("> *").last().boundingBox();
+  const inGameApp = await header
+    .getByRole("link", { name: "In-Game App" })
+    .first()
+    .boundingBox();
+  expect(lastTab!.x + lastTab!.width).toBeLessThan(inGameApp!.x);
+
+  await header.getByRole("button", { name: "Mehr" }).click();
+  await expect(header.locator('a[href="/de/rummage-pile"]')).toBeVisible();
+});
+
 test("game switcher searches and remembers recent games", async ({
   page,
   context,

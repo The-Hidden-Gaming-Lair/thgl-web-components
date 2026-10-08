@@ -7,5 +7,6 @@
   "config.db.knowledge.description": "Każda wiedza z poziomem, punktami wiedzy, wymaganiami i odblokowywanymi recepturami.",
   "config.db.journeys.description": "Etapy podróży, PD i nagrody dla Exiled Lands i Isle of Siptah.",
   "config.db.perks.description": "Atuty atrybutów i punkty potrzebne do ich odblokowania.",
-  "config.db.emotes.description": "Wszystkie emotki według kategorii i miejsca ich znajdziek na mapie."
+  "config.db.emotes.description": "Wszystkie emotki według kategorii i miejsca ich znajdziek na mapie.",
+  "config.db.creatures.description": "Stworzenia, NPC i niewolnicy wraz z tym, co z nich pozyskasz i co upuszczają, profesjami niewolników i miejscami pojawiania się na mapie."
 }

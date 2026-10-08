@@ -378,14 +378,17 @@ export function GenericEntityView({
     r.group || r.tooltip
       ? { ...r, group: dictText(r.group), tooltip: dictText(r.tooltip) }
       : r;
-  // A prop's heading: the game's own label (`prop.<key>`) when the dict has one.
+  // A prop's heading: the game's own label (`prop.<key>`) when the dict has one,
+  // then the UI dict's label for the shared recipe keys.
   const humanizeKey = (k: string) =>
     dict?.[`prop.${k}`]
       ? resolveDict(dict, `prop.${k}`)
-      : k
-          .replace(/([a-z])([A-Z])/g, "$1 $2")
-          .replace(/[_-]+/g, " ")
-          .replace(/^./, (c) => c.toUpperCase());
+      : k === "products"
+        ? L("db.products", "Products")
+        : k
+            .replace(/([a-z])([A-Z])/g, "$1 $2")
+            .replace(/[_-]+/g, " ")
+            .replace(/^./, (c) => c.toUpperCase());
 
   const refPill = (r: DbRef) => {
     const ic = icons?.[r.id];

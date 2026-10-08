@@ -1,0 +1,12 @@
+{
+  "config.db.heroSubtitle": "База даних гри",
+  "config.db.questlog.description": "Усі завдання та їхні цілі: рекомендований рівень, хто видає, нагороди та місця на мапі.",
+  "config.db.questlog.title": "Завдання",
+  "config.db.items.description": "Зброя, броня, інструменти та витратні матеріали з рідкісністю, рівнем, шкодою та характеристиками.",
+  "config.db.items.title": "Предмети",
+  "config.db.bestiary.description": "Усі істоти та види ворогів і місця, де вони блукають по Embervale.",
+  "config.db.bestiary.title": "Бестіарій",
+  "config.db.typeLabels.questlog": "Завдання",
+  "config.db.typeLabels.items": "Предмет",
+  "config.db.typeLabels.bestiary": "Істота"
+}

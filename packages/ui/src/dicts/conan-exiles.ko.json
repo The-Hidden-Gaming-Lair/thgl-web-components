@@ -7,5 +7,6 @@
   "config.db.knowledge.description": "모든 지식의 레벨, 지식 포인트, 선행 조건, 해금되는 제작법.",
   "config.db.journeys.description": "Exiled Lands와 Isle of Siptah의 여정 단계, 경험치, 보상.",
   "config.db.perks.description": "능력치 특전과 해금에 필요한 포인트.",
-  "config.db.emotes.description": "카테고리별 모든 감정 표현과 지도에서 감정 표현 아이템을 찾을 수 있는 위치."
+  "config.db.emotes.description": "카테고리별 모든 감정 표현과 지도에서 감정 표현 아이템을 찾을 수 있는 위치.",
+  "config.db.creatures.description": "생물, NPC, 노예의 채집물과 전리품, 노예 직업, 지도상의 출현 지점."
 }

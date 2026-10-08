@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.maps-Sanctuary.description": "Explorez les cartes interactives de Diablo 4 avec suivi de position en temps réel. Trouvez les Autels de Lilith, donjons, boss, événements et plus encore.",
+  "config.internalLinks.maps-Sanctuary.linkText": "Explorer la carte",
+  "config.internalLinks.aspects.title": "Aspects",
+  "config.internalLinks.aspects.description": "Plus de 600 aspects légendaires du Codex de puissance, filtrables par classe et par type.",
+  "config.internalLinks.aspects.linkText": "Parcourir les aspects",
+  "config.internalLinks.uniques.title": "Objets uniques",
+  "config.internalLinks.uniques.description": "Tous les objets uniques de Diablo IV avec restriction de classe, type d'objet et description du pouvoir unique.",
+  "config.internalLinks.uniques.linkText": "Parcourir les objets uniques",
+  "config.db.heroSubtitle": "Base de données du jeu"
+}

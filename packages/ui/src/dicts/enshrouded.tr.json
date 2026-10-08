@@ -1,0 +1,12 @@
+{
+  "config.db.heroSubtitle": "Oyun Veritabanı",
+  "config.db.questlog.description": "Her görev ve hedefleri; önerilen seviye, görevi veren, ödüller ve harita konumlarıyla.",
+  "config.db.questlog.title": "Görevler",
+  "config.db.items.description": "Silahlar, zırhlar, aletler ve sarf malzemeleri; nadirlik, seviye, hasar ve istatistiklerle.",
+  "config.db.items.title": "Eşyalar",
+  "config.db.bestiary.description": "Her yaratık ve düşman türü, Embervale'de dolaştıkları yerlerle.",
+  "config.db.bestiary.title": "Canavar Ansiklopedisi",
+  "config.db.typeLabels.questlog": "Görev",
+  "config.db.typeLabels.items": "Eşya",
+  "config.db.typeLabels.bestiary": "Yaratık"
+}

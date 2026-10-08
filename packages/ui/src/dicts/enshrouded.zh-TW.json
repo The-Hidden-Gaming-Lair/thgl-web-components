@@ -1,0 +1,12 @@
+{
+  "config.db.heroSubtitle": "遊戲資料庫",
+  "config.db.questlog.description": "所有任務及其目標，包含推薦等級、任務發布者、獎勵和地圖位置。",
+  "config.db.questlog.title": "任務",
+  "config.db.items.description": "武器、護甲、工具和消耗品，含稀有度、等級、傷害和屬性。",
+  "config.db.items.title": "物品",
+  "config.db.bestiary.description": "所有生物和敵人種類，以及牠們在 Embervale 中的出沒地點。",
+  "config.db.bestiary.title": "生物圖鑑",
+  "config.db.typeLabels.questlog": "任務",
+  "config.db.typeLabels.items": "物品",
+  "config.db.typeLabels.bestiary": "生物"
+}

@@ -1,0 +1,12 @@
+{
+  "config.db.heroSubtitle": "ฐานข้อมูลเกม",
+  "config.db.questlog.description": "ทุกเควสต์และเป้าหมาย พร้อมเลเวลที่แนะนำ ผู้มอบเควสต์ รางวัล และตำแหน่งบนแผนที่",
+  "config.db.questlog.title": "เควสต์",
+  "config.db.items.description": "อาวุธ เกราะ เครื่องมือ และของใช้สิ้นเปลือง พร้อมความหายาก เลเวล ความเสียหาย และค่าสถานะ",
+  "config.db.items.title": "ไอเทม",
+  "config.db.bestiary.description": "สิ่งมีชีวิตและศัตรูทุกสายพันธุ์ พร้อมบริเวณที่พวกมันเดินเพ่นพ่านทั่ว Embervale",
+  "config.db.bestiary.title": "สารานุกรมสัตว์",
+  "config.db.typeLabels.questlog": "เควสต์",
+  "config.db.typeLabels.items": "ไอเทม",
+  "config.db.typeLabels.bestiary": "สิ่งมีชีวิต"
+}

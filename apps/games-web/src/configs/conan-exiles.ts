@@ -138,6 +138,14 @@ export const conanExiles = resolveAppConfig({
         icon: "🎭",
         description: "config.db.emotes.description",
       },
+      {
+        href: "/db/creatures",
+        type: "creatures",
+        titleKey: "creatures",
+        titleFallback: "Creatures & NPCs",
+        icon: "🐺",
+        description: "config.db.creatures.description",
+      },
     ],
     // Section labels come from the per-locale dict terms (inventory, knowledge, …).
   },

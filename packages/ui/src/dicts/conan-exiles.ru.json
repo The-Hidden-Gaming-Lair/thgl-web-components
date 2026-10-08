@@ -7,5 +7,6 @@
   "config.db.knowledge.description": "Все знания с уровнем, очками знаний, требованиями и открываемыми рецептами.",
   "config.db.journeys.description": "Этапы путешествия, опыт и награды для Exiled Lands и Isle of Siptah.",
   "config.db.perks.description": "Перки характеристик и очки, нужные для их открытия.",
-  "config.db.emotes.description": "Все эмоции по категориям и где найти их предметы на карте."
+  "config.db.emotes.description": "Все эмоции по категориям и где найти их предметы на карте.",
+  "config.db.creatures.description": "Существа, NPC и рабы: добыча с тел и трофеи, профессии рабов и точки появления на карте."
 }

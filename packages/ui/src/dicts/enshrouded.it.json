@@ -1,0 +1,12 @@
+{
+  "config.db.heroSubtitle": "Database del gioco",
+  "config.db.questlog.description": "Ogni missione e i suoi obiettivi, con livello consigliato, committente, ricompense e posizioni sulla mappa.",
+  "config.db.questlog.title": "Missioni",
+  "config.db.items.description": "Armi, armature, strumenti e consumabili, con rarità, livello, danni e statistiche.",
+  "config.db.items.title": "Oggetti",
+  "config.db.bestiary.description": "Ogni creatura e specie nemica, con le zone di Embervale in cui si aggirano.",
+  "config.db.bestiary.title": "Bestiario",
+  "config.db.typeLabels.questlog": "Missione",
+  "config.db.typeLabels.items": "Oggetto",
+  "config.db.typeLabels.bestiary": "Creatura"
+}

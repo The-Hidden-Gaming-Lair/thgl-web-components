@@ -7,5 +7,6 @@
   "config.db.knowledge.description": "Cada conhecimento com nível, pontos de conhecimento, pré-requisitos e as receitas que desbloqueia.",
   "config.db.journeys.description": "Etapas da jornada, XP e recompensas para Exiled Lands e a Isle of Siptah.",
   "config.db.perks.description": "Vantagens de atributos e os pontos necessários para desbloqueá-las.",
-  "config.db.emotes.description": "Todos os emotes por categoria e onde encontrar seus itens no mapa."
+  "config.db.emotes.description": "Todos os emotes por categoria e onde encontrar seus itens no mapa.",
+  "config.db.creatures.description": "Criaturas, NPCs e servos com coleta e saque, profissões de servos e onde surgem no mapa."
 }

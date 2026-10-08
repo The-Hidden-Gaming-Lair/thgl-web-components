@@ -18,7 +18,7 @@
  * messaging. The current version comes from the app's own version.json loads
  * (@repo/lib fetchVersion → setVersionObserver, registered in
  * src/lib/route-params.ts); when no render has looked at a game for
- * VERSION_REFRESH_MS, a lookup triggers a background refresh. The pages' own
+ * VERSION_REFRESH_MS, a lookup refreshes it before comparing. The pages' own
  * `revalidate` stays as a backstop.
  */
 const { gzipSync, gunzipSync } = require("node:zlib");
@@ -27,6 +27,7 @@ const FileSystemCache =
 
 const MAX_BYTES = (Number(process.env.PAGE_CACHE_MAX_MB) || 1024) * 1048576;
 const VERSION_REFRESH_MS = 30_000;
+const REFRESH_WAIT_MS = 2_000;
 const GAME_KEY = /^\/g\/([^/]+)\//;
 const STATS_INTERVAL_MS = 60_000;
 
@@ -44,17 +45,34 @@ let totalBytes = 0;
 const stats = { hits: 0, misses: 0, stale: 0, evicted: 0, sets: 0 };
 
 function currentVersion(game) {
+  return versions.get(game)?.id;
+}
+
+/**
+ * The game's data version for a cache lookup. A version nobody has observed for
+ * VERSION_REFRESH_MS is refreshed FIRST (fetchVersion answers from memory unless
+ * its copy is past TTL + maxStale, then it loads; capped at REFRESH_WAIT_MS):
+ * an idle pod comparing against its old version would serve the old page as a
+ * HIT, and when that happens after /api/revalidate's 150 s re-purge the edge
+ * keeps it for the 1-day page TTL (inbox #846).
+ */
+async function lookupVersion(game) {
   const v = versions.get(game);
-  if (!v || Date.now() - v.at > VERSION_REFRESH_MS) {
-    const refresh = globalThis.__thglRefreshDataVersion;
-    if (typeof refresh === "function") {
-      // Background: a cache lookup never waits on the CDN.
+  if (v && Date.now() - v.at <= VERSION_REFRESH_MS) return v.id;
+  const refresh = globalThis.__thglRefreshDataVersion;
+  if (typeof refresh === "function") {
+    let timer;
+    await Promise.race([
       Promise.resolve()
         .then(() => refresh(game))
-        .catch(() => {});
-    }
+        .catch(() => {}),
+      new Promise((resolve) => {
+        timer = setTimeout(resolve, REFRESH_WAIT_MS);
+      }),
+    ]);
+    clearTimeout(timer);
   }
-  return v?.id;
+  return currentVersion(game);
 }
 
 function drop(key) {
@@ -143,7 +161,7 @@ module.exports = class PageCacheHandler {
   async get(key, ctx) {
     const m = GAME_KEY.exec(key);
     if (!m) return this.fs.get(key, ctx);
-    const version = currentVersion(m[1]);
+    const version = await lookupVersion(m[1]);
     const e = entries.get(key);
     // Valid while the stamp matches the game's current data version. Unknown
     // current version (fresh pod, before the first version.json load) keeps the

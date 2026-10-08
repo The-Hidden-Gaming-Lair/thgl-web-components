@@ -24,6 +24,7 @@ export default function MapProgress({
   additionalTooltip,
   typeGroupLabels,
   iconsPath,
+  tracker = true,
 }: {
   map: string;
   /**
@@ -38,6 +39,11 @@ export default function MapProgress({
   typeGroupLabels?: Record<string, string>;
   /** Content-hashed sprite path (`version.more.icons`). */
   iconsPath?: string;
+  /**
+   * The discovered-spot list under the map. Off for catch/sighting spots (fish, bugs):
+   * one row would tick every reported spot at once and there is nothing to discover.
+   */
+  tracker?: boolean;
 }) {
   const t = useT();
   const locale = useLocale();
@@ -50,11 +56,14 @@ export default function MapProgress({
   return (
     <section key={map} className="mb-8">
       <Subtitle
-        title={t("guide.mapProgress.title", {
-          vars: {
-            map: resolvedMap,
+        title={t(
+          tracker ? "guide.mapProgress.title" : "guide.mapProgress.map",
+          {
+            vars: {
+              map: resolvedMap,
+            },
           },
-        })}
+        )}
         order={3}
       />
 
@@ -87,19 +96,21 @@ export default function MapProgress({
           </Button>
         </Link>
       </div>
-      <div className="flex flex-col gap-4 grow items-center ">
-        <p className="text-sm text-muted-foreground">
-          {t("guide.mapProgress.description")}
-        </p>
-        <SpawnsList
-          spawns={spawns}
-          onShowClick={setHighlightedIds}
-          highlightedIds={highlightedIds}
-          typeGroupLabels={typeGroupLabels}
-          appName={appName}
-          iconsPath={iconsPath}
-        />
-      </div>
+      {tracker && (
+        <div className="flex flex-col gap-4 grow items-center ">
+          <p className="text-sm text-muted-foreground">
+            {t("guide.mapProgress.description")}
+          </p>
+          <SpawnsList
+            spawns={spawns}
+            onShowClick={setHighlightedIds}
+            highlightedIds={highlightedIds}
+            typeGroupLabels={typeGroupLabels}
+            appName={appName}
+            iconsPath={iconsPath}
+          />
+        </div>
+      )}
     </section>
   );
 }

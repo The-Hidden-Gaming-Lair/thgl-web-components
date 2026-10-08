@@ -197,6 +197,17 @@ export default function PrivacyPolicy(): JSX.Element {
             </a>{" "}
             for how Tebex processes your data.
           </p>
+          <p>
+            <strong className="text-foreground">Sign in with email:</strong>{" "}
+            accounts bought through Tebex can sign in with a one-time code sent
+            to the purchase email. I store the email address Tebex sends me
+            linked to your account ID, the sign-in code only as a hash until it
+            is used or expires after 10 minutes, and, for one day, which email
+            address and IP address requested a code (abuse protection). The
+            emails are sent by Mailjet (Sinch Mailjet SAS, France, servers in
+            the EU) as my processor. Legal basis: Art. 6(1)(b) GDPR. You can ask
+            me to delete your account and email address at any time.
+          </p>
         </div>
       </section>
       <hr className="border-border" />

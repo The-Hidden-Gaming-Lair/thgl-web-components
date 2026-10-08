@@ -118,11 +118,14 @@ const SKIP_STAT_KEYS = new Set([
   "icon",
 ]);
 
-const humanizeKey = (k: string) =>
-  k
-    .replace(/([a-z])([A-Z])/g, "$1 $2")
-    .replace(/[_-]+/g, " ")
-    .replace(/^./, (c) => c.toUpperCase());
+// The game's own prop label (`prop.<key>`) when the dict has one, as on the page.
+const humanizeKey = (k: string, dict: Dict) =>
+  dict[`prop.${k}`]
+    ? resolveDict(dict, `prop.${k}`)
+    : k
+        .replace(/([a-z])([A-Z])/g, "$1 $2")
+        .replace(/[_-]+/g, " ")
+        .replace(/^./, (c) => c.toUpperCase());
 
 function isCraftRecipe(p: Record<string, unknown>): boolean {
   return refList(p.ingredients).length > 0;
@@ -252,9 +255,12 @@ export function buildEntityDescription({
     p.craftable && typeof p.craftable === "object"
       ? (p.craftable as { station?: string }).station
       : undefined;
+  // The station may be a dict key (Aniimo's "Farmland (Lv. 2)"), like a ref name.
   if (station)
     parts.push(
-      t(dict, "db.meta.craftedAt", "Crafted at {{station}}.", { station }),
+      t(dict, "db.meta.craftedAt", "Crafted at {{station}}.", {
+        station: dict[station] ? resolveDict(dict, station) : station,
+      }),
     );
   const loc = p.locations as
     | { total?: number; noun?: string; nounPlural?: string }
@@ -331,7 +337,7 @@ export function buildEntityDescription({
     .slice(0, 3)
     .map(
       ([k, v]) =>
-        `${humanizeKey(k)}: ${typeof v === "boolean" ? formatBool(dict, v) : String(v)}`,
+        `${humanizeKey(k, dict)}: ${typeof v === "boolean" ? formatBool(dict, v) : String(v)}`,
     );
   if (stats.length) parts.push(`${stats.join(", ")}.`);
 

@@ -33,6 +33,7 @@ export default function MapGuides({
   typeGroupLabels,
   localMapState = false,
   iconsPath,
+  tracker = true,
 }: {
   appName: string;
   locale: string;
@@ -65,6 +66,8 @@ export default function MapGuides({
   localMapState?: boolean;
   /** Content-hashed sprite path (`version.more.icons`). */
   iconsPath?: string;
+  /** Per-spot progress tracker under the map; off for catch/sighting spots. */
+  tracker?: boolean;
 }) {
   const t = useT();
   const searchParams = useSearchParams();
@@ -189,6 +192,7 @@ export default function MapGuides({
           additionalTooltip={additionalTooltip}
           typeGroupLabels={typeGroupLabels}
           iconsPath={iconsPath}
+          tracker={tracker}
         />
       ) : (
         <section className="mb-8" aria-busy="true">

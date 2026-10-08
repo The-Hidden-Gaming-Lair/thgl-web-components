@@ -19,7 +19,7 @@ import {
 import { getDbNamesDictionary } from "@repo/ui/dicts";
 import { JSONLDScript } from "@repo/ui/apps";
 import { getAppConfig } from "@/lib/get-app-config";
-import { resolveDict } from "@/lib/db/resolve-dict";
+import { localizeProps, resolveDict } from "@/lib/db/resolve-dict";
 import { breadcrumbJsonLd, entityPageJsonLd } from "@/lib/db/json-ld";
 import {
   buildEntityDescription,
@@ -165,7 +165,11 @@ export async function generateMetadata({
         matchingType,
         id,
       );
-      props = entry?.props as Record<string, any> | undefined;
+      props = localizeProps(
+        entry?.props as Record<string, any> | undefined,
+        id,
+        dict,
+      );
     }
   } catch {
     /* fall back to the simple description */
@@ -318,7 +322,11 @@ export default async function Page({ params }: { params: Params }) {
             singular,
             game: appConfig.title,
             desc: hasDesc ? desc : undefined,
-            props: item.props as Record<string, unknown> | undefined,
+            props: localizeProps(
+              item.props as Record<string, unknown> | undefined,
+              item.id,
+              dict,
+            ),
           }),
           locale,
         })}

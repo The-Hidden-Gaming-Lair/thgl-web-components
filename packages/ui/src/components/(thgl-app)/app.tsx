@@ -37,7 +37,6 @@ import {
   ErrorBoundary,
   LiveModeControl,
   OverlayMapHiddenPill,
-  Toaster,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -528,7 +527,6 @@ function AppWindow({
       </I18NProvider>
       {!isOverlay && <ResizeBorders />}
       <THGLMapAds isOverlay={isOverlay} appConfig={appConfig} />
-      <Toaster />
     </div>
   );
 }

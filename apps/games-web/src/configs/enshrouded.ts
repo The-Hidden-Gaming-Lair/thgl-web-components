@@ -45,39 +45,39 @@ export const enshrouded = resolveAppConfig({
   // Quest codex — the game's journal (166 quests) with objectives, recommended
   // level and resolved locations. Backed by data-forge `database.questlog.json`.
   db: {
-    heroSubtitle: "Game Database",
+    heroSubtitle: "config.db.heroSubtitle",
     searchPlaceholder: "db.searchAll",
     sectionsInNav: true,
     homeSections: [
       {
         href: "/db/questlog",
         type: "questlog",
+        titleKey: "config.db.questlog.title",
         titleFallback: "Quests",
         icon: "📜",
-        description:
-          "Every quest and its objectives, with recommended level, giver, rewards and map locations.",
+        description: "config.db.questlog.description",
       },
       {
         href: "/db/items",
         type: "items",
+        titleKey: "config.db.items.title",
         titleFallback: "Items",
         icon: "⚔️",
-        description:
-          "Weapons, armor, tools and consumables — with rarity, level, damage and stats.",
+        description: "config.db.items.description",
       },
       {
         href: "/db/bestiary",
         type: "bestiary",
+        titleKey: "config.db.bestiary.title",
         titleFallback: "Bestiary",
         icon: "🐾",
-        description:
-          "Every creature and enemy species, with where they roam across Embervale.",
+        description: "config.db.bestiary.description",
       },
     ],
     typeLabels: {
-      questlog: "Quest",
-      items: "Item",
-      bestiary: "Creature",
+      questlog: "config.db.typeLabels.questlog",
+      items: "config.db.typeLabels.items",
+      bestiary: "config.db.typeLabels.bestiary",
     },
   },
 });

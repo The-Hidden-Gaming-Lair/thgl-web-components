@@ -20,5 +20,15 @@
   "config.db.typeLabels.inventory": "Objeto",
   "config.db.typeLabels.equipment": "Equipo",
   "config.db.typeLabels.recipes": "Receta",
-  "config.db.typeLabels.enemies": "Enemigo"
+  "config.db.typeLabels.enemies": "Enemigo",
+  "config.internalLinks.sources.title": "Fuentes de botín",
+  "config.internalLinks.sources.description": "Montones de chatarra y cofres de botín: qué puede contener cada uno y dónde encontrarlos en el mapa.",
+  "config.internalLinks.sources.linkText": "Abrir las fuentes de botín",
+  "config.db.sources.description": "Montones de chatarra y cofres de botín con su contenido.",
+  "config.db.typeLabels.sources": "Fuente de botín",
+  "config.internalLinks.vendors.title": "Vendedores",
+  "config.internalLinks.vendors.description": "Muerte, Pete el Cartero y los mercaderes de las Arenas Umbrales: qué vende y compra cada uno, precios y niveles de reputación, y dónde encontrarlos en el mapa.",
+  "config.internalLinks.vendors.linkText": "Abrir los vendedores",
+  "config.db.vendors.description": "Vendedores con sus artículos, precios y lo que compran.",
+  "config.db.typeLabels.vendors": "Vendedor"
 }

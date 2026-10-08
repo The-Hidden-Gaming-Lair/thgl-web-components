@@ -1,4 +1,5 @@
-// Apply the `tebex_entitlements` schema (see src/lib/tebex.ts) to the Bunny DB
+// Apply the `tebex_entitlements` + email sign-in schema (src/lib/tebex.ts,
+// src/lib/email-login.ts) to the Bunny DB
 // configured in apps/games-web/.env.local. Idempotent (IF NOT EXISTS).
 // Usage: bun scripts/apply-tebex-schema.mjs   (from apps/games-web)
 import { readFileSync } from "node:fs";
@@ -33,7 +34,34 @@ const statements = [
      updated_at INTEGER NOT NULL
    )`,
   `CREATE INDEX IF NOT EXISTS tebex_entitlements_user ON tebex_entitlements(user_id)`,
+  // Email sign-in (src/lib/email-login.ts).
+  `CREATE TABLE IF NOT EXISTS account_emails (
+     email      TEXT NOT NULL,
+     user_id    TEXT NOT NULL,
+     created_at INTEGER NOT NULL,
+     PRIMARY KEY (email, user_id)
+   )`,
+  `CREATE INDEX IF NOT EXISTS account_emails_user ON account_emails(user_id)`,
+  `CREATE TABLE IF NOT EXISTS email_login_codes (
+     email      TEXT PRIMARY KEY,
+     code_hash  TEXT NOT NULL,
+     expires_at INTEGER NOT NULL,
+     attempts   INTEGER NOT NULL DEFAULT 0,
+     created_at INTEGER NOT NULL
+   )`,
+  `CREATE TABLE IF NOT EXISTS email_login_requests (
+     email      TEXT NOT NULL,
+     ip         TEXT NOT NULL,
+     created_at INTEGER NOT NULL
+   )`,
+  `CREATE INDEX IF NOT EXISTS email_login_requests_email ON email_login_requests(email, created_at)`,
+  `CREATE INDEX IF NOT EXISTS email_login_requests_ip ON email_login_requests(ip, created_at)`,
+  // Purchase emails stored before account_emails existed.
+  `INSERT OR IGNORE INTO account_emails (email, user_id, created_at)
+     SELECT lower(trim(email)), user_id, MIN(event_at) FROM tebex_entitlements
+      WHERE email IS NOT NULL AND email != '' GROUP BY lower(trim(email)), user_id`,
   `SELECT COUNT(*) FROM tebex_entitlements`,
+  `SELECT COUNT(*) FROM account_emails`,
 ];
 
 const res = await fetch(`${url}/v2/pipeline`, {

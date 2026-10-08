@@ -20,5 +20,15 @@
   "config.db.typeLabels.inventory": "Objet",
   "config.db.typeLabels.equipment": "Équipement",
   "config.db.typeLabels.recipes": "Recette",
-  "config.db.typeLabels.enemies": "Ennemi"
+  "config.db.typeLabels.enemies": "Ennemi",
+  "config.internalLinks.sources.title": "Sources de butin",
+  "config.internalLinks.sources.description": "Tas de récupération et coffres : ce que chacun peut contenir et où les trouver sur la carte.",
+  "config.internalLinks.sources.linkText": "Ouvrir les sources de butin",
+  "config.db.sources.description": "Tas de récupération et coffres avec leur contenu.",
+  "config.db.typeLabels.sources": "Source de butin",
+  "config.internalLinks.vendors.title": "Marchands",
+  "config.internalLinks.vendors.description": "La Mort, Pete le postier et les marchands des Sables d'ombre : ce que chacun vend et achète, les prix et niveaux de réputation, et où les trouver sur la carte.",
+  "config.internalLinks.vendors.linkText": "Ouvrir les marchands",
+  "config.db.vendors.description": "Marchands avec leurs articles, leurs prix et ce qu'ils achètent.",
+  "config.db.typeLabels.vendors": "Marchand"
 }

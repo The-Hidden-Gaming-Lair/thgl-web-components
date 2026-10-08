@@ -13,6 +13,11 @@ import {
 import { Separator } from "../ui/separator";
 import Link from "next/link";
 import { Eye, ExternalLink, Shield, Star, Ticket, Zap } from "lucide-react";
+import { useState } from "react";
+import { Input } from "../ui/input";
+import { useUnlockWithSecret } from "../(header)/use-unlock-with-secret";
+import { EmailSignIn } from "../(header)/email-sign-in";
+import { useZh } from "../(header)/prefers-chinese";
 
 const PERK_CONFIG = [
   { key: "adRemoval" as const, label: "Ad-Free", icon: Shield, tier: "Pro+" },
@@ -109,8 +114,50 @@ function PricingLink() {
   );
 }
 
+/**
+ * Account Key sign-in: accounts without a Patreon login (Tebex purchases,
+ * e.g. the China Alipay / WeChat Pay checkout) restore themselves in the
+ * Companion App with the key from their www account page. The app has its
+ * own cookie store, so a website sign-in doesn't carry over.
+ */
+function SupporterKeyForm() {
+  const zh = useZh();
+  const [key, setKey] = useState("");
+  const { unlock, loading } = useUnlockWithSecret();
+  return (
+    <details className="text-xs">
+      <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
+        {zh ? "有账户密钥？" : "Have an Account Key?"}
+      </summary>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          void unlock(key);
+        }}
+        className="flex gap-2 mt-2"
+      >
+        <Input
+          value={key}
+          onChange={(e) => setKey(e.target.value.trim())}
+          placeholder={zh ? "粘贴你的账户密钥" : "Paste your Account Key"}
+          className="text-xs h-8"
+        />
+        <Button
+          type="submit"
+          size="sm"
+          className="h-8 shrink-0"
+          disabled={key.length === 0 || loading}
+        >
+          {zh ? "解锁" : "Unlock"}
+        </Button>
+      </form>
+    </details>
+  );
+}
+
 export function AccountDialog() {
   const account = useAccountStore();
+  const zh = useZh();
 
   if (!account.userId) {
     return (
@@ -138,6 +185,17 @@ export function AccountDialog() {
             </div>
             <Separator />
             <PricingLink />
+            {/* E-Mail sign-in for Tebex (Alipay / WeChat Pay) supporters -
+                typed in, so it works in the app like the Patreon popup. */}
+            <details>
+              <summary className="list-none [&::-webkit-details-marker]:hidden">
+                <span className="flex h-9 w-full cursor-pointer items-center justify-center rounded-md border border-input text-sm font-medium hover:bg-accent">
+                  {zh ? "使用邮箱登录" : "Sign in with E-Mail"}
+                </span>
+              </summary>
+              <EmailSignIn className="mt-2" />
+            </details>
+            <SupporterKeyForm />
           </section>
           <DialogFooter>
             <Link href="https://www.patreon.com/home" target="_blank" passHref>
@@ -152,7 +210,9 @@ export function AccountDialog() {
               target="_blank"
               prefetch={false}
             >
-              <Button>Authenticate with Patreon</Button>
+              <Button>
+                {zh ? "使用 Patreon 登录" : "Sign in with Patreon"}
+              </Button>
             </Link>
           </DialogFooter>
         </DialogContent>

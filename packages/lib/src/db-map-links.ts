@@ -157,6 +157,91 @@ export function findDbEntriesForFilterTypes({
 }
 
 /**
+ * The codex entries a guide's filter types mix (`mixedDbEntries`: one marker type for several
+ * entries found in different places), deduped, in filter order. Non-empty → the guide shows
+ * each entry's own table instead of a map whose spots belong to different entries.
+ */
+export function findMixedDbEntries(
+  typeIds: string[],
+  filters: FiltersConfig,
+): { section: string; id: string }[] {
+  const wanted = new Set(typeIds);
+  const seen = new Set<string>();
+  const refs: { section: string; id: string }[] = [];
+  for (const f of filters) {
+    for (const v of f.values) {
+      if (!wanted.has(v.id)) continue;
+      for (const ref of v.mixedDbEntries ?? []) {
+        const key = `${ref.section}/${ref.id}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        refs.push(ref);
+      }
+    }
+  }
+  return refs;
+}
+
+/**
+ * A written guide's mixed entries, narrowed to the ones the guide is about (`entities`,
+ * `section/id`): the Fish Stew guide shows only Recipe: Fish Stew, not the Sashimi recipe
+ * that shares its marker. None of them in the guide → all of them.
+ */
+export function narrowMixedDbEntries(
+  refs: { section: string; id: string }[],
+  entities: string[],
+): { section: string; id: string }[] {
+  const wanted = new Set(entities);
+  const own = refs.filter((r) => wanted.has(`${r.section}/${r.id}`));
+  return own.length > 0 ? own : refs;
+}
+
+/**
+ * True when every one of a guide's filter types belongs to a `sightingFilters` group or
+ * category (AppConfig): its markers are spots players reported a catch or sighting at, not
+ * fixed spawns, so the guide shows the map without a per-spot progress tracker.
+ */
+export function isSightingGuide(
+  typeIds: string[],
+  filters: FiltersConfig,
+  sightingFilters: string[] | undefined,
+): boolean {
+  if (!sightingFilters?.length) return false;
+  return allTypesIn(typeIds, filters, sightingFilters);
+}
+
+/**
+ * True when a guide's map gets the per-spot progress tracker. A tenant without
+ * `trackerFilters` (AppConfig) tracks every guide; with it, only guides whose types all
+ * belong to one of those groups, categories or type ids: one-time spots (chests,
+ * unlockables). Respawning nodes have nothing to tick off.
+ */
+export function hasGuideTracker(
+  typeIds: string[],
+  filters: FiltersConfig,
+  trackerFilters: string[] | undefined,
+): boolean {
+  if (!trackerFilters) return true;
+  return allTypesIn(typeIds, filters, trackerFilters);
+}
+
+/** Every type id sits in one of `ids` (a filter group, category or the type id itself). */
+function allTypesIn(
+  typeIds: string[],
+  filters: FiltersConfig,
+  ids: string[],
+): boolean {
+  if (typeIds.length === 0) return false;
+  const set = new Set(ids);
+  const wanted = new Set(typeIds);
+  for (const f of filters) {
+    const whole = set.has(f.group) || (!!f.category && set.has(f.category));
+    for (const v of f.values) if (whole || set.has(v.id)) wanted.delete(v.id);
+  }
+  return wanted.size === 0;
+}
+
+/**
  * Map filter types for a DB entry (declared links first, then names). Types
  * that never plot markers (`no_map_markers`) are skipped.
  */

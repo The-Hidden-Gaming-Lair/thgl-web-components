@@ -7,5 +7,6 @@
   "config.db.knowledge.description": "所有知识的等级、知识点、前置条件及解锁的配方。",
   "config.db.journeys.description": "Exiled Lands 与 Isle of Siptah 的旅程步骤、经验和奖励。",
   "config.db.perks.description": "属性天赋及解锁所需的点数。",
-  "config.db.emotes.description": "按类别列出的所有表情，以及地图上表情拾取物的位置。"
+  "config.db.emotes.description": "按类别列出的所有表情，以及地图上表情拾取物的位置。",
+  "config.db.creatures.description": "生物、NPC 和奴隶的采集物与掉落、奴隶职业以及在地图上的刷新点。"
 }

@@ -107,6 +107,41 @@ const sanitizeViewByMap = (
   return result;
 };
 
+/**
+ * Carries a saved filter selection over a renamed or split filter: a saved id
+ * that no longer exists switches on every filter value whose `replaces` lists
+ * it, then is dropped. Without this the new ids stay off (#813: Aniimo's
+ * eh_legendary_chest became four eh_chest_* types and the chests vanished).
+ */
+export const migrateReplacedFilters = (
+  saved: string[],
+  filters: FiltersConfig,
+): string[] => {
+  const replacedBy = new Map<string, string[]>();
+  const current = new Set<string>();
+  for (const filter of filters) {
+    for (const value of filter.values) {
+      current.add(value.id);
+      for (const oldId of value.replaces ?? []) {
+        replacedBy.set(oldId, [...(replacedBy.get(oldId) ?? []), value.id]);
+      }
+    }
+  }
+  if (replacedBy.size === 0) {
+    return saved;
+  }
+  const result = new Set<string>();
+  for (const id of saved) {
+    const successors = current.has(id) ? undefined : replacedBy.get(id);
+    if (successors) {
+      successors.forEach((successor) => result.add(successor));
+    } else {
+      result.add(id);
+    }
+  }
+  return [...result];
+};
+
 const getStorageName = () => {
   if (typeof window !== "undefined") {
     // Embedded maps (other sites' iframes) never touch the visitor's own
@@ -377,6 +412,8 @@ export function createUserStore(
             }
             if (view.filters) {
               result.filters = view.filters;
+            } else if (Array.isArray(result.filters)) {
+              result.filters = migrateReplacedFilters(result.filters, filters);
             }
             if (view.globalFilters) {
               result.globalFilters = view.globalFilters;

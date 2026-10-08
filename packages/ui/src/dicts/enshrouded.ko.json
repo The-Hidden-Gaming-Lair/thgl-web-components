@@ -1,0 +1,12 @@
+{
+  "config.db.heroSubtitle": "게임 데이터베이스",
+  "config.db.questlog.description": "모든 퀘스트의 목표, 권장 레벨, 의뢰인, 보상, 지도 위치.",
+  "config.db.questlog.title": "퀘스트",
+  "config.db.items.description": "무기, 방어구, 도구, 소모품의 희귀도, 레벨, 피해량, 능력치.",
+  "config.db.items.title": "아이템",
+  "config.db.bestiary.description": "모든 생물과 적 종류, 그리고 엠버베일에서의 서식지.",
+  "config.db.bestiary.title": "몬스터 도감",
+  "config.db.typeLabels.questlog": "퀘스트",
+  "config.db.typeLabels.items": "아이템",
+  "config.db.typeLabels.bestiary": "생물"
+}

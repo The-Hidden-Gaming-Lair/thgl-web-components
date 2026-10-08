@@ -20,5 +20,15 @@
   "config.db.typeLabels.inventory": "Item",
   "config.db.typeLabels.equipment": "Equipamento",
   "config.db.typeLabels.recipes": "Receita",
-  "config.db.typeLabels.enemies": "Inimigo"
+  "config.db.typeLabels.enemies": "Inimigo",
+  "config.internalLinks.sources.title": "Fontes de saque",
+  "config.internalLinks.sources.description": "Pilhas de sucata e baús de saque: o que cada um pode conter e onde encontrá-los no mapa.",
+  "config.internalLinks.sources.linkText": "Abrir as fontes de saque",
+  "config.db.sources.description": "Pilhas de sucata e baús de saque com seu conteúdo.",
+  "config.db.typeLabels.sources": "Fonte de saque",
+  "config.internalLinks.vendors.title": "Vendedores",
+  "config.internalLinks.vendors.description": "Ceifador, Carlos Carteiro e os mercadores das Areias do Umbral: o que cada um vende e compra, preços e níveis de reputação, e onde encontrá-los no mapa.",
+  "config.internalLinks.vendors.linkText": "Abrir os vendedores",
+  "config.db.vendors.description": "Vendedores com seus itens, preços e o que compram.",
+  "config.db.typeLabels.vendors": "Vendedor"
 }

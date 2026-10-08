@@ -1,5 +1,6 @@
 import { revalidateTag } from "next/cache";
 import { games } from "@repo/lib";
+import { getAppConfigBySlug } from "@/configs";
 import { palia } from "@/configs/palia";
 
 /**
@@ -136,13 +137,17 @@ export async function POST(request: Request) {
   // --- Mode 1: game-data update -> purge that tenant's pages (edge only) ---
   if (typeof body.game === "string") {
     const game = games.find((g) => g.id === body.game);
-    if (!game) {
+    // Web-only tenants (e.g. drakantos) have a tenant config but no games
+    // registry entry; their URL comes from the config's subdomain.
+    const tenant = game ? null : getAppConfigBySlug(body.game);
+    if (!game && !tenant) {
       return Response.json(
         { message: `Unknown game: ${body.game}` },
         { status: 404 },
       );
     }
-    if (!game.web) {
+    const web = game ? game.web : `https://${tenant!.domain}.th.gl`;
+    if (!web) {
       return Response.json(
         { message: `Game ${body.game} has no tenant web URL` },
         { status: 400 },
@@ -153,17 +158,17 @@ export async function POST(request: Request) {
     // mark would hand the old feed to the very render that refills the purged edge.
     if (body.updates === true) revalidateTag("discord-updates", { expire: 0 });
     // One wildcard covers every path + locale + query variant for the tenant.
-    const purgeResult = await purgeBunny([`${game.web}/*`]);
+    const purgeResult = await purgeBunny([`${web}/*`]);
     // ...and once more after every pod has seen the new data version. Pods
     // learn about it within ~30-90 s (version.json memory cache, page-cache
     // version check in cache-handler.cjs); an edge refill inside that window
     // could otherwise pin the previous data at the edge for the 1-day page TTL.
     setTimeout(() => {
-      purgeBunny([`${game.web}/*`]).catch(() => {});
+      purgeBunny([`${web}/*`]).catch(() => {});
     }, 150_000);
     return Response.json({
       revalidated: true,
-      game: game.id,
+      game: body.game,
       purge: purgeResult,
       now: Date.now(),
     });

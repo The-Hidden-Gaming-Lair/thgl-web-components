@@ -13,8 +13,8 @@ import {
  * The overlay says how to leave the fullscreen minimap, but people who toggle
  * fullscreen a lot (planning a route) had it covering the top buttons every
  * time (inbox #702). It shows only the first 3 times, at the bottom, closable,
- * with "Don't show again". The overlay currently mounts two Toasters (the
- * stacks overlap), hence `.first()` / `.last()` (the top one gets the click).
+ * with "Don't show again". The overlay mounts ONE Toaster (inbox #703: a
+ * second one rendered every toast twice, stacked).
  */
 const HINT = "The map is fullscreen.";
 
@@ -60,7 +60,10 @@ test("overlay: fullscreen hint shows only the first 3 times, at the bottom", asy
   page,
 }) => {
   await openOverlay(page);
-  const hint = page.getByText(HINT).first();
+  const hint = page.getByText(HINT);
+  await expect(
+    page.locator('section[aria-label^="Notifications"]'),
+  ).toHaveCount(1);
 
   for (let i = 0; i < 3; i++) {
     await toggleFullscreen(page);
@@ -68,7 +71,7 @@ test("overlay: fullscreen hint shows only the first 3 times, at the bottom", asy
     // Bottom half of the window: it must not cover the toolbar at the top.
     const box = (await hint.boundingBox())!;
     expect(box.y).toBeGreaterThan(450);
-    await page.getByRole("button", { name: "Close toast" }).last().click();
+    await page.getByRole("button", { name: "Close toast" }).click();
     await expect(hint).toBeHidden();
     await toggleFullscreen(page);
   }
@@ -82,11 +85,11 @@ test("overlay: fullscreen hint 'Don't show again' stops it", async ({
   page,
 }) => {
   await openOverlay(page);
-  const hint = page.getByText(HINT).first();
+  const hint = page.getByText(HINT);
 
   await toggleFullscreen(page);
   await expect(hint).toBeVisible();
-  await page.getByRole("button", { name: "Don't show again" }).last().click();
+  await page.getByRole("button", { name: "Don't show again" }).click();
   await expect(hint).toBeHidden();
 
   await toggleFullscreen(page);

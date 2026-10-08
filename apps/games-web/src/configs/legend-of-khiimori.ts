@@ -26,36 +26,32 @@ export const legendOfKhiimori = resolveAppConfig({
   // map card (preview + counts) for the single open world. DB links below.
   internalLinks: [
     {
-      title: "Items",
-      description:
-        "Every item in The Legend of Khiimori — cargo, resources, herbs, food and gear — with weights, prices and crafting uses.",
+      title: "config.internalLinks.items.title",
+      description: "config.internalLinks.items.description",
       href: "/db/items",
       iconName: "BookOpen",
-      linkText: "Browse Items",
+      linkText: "config.internalLinks.items.linkText",
     },
     {
-      title: "Recipes",
-      description:
-        "All crafting and cooking recipes — ingredients, outputs and how they unlock.",
+      title: "config.internalLinks.recipes.title",
+      description: "config.internalLinks.recipes.description",
       href: "/db/recipes",
       iconName: "Axe",
-      linkText: "Browse Recipes",
+      linkText: "config.internalLinks.recipes.linkText",
     },
     {
-      title: "Horse Breeding",
-      description:
-        "Breeds, coat phenotypes and the genetics behind them — plan pairings to chase pure breeds and rare coats.",
+      title: "config.internalLinks.horses.title",
+      description: "config.internalLinks.horses.description",
       href: "/db/horses",
       iconName: "Grid",
-      linkText: "Browse Breeding",
+      linkText: "config.internalLinks.horses.linkText",
     },
     {
-      title: "Horse Traits",
-      description:
-        "Every permanent and temporary horse trait and what it does to your mount.",
+      title: "config.internalLinks.traits.title",
+      description: "config.internalLinks.traits.description",
       href: "/db/traits",
       iconName: "Bug",
-      linkText: "Browse Traits",
+      linkText: "config.internalLinks.traits.linkText",
     },
     {
       title: "crafting.navTitle",
@@ -79,45 +75,48 @@ export const legendOfKhiimori = resolveAppConfig({
   ],
   topFilters: ["ovoo", "stone_turtle_blue", "wild_horse", "yam_station"],
   db: {
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items, recipes, breeds, traits…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
         href: "/db/items",
         type: "items",
+        titleKey: "config.internalLinks.items.title",
         titleFallback: "Items",
         icon: "📦",
-        description:
-          "Cargo, resources, herbs, food and gear — weights, prices and crafting uses.",
+        description: "config.db.items.description",
       },
       {
         href: "/db/recipes",
         type: "recipes",
+        titleKey: "config.internalLinks.recipes.title",
         titleFallback: "Recipes",
         icon: "⚙️",
-        description: "Crafting and cooking — ingredients, outputs and unlocks.",
+        description: "config.db.recipes.description",
       },
       {
         href: "/db/horses",
         type: "horses",
+        titleKey: "config.internalLinks.horses.title",
         titleFallback: "Horse Breeding",
         icon: "🐎",
-        description: "Breeds, coat phenotypes and the genes that produce them.",
+        description: "config.db.horses.description",
       },
       {
         href: "/db/traits",
         type: "traits",
+        titleKey: "config.internalLinks.traits.title",
         titleFallback: "Horse Traits",
         icon: "✨",
-        description: "Permanent and temporary traits and their effects.",
+        description: "config.db.traits.description",
       },
     ],
     typeLabels: {
-      items: "Items",
-      recipes: "Recipes",
-      horses: "Horse Breeding",
-      traits: "Horse Traits",
+      items: "config.db.typeLabels.items",
+      recipes: "config.db.typeLabels.recipes",
+      horses: "config.db.typeLabels.horses",
+      traits: "config.db.typeLabels.traits",
     },
   },
 });

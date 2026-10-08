@@ -27,7 +27,7 @@ export function Header() {
             besides the /apps grid. */}
         <GameSwitcher activeApp={appConfig.title} />
         <Link
-          className="max-sm:hidden flex shrink-0 text-lg md:text-2xl font-extrabold tracking-tight md:mr-6"
+          className="hidden sm:flex shrink-0 text-lg md:text-2xl font-extrabold tracking-tight md:mr-6"
           href="/"
         >
           <Image
@@ -48,7 +48,7 @@ export function Header() {
           hasGuides={false}
           inlineLinks={4}
         />
-        <div className="flex shrink-0 items-center gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <GlobalSearch blogMeta={blogSearchMeta} faqMeta={faqSearchMeta} />
           <ThemeSelect />
           <AccountLink />

@@ -18,7 +18,8 @@
  * db.searchPlaceholder, db.homeSections description + titleFallback (as a new
  * titleKey; the English fallback stays), db.homeExtraLinks title / description,
  * db.typeLabels (stored singular, as getSectionLabels skips `singularize` for a
- * resolved label). Values that already are dict keys are left alone; an English
+ * resolved label). Values that already are dict keys (tenant, global or the
+ * game's data-forge public/<name>/dicts terms) are left alone; an English
  * value the tenant or global dict already has reuses that key.
  * app-dicts.test.ts guards that every locale file carries every English key.
  */
@@ -32,6 +33,7 @@ const root = join(import.meta.dir, "..", "..", "..");
 const configsDir = join(root, "apps", "games-web", "src", "configs");
 const dictsDir = join(root, "packages", "ui", "src", "dicts");
 const indexPath = join(dictsDir, "index.ts");
+const dataForgeDir = join(root, "..", "data-forge");
 
 type Dict = Record<string, string>;
 const readJson = (path: string): Dict =>
@@ -70,10 +72,22 @@ function parseConfig(tenant: string) {
     ) {
       config = node.arguments[0];
     }
+    // `export const x: AppConfig = {...}` (hogwarts-legacy)
+    if (
+      ts.isVariableDeclaration(node) &&
+      node.type?.getText(sf) === "AppConfig" &&
+      node.initializer &&
+      ts.isObjectLiteralExpression(node.initializer)
+    ) {
+      config = node.initializer;
+    }
     if (!config) ts.forEachChild(node, visit);
   };
   visit(sf);
-  if (!config) throw new Error(`${tenant}: no resolveAppConfig({...}) found`);
+  if (!config)
+    throw new Error(
+      `${tenant}: no resolveAppConfig({...}) or AppConfig literal found`,
+    );
   return { path, text, sf, config };
 }
 
@@ -114,8 +128,14 @@ function extract(tenant: string) {
   for (const [k, v] of Object.entries(en)) {
     if (!enByValue.has(v)) enByValue.set(v, k);
   }
+  // Game terms (data-forge public/<name>/dicts) are already translated (#757:
+  // diablo4 "aspects_home_desc", chrono-odyssey "bound-stone").
+  const name = stringOf(prop(config, "name", sf)?.initializer)?.text ?? tenant;
+  const gameEn = readJson(
+    join(dataForgeDir, "public", name, "dicts", "en.json"),
+  );
   const isKey = (v: string) =>
-    v in en || v in globalEn || /^[\w-]+(\.[\w-]+)+$/.test(v);
+    v in en || v in globalEn || v in gameEn || /^[\w-]+(\.[\w-]+)+$/.test(v);
   const edits: { start: number; end: number; text: string }[] = [];
   let moved = 0;
 

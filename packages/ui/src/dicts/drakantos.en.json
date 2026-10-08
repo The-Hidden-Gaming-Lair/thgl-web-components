@@ -16,5 +16,16 @@
   "config.internalLinks.zones.linkText": "Browse all Zones",
   "config.internalLinks.story.title": "Story",
   "config.internalLinks.story.description": "Story chapters and player guides for the world of Drakantos.",
-  "config.internalLinks.story.linkText": "Read the Story"
+  "config.internalLinks.story.linkText": "Read the Story",
+  "config.db.heroSubtitle": "Game Database",
+  "config.db.searchPlaceholder": "Search creatures, items, places…",
+  "config.db.typeLabels.creatures": "Creature",
+  "config.db.typeLabels.items": "Item",
+  "config.db.typeLabels.outfits": "Outfit",
+  "config.db.typeLabels.effects": "Effect",
+  "config.db.typeLabels.distances": "Distance Shot",
+  "config.db.typeLabels.places": "Place",
+  "config.db.typeLabels.zones": "Zone",
+  "config.db.typeLabels.story": "Story",
+  "config.db.typeLabels.guide": "Guide"
 }

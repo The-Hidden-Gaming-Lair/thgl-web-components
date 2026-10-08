@@ -20,5 +20,15 @@
   "config.db.typeLabels.inventory": "物品",
   "config.db.typeLabels.equipment": "裝備",
   "config.db.typeLabels.recipes": "配方",
-  "config.db.typeLabels.enemies": "敵人"
+  "config.db.typeLabels.enemies": "敵人",
+  "config.internalLinks.sources.title": "戰利品來源",
+  "config.internalLinks.sources.description": "廢料堆和寶箱：每種可能包含的物品，以及它們在地圖上的位置。",
+  "config.internalLinks.sources.linkText": "開啟戰利品來源",
+  "config.db.sources.description": "廢料堆和寶箱及其內容物。",
+  "config.db.typeLabels.sources": "戰利品來源",
+  "config.internalLinks.vendors.title": "商人",
+  "config.internalLinks.vendors.description": "死神、郵差彼特和陰影之沙的商人：每位商人出售和收購的物品、價格與聲望等級，以及他們在地圖上的位置。",
+  "config.internalLinks.vendors.linkText": "開啟商人",
+  "config.db.vendors.description": "商人及其商品、價格和收購物品。",
+  "config.db.typeLabels.vendors": "商人"
 }

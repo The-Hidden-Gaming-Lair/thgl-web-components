@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.maps-Sanctuary.description": "Explora los mapas interactivos de Diablo 4 con seguimiento de posición en tiempo real. Encuentra Altares de Lilith, calabozos, jefes, eventos y más.",
+  "config.internalLinks.maps-Sanctuary.linkText": "Explorar el mapa",
+  "config.internalLinks.aspects.title": "Aspectos",
+  "config.internalLinks.aspects.description": "Los más de 600 aspectos legendarios del Códice de Poder, filtrables por clase y tipo.",
+  "config.internalLinks.aspects.linkText": "Ver aspectos",
+  "config.internalLinks.uniques.title": "Objetos únicos",
+  "config.internalLinks.uniques.description": "Todos los objetos únicos de Diablo IV con restricción de clase, tipo de objeto y descripción del poder único.",
+  "config.internalLinks.uniques.linkText": "Ver objetos únicos",
+  "config.db.heroSubtitle": "Base de datos del juego"
+}

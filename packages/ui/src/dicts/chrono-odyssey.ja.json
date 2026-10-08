@@ -1,0 +1,20 @@
+{
+  "config.internalLinks.inventory.title": "アイテム",
+  "config.internalLinks.inventory.description": "Chrono Odysseyのすべてのアイテム：武器、防具、アクセサリー、素材、消耗品のレアリティ、ステータス、製作での用途。",
+  "config.internalLinks.inventory.linkText": "アイテムデータベースを開く",
+  "config.internalLinks.recipes.title": "レシピ",
+  "config.internalLinks.recipes.description": "作業台ごとのすべての製作レシピ。素材、熟練度レベル、ゴールドコスト付きで、各アイテムにリンク。",
+  "config.internalLinks.recipes.linkText": "レシピを見る",
+  "config.db.heroSubtitle": "ゲームデータベース",
+  "config.db.searchPlaceholder": "アイテム、レシピ、モンスターを検索…",
+  "config.db.inventory.description": "武器、防具、アクセサリー、素材、消耗品。",
+  "config.db.recipes.description": "作業台ごとの製作レシピと素材、コスト。",
+  "config.db.bestiary.description": "モンスターとボスのレベル、ステータス、出現地点。",
+  "config.db.dungeons.description": "遠征、迷宮、試練のボスと報酬。",
+  "config.db.bound_stones.description": "マップ上のすべての絆の石（ファストトラベル地点）。",
+  "config.db.beacons_of_time.description": "すべての時間の道しるべとその場所。",
+  "config.db.vaults.description": "マップ上のすべてのボルト。",
+  "config.db.typeLabels.inventory": "アイテム",
+  "config.db.typeLabels.recipes": "レシピ",
+  "config.db.typeLabels.bestiary": "モンスター"
+}

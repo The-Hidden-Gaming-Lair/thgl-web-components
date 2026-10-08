@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.maps-Sanctuary.description": "Erkunde die interaktiven Karten von Diablo 4 mit Positionsverfolgung in Echtzeit. Finde Altäre von Lilith, Dungeons, Bosse, Events und mehr.",
+  "config.internalLinks.maps-Sanctuary.linkText": "Karte erkunden",
+  "config.internalLinks.aspects.title": "Aspekte",
+  "config.internalLinks.aspects.description": "Alle über 600 legendären Aspekte aus dem Kodex der Macht, filterbar nach Klasse und Art.",
+  "config.internalLinks.aspects.linkText": "Aspekte durchsuchen",
+  "config.internalLinks.uniques.title": "Einzigartige Gegenstände",
+  "config.internalLinks.uniques.description": "Alle einzigartigen Gegenstände in Diablo IV mit Klassenbeschränkung, Gegenstandsart und Beschreibung der einzigartigen Macht.",
+  "config.internalLinks.uniques.linkText": "Einzigartige Gegenstände durchsuchen",
+  "config.db.heroSubtitle": "Spieldatenbank"
+}
