@@ -349,3 +349,62 @@ describe("overlay zoom", () => {
     expect(getOverlayZoom("main")).toBeUndefined();
   });
 });
+
+describe("user store: renamed / split filters", () => {
+  const icon = "icon.webp";
+  const FILTERS = [
+    {
+      group: "egg_heist",
+      defaultOn: false,
+      values: [
+        { id: "eh_egg_nest", icon },
+        { id: "eh_chest_a", icon, replaces: ["eh_legendary_chest"] },
+        { id: "eh_chest_b", icon, replaces: ["eh_legendary_chest"] },
+      ],
+    },
+  ];
+  const createWith = (view: View = {}) => createUserStore(view, MAPS, FILTERS);
+
+  it("switches on every successor of a saved dead id and drops it", () => {
+    persist({ filters: ["eh_egg_nest", "eh_legendary_chest", "region_x"] });
+    expect(createWith().getState().filters.sort()).toEqual(
+      ["eh_chest_a", "eh_chest_b", "eh_egg_nest", "region_x"].sort(),
+    );
+  });
+
+  it("leaves a selection without the old id alone", () => {
+    persist({ filters: ["eh_egg_nest"] });
+    expect(createWith().getState().filters).toEqual(["eh_egg_nest"]);
+  });
+
+  it("does not add a successor twice", () => {
+    persist({ filters: ["eh_chest_a", "eh_legendary_chest"] });
+    expect(createWith().getState().filters.sort()).toEqual([
+      "eh_chest_a",
+      "eh_chest_b",
+    ]);
+  });
+
+  it("keeps an old id that still exists as a filter", () => {
+    const filters = [
+      {
+        group: "g",
+        values: [
+          { id: "old", icon },
+          { id: "new", icon, replaces: ["old"] },
+        ],
+      },
+    ];
+    persist({ filters: ["old"] });
+    expect(createUserStore({}, MAPS, filters).getState().filters).toEqual([
+      "old",
+    ]);
+  });
+
+  it("a filters URL view wins over the saved selection", () => {
+    persist({ filters: ["eh_legendary_chest"] });
+    expect(createWith({ filters: ["eh_egg_nest"] }).getState().filters).toEqual(
+      ["eh_egg_nest"],
+    );
+  });
+});

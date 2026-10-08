@@ -1320,6 +1320,10 @@ export type FiltersConfig = {
     // siblings). Used by FilterSettingsPopover to offer a "Enable all
     // variants" toggle. Omitted for filters with no siblings.
     baseType?: string;
+    // Former filter ids this type took over (renamed or split). A saved filter
+    // selection that still holds one of them gets this type switched on
+    // instead (`migrateReplacedFilters` in user.ts).
+    replaces?: string[];
     // Codex/database section this marker type has an entry in. When set, the
     // marker panel/tooltip shows a "View in Codex" link to
     // `/db/<dbSection>/<spawn.dbEntryId ?? spawn.id ?? spawn.type>`: a spawn can
