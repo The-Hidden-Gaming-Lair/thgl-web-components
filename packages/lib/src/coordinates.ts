@@ -564,6 +564,36 @@ export const collectPrivateNodeIds = (nodes: KnownNodeSet): PrivateNodes => {
   return { ids, types };
 };
 
+/**
+ * The custom markers of My Filters lists as a node set for
+ * {@link collectPrivateNodeIds}: one node per filter, each spawn private (as
+ * the map renders them). Used for the whiteboard-shared My Filters, which the
+ * map renders as private spawns next to the user's own.
+ */
+export const myFiltersNodeSet = (
+  filters: readonly {
+    name: string;
+    nodes?: readonly {
+      id: string;
+      p: [number, number] | [number, number, number];
+    }[];
+  }[],
+): KnownNodeSet => {
+  const set: KnownNodeSet = [];
+  for (const filter of filters) {
+    if (!filter.nodes || filter.nodes.length === 0) continue;
+    set.push({
+      type: filter.name,
+      spawns: filter.nodes.map((node) => ({
+        id: node.id,
+        p: node.p,
+        isPrivate: true,
+      })),
+    });
+  }
+  return set;
+};
+
 /** Replaces the custom marker ids (bumps the discovery rules version). */
 export const setPrivateNodeIds = (nodes: PrivateNodes): void => {
   if (nodes === privateNodes) return;

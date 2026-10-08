@@ -16,6 +16,7 @@ import {
   isDoneWhenAll,
   isSpawnFocused,
   isSpawnShownByFocus,
+  myFiltersNodeSet,
   removeDiscoveredMatches,
   setDoneWhenAllRules,
   setKnownNodeIds,
@@ -932,6 +933,57 @@ describe("discovered marks", () => {
       expect(
         removeDiscoveredMatches([bare, tick, "iron_ore@10:20"], [bare]),
       ).toEqual(["iron_ore@10:20"]);
+    });
+
+    // My Filters shared over the whiteboard render as private spawns too;
+    // the provider registers them with the user's own (myFiltersNodeSet).
+    describe("shared over the whiteboard", () => {
+      const shared = [
+        {
+          name: "Friend Spots",
+          nodes: [
+            {
+              id: "Friend Spots_1700000000001",
+              p: [10.6, 20] as [number, number],
+            },
+          ],
+        },
+        { name: "Friend Drawing" },
+      ];
+      const sharedTick = "Friend Spots_1700000000001@10.6:20";
+
+      it("is a node set of private spawns, one node per filter with nodes", () => {
+        expect(myFiltersNodeSet(shared)).toEqual([
+          {
+            type: "Friend Spots",
+            spawns: [
+              {
+                id: "Friend Spots_1700000000001",
+                p: [10.6, 20],
+                isPrivate: true,
+              },
+            ],
+          },
+        ]);
+      });
+
+      it("unregistered, a shared tick bleeds to the static marker", () => {
+        expect(discovered("iron_ore@10:20", [sharedTick])).toBe(true);
+      });
+
+      it("registered with the own markers, it stays on its marker", () => {
+        setPrivateNodeIds(
+          collectPrivateNodeIds([custom, ...myFiltersNodeSet(shared)]),
+        );
+        expect(discovered("iron_ore@10:20", [sharedTick])).toBe(false);
+        expect(discovered(sharedTick, ["iron_ore@10:20"])).toBe(false);
+        expect(discovered(sharedTick, ["iron_ore@10.40:20.00"])).toBe(false);
+        expect(discovered(tick, [sharedTick])).toBe(false);
+        expect(discovered(sharedTick, [sharedTick])).toBe(true);
+        expect(
+          removeDiscoveredMatches([sharedTick], ["iron_ore@10:20"]),
+        ).toEqual([sharedTick]);
+      });
     });
   });
 

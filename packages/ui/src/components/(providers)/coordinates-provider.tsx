@@ -43,6 +43,7 @@ import {
   collectPrivateNodeIds,
   getFocusMode,
   isSpawnShownByFocus,
+  myFiltersNodeSet,
   resolvePrivateIcon,
   setDoneWhenAllRules,
   setKnownNodeIds,
@@ -590,15 +591,24 @@ export function CoordinatesProvider({
     }, []);
   }, [isHydrated, myFilters, iconLookups]);
 
-  // The ids of the user's custom markers, so a tick of one never greys a
-  // static marker next to it and the other way round (coordinates.ts). Apart
-  // from the static ids: editing a custom marker only rebuilds this small set.
+  // My Filters shared over the whiteboard: markers.tsx renders their nodes as
+  // private spawns next to the user's own.
+  const sharedMyFilters = useConnectionStore((state) => state.myFilters);
+
+  // The ids of the custom markers (own and shared), so a tick of one never
+  // greys a static marker next to it and the other way round (coordinates.ts).
+  // Apart from the static ids: editing a custom marker only rebuilds this
+  // small set.
   const privateNodeIds = useMemo(() => {
     if (typeof window === "undefined") return null;
-    const known = collectPrivateNodeIds(customNodes);
+    const known = collectPrivateNodeIds(
+      sharedMyFilters.length === 0
+        ? customNodes
+        : [...customNodes, ...myFiltersNodeSet(sharedMyFilters)],
+    );
     setPrivateNodeIds(known);
     return known;
-  }, [customNodes]);
+  }, [customNodes, sharedMyFilters]);
   useEffect(() => {
     if (!privateNodeIds) return;
     setPrivateNodeIds(privateNodeIds);
