@@ -25,5 +25,10 @@
   "config.internalLinks.sources.description": "废料堆和宝箱：每种可能包含的物品，以及它们在地图上的位置。",
   "config.internalLinks.sources.linkText": "打开战利品来源",
   "config.db.sources.description": "废料堆和宝箱及其内容物。",
-  "config.db.typeLabels.sources": "战利品来源"
+  "config.db.typeLabels.sources": "战利品来源",
+  "config.internalLinks.vendors.title": "商人",
+  "config.internalLinks.vendors.description": "死神、邮差皮特和暗影沙地的商人：每位商人出售和收购的物品、价格与声望等级，以及他们在地图上的位置。",
+  "config.internalLinks.vendors.linkText": "打开商人",
+  "config.db.vendors.description": "商人及其商品、价格和收购物品。",
+  "config.db.typeLabels.vendors": "商人"
 }

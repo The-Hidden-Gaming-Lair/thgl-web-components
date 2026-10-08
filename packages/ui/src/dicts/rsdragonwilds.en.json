@@ -25,5 +25,10 @@
   "config.internalLinks.sources.description": "Salvage piles and loot chests: what each one can contain, and where to find them on the map.",
   "config.internalLinks.sources.linkText": "Open the Loot Sources",
   "config.db.sources.description": "Salvage piles and loot chests with their contents.",
-  "config.db.typeLabels.sources": "Loot Source"
+  "config.db.typeLabels.sources": "Loot Source",
+  "config.internalLinks.vendors.title": "Vendors",
+  "config.internalLinks.vendors.description": "Death, Postie Pete and the Umbral Sands merchants: what each one sells and buys, prices and reputation levels, and where to find them on the map.",
+  "config.internalLinks.vendors.linkText": "Open the Vendors",
+  "config.db.vendors.description": "Vendors with their wares, prices and what they buy.",
+  "config.db.typeLabels.vendors": "Vendor"
 }

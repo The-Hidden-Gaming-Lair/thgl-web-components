@@ -25,5 +25,10 @@
   "config.internalLinks.sources.description": "Altmaterial-Haufen und Truhen: was jede enthalten kann und wo du sie auf der Karte findest.",
   "config.internalLinks.sources.linkText": "Beutequellen öffnen",
   "config.db.sources.description": "Altmaterial-Haufen und Truhen mit ihrem Inhalt.",
-  "config.db.typeLabels.sources": "Beutequelle"
+  "config.db.typeLabels.sources": "Beutequelle",
+  "config.internalLinks.vendors.title": "Händler",
+  "config.internalLinks.vendors.description": "Tod, Postbote Peter und die Händler der Schattensande: was jeder verkauft und ankauft, Preise und Ansehensstufen, und wo du sie auf der Karte findest.",
+  "config.internalLinks.vendors.linkText": "Händler öffnen",
+  "config.db.vendors.description": "Händler mit ihren Waren, Preisen und was sie ankaufen.",
+  "config.db.typeLabels.vendors": "Händler"
 }

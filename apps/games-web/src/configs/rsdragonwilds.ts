@@ -60,6 +60,13 @@ export const rsdragonwilds = resolveAppConfig({
       linkText: "config.internalLinks.sources.linkText",
     },
     {
+      title: "config.internalLinks.vendors.title",
+      description: "config.internalLinks.vendors.description",
+      href: "/db/vendors",
+      iconName: "Handshake",
+      linkText: "config.internalLinks.vendors.linkText",
+    },
+    {
       title: "checklist.navTitle",
       description: "checklist.navDescription",
       href: "/checklist",
@@ -131,6 +138,14 @@ export const rsdragonwilds = resolveAppConfig({
         icon: "📦",
         description: "config.db.sources.description",
       },
+      {
+        href: "/db/vendors",
+        type: "vendors",
+        titleKey: "config.internalLinks.vendors.title",
+        titleFallback: "Vendors",
+        icon: "🪙",
+        description: "config.db.vendors.description",
+      },
     ],
     typeLabels: {
       inventory: "config.db.typeLabels.inventory",
@@ -138,6 +153,7 @@ export const rsdragonwilds = resolveAppConfig({
       recipes: "config.db.typeLabels.recipes",
       enemies: "config.db.typeLabels.enemies",
       sources: "config.db.typeLabels.sources",
+      vendors: "config.db.typeLabels.vendors",
     },
   },
 });

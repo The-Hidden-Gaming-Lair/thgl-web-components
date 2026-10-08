@@ -25,5 +25,10 @@
   "config.internalLinks.sources.description": "Cumuli di recupero e forzieri: cosa può contenere ciascuno e dove trovarli sulla mappa.",
   "config.internalLinks.sources.linkText": "Apri le fonti di bottino",
   "config.db.sources.description": "Cumuli di recupero e forzieri con il loro contenuto.",
-  "config.db.typeLabels.sources": "Fonte di bottino"
+  "config.db.typeLabels.sources": "Fonte di bottino",
+  "config.internalLinks.vendors.title": "Mercanti",
+  "config.internalLinks.vendors.description": "Morte, Pete il Postino e i mercanti delle Sabbie Ombrose: cosa vende e compra ciascuno, prezzi e livelli di reputazione, e dove trovarli sulla mappa.",
+  "config.internalLinks.vendors.linkText": "Apri i mercanti",
+  "config.db.vendors.description": "Mercanti con le loro merci, i prezzi e cosa comprano.",
+  "config.db.typeLabels.vendors": "Mercante"
 }

@@ -25,5 +25,10 @@
   "config.internalLinks.sources.description": "廃品の山と宝箱：それぞれの中身と、マップ上の場所。",
   "config.internalLinks.sources.linkText": "戦利品の入手元を開く",
   "config.db.sources.description": "廃品の山と宝箱、その中身。",
-  "config.db.typeLabels.sources": "戦利品の入手元"
+  "config.db.typeLabels.sources": "戦利品の入手元",
+  "config.internalLinks.vendors.title": "商人",
+  "config.internalLinks.vendors.description": "死神、運び屋ピート、アンブラル砂漠の商人たち：それぞれの売り物と買い取り品、価格と評判レベル、マップ上の場所。",
+  "config.internalLinks.vendors.linkText": "商人を開く",
+  "config.db.vendors.description": "商人と、その品揃え・価格・買い取り品。",
+  "config.db.typeLabels.vendors": "商人"
 }
