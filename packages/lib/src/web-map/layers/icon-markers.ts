@@ -39,6 +39,30 @@ class TextureAtlas {
   readonly entries = new Map<string, AtlasEntry>();
   /** Set of atlas page names that have been modified since last WebGL upload */
   readonly dirtyPages = new Set<string>();
+  /** Source image per packed sheet, so a page can be repainted after its canvas lost its pixels */
+  private sources = new Map<string, HTMLImageElement | HTMLCanvasElement>();
+
+  /** @param onRepaint requests a redraw after a page was repainted outside of a frame */
+  constructor(private onRepaint?: () => void) {}
+
+  /**
+   * Redraw atlas pages from their source images. A GPU reset clears an accelerated 2D canvas
+   * (Chromium fires `contextrestored` on it) and the WebGL re-upload would then copy a blank
+   * page: every atlas icon invisible until the app restarts.
+   */
+  repaint(pageName?: string) {
+    for (const page of this.pages) {
+      if (pageName && page.name !== pageName) continue;
+      page.ctx.clearRect(0, 0, ATLAS_PAGE_SIZE, ATLAS_PAGE_SIZE);
+      for (const [name, entry] of this.entries) {
+        const src = this.sources.get(name);
+        if (entry.page !== page.name || !src) continue;
+        const { x, y, width, height } = entry.rect;
+        page.ctx.drawImage(src, x, y, width, height);
+      }
+      this.dirtyPages.add(page.name);
+    }
+  }
 
   /** Try to pack a sheet image into the atlas. Returns the entry, or null if too large. */
   add(
@@ -65,6 +89,7 @@ class TextureAtlas {
           existing.rect.height,
         );
         page.ctx.drawImage(img, existing.rect.x, existing.rect.y, w, h);
+        this.sources.set(name, img);
         this.dirtyPages.add(existing.page);
         // Update rect dimensions in case size changed
         existing.rect.width = w;
@@ -132,6 +157,7 @@ class TextureAtlas {
     if (ph > this.shelfH) this.shelfH = ph;
     const entry: AtlasEntry = { page: page.name, rect };
     this.entries.set(name, entry);
+    this.sources.set(name, img);
     this.dirtyPages.add(page.name);
     return entry;
   }
@@ -142,6 +168,10 @@ class TextureAtlas {
     canvas.width = ATLAS_PAGE_SIZE;
     canvas.height = ATLAS_PAGE_SIZE;
     const ctx = canvas.getContext("2d", { willReadFrequently: false })!;
+    canvas.addEventListener("contextrestored", () => {
+      this.repaint(name);
+      this.onRepaint?.();
+    });
     this.pages.push({ name, canvas, ctx });
     this.shelfX = 0;
     this.shelfY = 0;
@@ -715,7 +745,7 @@ export class IconMarkerLayer implements Layer {
   private sheets: Map<string, SheetTex> = new Map();
   private sheetImages: Map<string, HTMLImageElement | HTMLCanvasElement> =
     new Map();
-  private atlas = new TextureAtlas();
+  private atlas = new TextureAtlas(() => this.onSheetLoad?.());
   private instances: IconMarkerInstance[] = [];
   private instancesById: Map<string, number> = new Map(); // Track index by ID to prevent duplicates
   private iconMap: Map<string, { sheet: string; rect: IconRect }> = new Map();
@@ -1119,6 +1149,8 @@ export class IconMarkerLayer implements Layer {
 
   onAdd(gl: WebGL2RenderingContext): void {
     this.gl = gl;
+    // Re-added after a WebGL context loss: the same GPU reset may have cleared the atlas pages
+    this.atlas.repaint();
     this.program = createProgram(gl, vs, fs);
     this.vao = gl.createVertexArray();
     gl.bindVertexArray(this.vao);
