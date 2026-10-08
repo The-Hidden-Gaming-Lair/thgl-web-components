@@ -314,7 +314,7 @@ function UnauthenticatedView() {
         </details>
       )}
 
-      {/* Supporter Key (web + Companion App): accounts without a Patreon login
+      {/* Account Key (web + Companion App): accounts without a Patreon login
           (Tebex purchases) restore their perks with the key from their account
           page. Stored like a pasted Overwolf secret; the userId cookie is then
           restored from it by the session self-heal (restoreUserIdCookie).
@@ -322,13 +322,13 @@ function UnauthenticatedView() {
       {!isOverwolf && (
         <details className="text-xs">
           <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-            Have a Supporter Key?
+            Have an Account Key?
           </summary>
           <form onSubmit={handleSubmit} className="flex gap-2 mt-2">
             <Input
               value={userId}
               onChange={(e) => setUserId(e.target.value.trim())}
-              placeholder="Paste your Supporter Key"
+              placeholder="Paste your Account Key"
               className="text-xs h-8"
             />
             <Button

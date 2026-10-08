@@ -101,31 +101,17 @@ export default function SupportMeTebex() {
                     </li>
                   ))}
                 </ul>
-                {tier.key === "free" ? (
-                  // Free = email sign-up (one-time code), no checkout.
+                <form method="post" action="/api/tebex/checkout">
+                  <input type="hidden" name="tier" value={tier.key} />
                   <Button
+                    type="submit"
                     size="lg"
-                    variant="secondary"
+                    variant={tier.highlight ? "default" : "secondary"}
                     className="w-full"
-                    asChild
                   >
-                    <Link href="/support-me/account#email-sign-in">
-                      {tier.cta}
-                    </Link>
+                    {tier.cta}
                   </Button>
-                ) : (
-                  <form method="post" action="/api/tebex/checkout">
-                    <input type="hidden" name="tier" value={tier.key} />
-                    <Button
-                      type="submit"
-                      size="lg"
-                      variant={tier.highlight ? "default" : "secondary"}
-                      className="w-full"
-                    >
-                      {tier.cta}
-                    </Button>
-                  </form>
-                )}
+                </form>
               </CardContent>
             </Card>
           );

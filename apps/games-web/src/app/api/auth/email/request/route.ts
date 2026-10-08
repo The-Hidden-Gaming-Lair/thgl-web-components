@@ -5,8 +5,9 @@ import { clientIpFrom } from "@/lib/tebex";
 
 // Email sign-in step 1: mail a one-time code (lib/email-login.ts). Global
 // route (every host, CORS) so www, the game sites and the Companion App
-// (app.th.gl -> www.th.gl) share it. The answer never reveals whether the
-// email has an account: unknown emails get a code too (email sign-up).
+// (app.th.gl -> www.th.gl) share it. Codes only go to emails that have an
+// account (Tebex buyers); the answer is the same either way, so it never
+// reveals whether an email has an account.
 export const maxDuration = 25;
 
 export async function POST(request: NextRequest) {
@@ -44,7 +45,7 @@ export async function POST(request: NextRequest) {
       {
         ok: true,
         // Dev only: lets the e2e flow finish without reading the inbox.
-        ...(process.env.NODE_ENV === "development"
+        ...(process.env.NODE_ENV === "development" && "code" in result
           ? { devCode: result.code }
           : {}),
       },

@@ -15,7 +15,7 @@ export function SignOut({ isTebexAccount }: { isTebexAccount?: boolean }) {
         if (
           isTebexAccount &&
           !confirm(
-            "Did you save your Supporter Key? You need it to unlock your perks again after signing out. / 你保存支持者密钥了吗？退出登录后需要它才能重新解锁权益。",
+            "Did you save your Account Key? You need it to unlock your perks again after signing out. / 你保存账户密钥了吗？退出登录后需要它才能重新解锁权益。",
           )
         ) {
           return;

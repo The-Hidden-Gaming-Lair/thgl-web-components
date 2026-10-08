@@ -114,7 +114,7 @@ function PricingLink() {
 }
 
 /**
- * Supporter Key sign-in: accounts without a Patreon login (Tebex purchases,
+ * Account Key sign-in: accounts without a Patreon login (Tebex purchases,
  * e.g. the China Alipay / WeChat Pay checkout) restore themselves in the
  * Companion App with the key from their www account page. The app has its
  * own cookie store, so a website sign-in doesn't carry over.
@@ -125,7 +125,7 @@ function SupporterKeyForm() {
   return (
     <details className="text-xs">
       <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-        Have a Supporter Key? / 有支持者密钥？
+        Have an Account Key? / 有账户密钥？
       </summary>
       <form
         onSubmit={(e) => {
@@ -137,7 +137,7 @@ function SupporterKeyForm() {
         <Input
           value={key}
           onChange={(e) => setKey(e.target.value.trim())}
-          placeholder="Paste your Supporter Key / 粘贴你的支持者密钥"
+          placeholder="Paste your Account Key / 粘贴你的账户密钥"
           className="text-xs h-8"
         />
         <Button

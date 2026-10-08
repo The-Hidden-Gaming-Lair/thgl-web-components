@@ -1,16 +1,13 @@
 import { createHmac, randomInt, timingSafeEqual } from "node:crypto";
 import { arg, libsql } from "@/lib/libsql";
 import { sendMail } from "@/lib/mail";
-import {
-  newTebexUserId,
-  TEBEX_FREE_TIER_ID,
-  TEBEX_FREE_EXPIRES_AT,
-} from "@/lib/tebex";
+import { TEBEX_FREE_TIER_ID } from "@/lib/tebex";
 
 /**
  * Passwordless email sign-in (one-time code) for accounts without a Patreon
- * login: Tebex buyers (their purchase email arrives with the webhook) and
- * free accounts created by email. Works the same on www, the game sites and
+ * login: Tebex buyers (their purchase email arrives with the webhook). It
+ * NEVER creates accounts (Leon 2026-10-08: no free sign-up by email - a
+ * gmail address got a free account + "Supporter Key" without paying). Works the same on www, the game sites and
  * inside the Companion App (typed in, like the Patreon sign-in popup).
  *
  * Accounts are the existing `tebex:<uuid>` ids, so every resolver
@@ -23,7 +20,7 @@ import {
  *
  * Cases (Leon 2026-10-08):
  *   - email with one account        -> that account
- *   - email unknown                 -> new free account (email sign-up)
+ *   - email unknown                 -> no code is sent (same neutral answer)
  *   - email with several accounts   -> merged into the one with an active paid
  *     tier (else the oldest); entitlements + emails move over
  *   - Patreon supporters are separate: their Patreon id is never in
@@ -53,23 +50,16 @@ function codeHash(email: string, code: string): string {
     .digest("hex");
 }
 
-/** Links an email to an account (idempotent). Called by the Tebex webhook too. */
-export function linkEmailStmt(email: string, userId: string) {
-  return {
-    sql: `INSERT OR IGNORE INTO account_emails (email, user_id, created_at) VALUES (?, ?, ?)`,
-    args: [arg.text(email), arg.text(userId), arg.int(now())],
-  };
-}
-
 export type RequestResult =
   | { status: "sent"; code: string }
   | { status: "rate-limited" }
+  | { status: "no-account" }
   | { status: "send-failed" };
 
 /**
- * Creates and mails a fresh 6-digit code. The caller answers the same way
- * whatever happens, so the endpoint never reveals whether an email has an
- * account (unknown emails get a code too - that is the sign-up).
+ * Creates and mails a fresh 6-digit code to an email that has an account.
+ * The caller answers the same way for unknown emails, so the endpoint never
+ * reveals whether an email has an account.
  */
 export async function requestLoginCode(
   email: string,
@@ -92,6 +82,24 @@ export async function requestLoginCode(
     Number(byIp.rows[0][0].value) >= MAX_CODES_PER_IP_PER_HOUR
   ) {
     return { status: "rate-limited" };
+  }
+
+  const [known] = await libsql([
+    {
+      sql: `SELECT 1 FROM account_emails WHERE email = ? LIMIT 1`,
+      args: [arg.text(email)],
+    },
+  ]);
+  if (known.rows.length === 0) {
+    // Counted for the rate limit, but no code and no mail: email sign-in is
+    // for existing (Tebex) accounts only. The caller answers the same way.
+    await libsql([
+      {
+        sql: `INSERT INTO email_login_requests (email, ip, created_at) VALUES (?, ?, ?)`,
+        args: [arg.text(email), arg.text(ip), arg.int(now())],
+      },
+    ]);
+    return { status: "no-account" };
   }
 
   const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
@@ -146,7 +154,7 @@ ${block(first)}${block(second)}
 }
 
 export type VerifyResult =
-  | { ok: true; userId: string; created: boolean; merged: number }
+  | { ok: true; userId: string; merged: number }
   | { ok: false; reason: "invalid" | "expired" | "too-many-attempts" };
 
 export async function verifyLoginCode(
@@ -183,13 +191,14 @@ export async function verifyLoginCode(
       args: [arg.text(email)],
     },
   ]);
-  return { ok: true, ...(await accountForEmail(email)) };
+  const account = await accountForEmail(email);
+  return account ? { ok: true, ...account } : { ok: false, reason: "invalid" };
 }
 
-/** The account for a verified email: existing, merged or newly created. */
+/** The account for a verified email (merged when there are several), or null. */
 async function accountForEmail(
   email: string,
-): Promise<{ userId: string; created: boolean; merged: number }> {
+): Promise<{ userId: string; merged: number } | null> {
   const [linked] = await libsql([
     {
       // Each linked account with its best active paid expiry (0 = none) and
@@ -209,26 +218,8 @@ async function accountForEmail(
   }));
 
   if (accounts.length === 0) {
-    // Email sign-up: a free account, like the Tebex Free package.
-    const userId = newTebexUserId();
-    await libsql([
-      linkEmailStmt(email, userId),
-      {
-        sql: `INSERT INTO tebex_entitlements
-                (ref, user_id, package_id, tier_id, status, revoked, expires_at, email, event_at, updated_at)
-              VALUES (?, ?, 'email', ?, 'Free', 0, ?, ?, ?, ?)`,
-        args: [
-          arg.text(`email-free:${userId}`),
-          arg.text(userId),
-          arg.text(TEBEX_FREE_TIER_ID),
-          arg.int(TEBEX_FREE_EXPIRES_AT),
-          arg.text(email),
-          arg.int(now()),
-          arg.int(now()),
-        ],
-      },
-    ]);
-    return { userId, created: true, merged: 0 };
+    // The account was removed after the code was sent - nothing to sign in to.
+    return null;
   }
 
   accounts.sort(
@@ -259,7 +250,7 @@ async function accountForEmail(
       `[email-login] merged ${others.length} account(s) into ${primary}`,
     );
   }
-  return { userId: primary, created: false, merged: others.length };
+  return { userId: primary, merged: others.length };
 }
 
 /** Emails linked to an account (account page: "Signed in as"). */

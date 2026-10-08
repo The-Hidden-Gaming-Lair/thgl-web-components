@@ -158,17 +158,17 @@ function TebexAccountContent({
 
         <div className="border-t border-border pt-4 space-y-3 text-sm">
           <p className="font-semibold">
-            Your Supporter Key
-            <span className="block">你的支持者密钥</span>
+            Your Account Key
+            <span className="block">你的账户密钥</span>
           </p>
           <p className="text-muted-foreground">
             Keep this key safe. To unlock your perks in the Companion App, in
             another browser or on another device, open the sign-in dialog there,
-            click &quot;Have a Supporter Key?&quot; and paste it.
+            click &quot;Have an Account Key?&quot; and paste it.
           </p>
           <p className="text-muted-foreground">
             请妥善保存此密钥。在伴侣应用、其他浏览器或其他设备中，打开登录窗口，点击“Have
-            a Supporter Key?”并粘贴此密钥，即可恢复你的账户和权益。
+            an Account Key?”并粘贴此密钥，即可恢复你的账户和权益。
           </p>
           <SupporterKey secret={secret} />
         </div>

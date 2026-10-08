@@ -11,7 +11,7 @@ import { restoreUserIdCookie } from "./user-id-cookie";
 
 /**
  * Signs in with a pasted account secret: an Overwolf secret from the web
- * account page, or a Supporter Key (accounts without a Patreon login, e.g.
+ * account page, or an Account Key (accounts without a Patreon login, e.g.
  * Tebex purchases). Shared by the header sign-in dialog (web) and the
  * Companion App's account dialog.
  *

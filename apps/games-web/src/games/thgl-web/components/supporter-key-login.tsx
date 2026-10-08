@@ -5,7 +5,7 @@ import { Button } from "@repo/ui/controls";
 import { restoreUserIdCookie } from "@repo/ui/header";
 
 /**
- * Sign-in with a Supporter Key on the www account page. Accounts without a
+ * Sign-in with an Account Key on the www account page. Accounts without a
  * Patreon login (Tebex purchases, e.g. the China Alipay / WeChat Pay
  * checkout) restore themselves on another browser or device with the key
  * from their account page. Same verification as the header dialog's key
@@ -50,13 +50,13 @@ export function SupporterKeyLogin() {
   return (
     <details className="text-sm mt-6">
       <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-        Have a Supporter Key? / 有支持者密钥？
+        Have an Account Key? / 有账户密钥？
       </summary>
       <form onSubmit={submit} className="flex gap-2 mt-3 max-w-md mx-auto">
         <input
           value={key}
           onChange={(e) => setKey(e.target.value.trim())}
-          placeholder="Paste your Supporter Key / 粘贴你的支持者密钥"
+          placeholder="Paste your Account Key / 粘贴你的账户密钥"
           className="flex-1 h-9 rounded-md border border-input bg-background px-3 text-xs"
         />
         <Button type="submit" size="sm" disabled={!key || loading}>

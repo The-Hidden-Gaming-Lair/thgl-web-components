@@ -28,8 +28,7 @@ const MESSAGES = {
 
 /**
  * Passwordless email sign-in (one-time code), for accounts without a Patreon
- * login: Tebex / Alipay / WeChat Pay buyers and free email accounts. An
- * unknown email creates a free account. Used by the header sign-in dialog,
+ * login: Tebex / Alipay / WeChat Pay buyers. It never creates accounts. Used by the header sign-in dialog,
  * the Companion App's account dialog and the www account page.
  */
 export function EmailSignIn({
@@ -60,7 +59,6 @@ export function EmailSignIn({
     const data = (await res.json().catch(() => ({}))) as {
       error?: keyof typeof MESSAGES;
       secret?: string;
-      created?: boolean;
     };
     return { ok: res.ok, data };
   };
@@ -96,11 +94,7 @@ export function EmailSignIn({
         const outcome = await unlock(data.secret, { silent: true });
         if (outcome === "ok" || outcome === "free") {
           setStep("done");
-          setMessage(
-            data.created
-              ? "Account created - you're signed in. / 账户已创建，你已登录。"
-              : "You're signed in. / 你已登录。",
-          );
+          setMessage("You're signed in. / 你已登录。");
           onSignedIn?.();
         } else {
           setMessage(MESSAGES.unavailable);
@@ -121,9 +115,9 @@ export function EmailSignIn({
       {step === "email" && (
         <form onSubmit={requestCode} className="space-y-2">
           <p className="text-xs text-muted-foreground">
-            No Patreon account? We email you a one-time code - no password. New
-            emails get a free account. / 没有 Patreon
-            账户？我们会向你的邮箱发送一次性验证码，无需密码。新邮箱会自动创建免费账户。
+            Paid with Alipay or WeChat Pay? Enter the email from your purchase
+            and we send you a one-time code - no password. /
+            使用支付宝或微信支付付款？输入付款时填写的邮箱，我们会发送一次性验证码，无需密码。
           </p>
           <div className="flex gap-2">
             <Input
@@ -148,9 +142,10 @@ export function EmailSignIn({
       {step === "code" && (
         <form onSubmit={verifyCode} className="space-y-2">
           <p className="text-xs text-muted-foreground">
-            We sent a 6-digit code to {email}. Check your spam folder if it
-            doesn't arrive. / 我们已向 {email}
-            发送了 6 位验证码。如未收到，请检查垃圾邮件文件夹。
+            If {email} belongs to an account, we sent it a 6-digit code. Check
+            your spam folder if it doesn't arrive. / 如果 {email}
+            已关联账户，我们已向其发送 6
+            位验证码。如未收到，请检查垃圾邮件文件夹。
           </p>
           <div className="flex gap-2">
             <Input

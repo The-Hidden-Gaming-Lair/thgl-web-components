@@ -33,7 +33,7 @@ export function SupporterKey({ secret }: { secret: string }) {
         ) : (
           <>
             <Copy className="mr-2 h-4 w-4" />
-            Copy Supporter Key
+            Copy Account Key
           </>
         )}
       </Button>
