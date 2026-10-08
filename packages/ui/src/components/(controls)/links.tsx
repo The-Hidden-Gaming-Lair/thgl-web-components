@@ -48,6 +48,10 @@ import ConsentLink from "../(ads)/consent-link";
  * Menus are always in the DOM (toggled with `hidden`), so every link stays in
  * the server-rendered HTML for crawlers; below `md` the same groups render in
  * a menu sheet. Clicks fire a "Nav: Click" Plausible event.
+ *
+ * Groups that don't fit the row (many tools, long locale labels, ~1280px with
+ * the In-Game App button) move from the right into the ⋯ menu instead of
+ * overlapping the buttons next to them (inbox #694).
  */
 
 export type NavLink = {
@@ -285,6 +289,10 @@ export function Links({
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const measureRef = useRef<HTMLDivElement>(null);
+  // How many groups fit the desktop row (null = all, e.g. before hydration).
+  const [visibleCount, setVisibleCount] = useState<number | null>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
   const mobileRef = useRef<HTMLDivElement>(null);
   // Re-render after hydration so the active state matches the client path.
@@ -298,6 +306,41 @@ export function Links({
     inlineLinks,
     guideLinks,
   });
+
+  // Fit the groups into the row: the hidden measure row holds every tab at its
+  // natural width; the first groups whose widths (+ the gap-0.5 gaps) fit the
+  // space left of the externals stay, the rest move into the ⋯ menu.
+  useEffect(() => {
+    const tabs = tabsRef.current;
+    const measure = measureRef.current;
+    if (!tabs || !measure) return;
+    const fit = () => {
+      const available = tabs.clientWidth;
+      if (available === 0) return; // below md the desktop row is hidden
+      const widths = Array.from(
+        measure.children,
+        (c) => c.getBoundingClientRect().width,
+      );
+      let used = 0;
+      let count = 0;
+      for (const width of widths) {
+        used += width + (count > 0 ? 2 : 0);
+        if (used > available) break;
+        count++;
+      }
+      setVisibleCount(count >= widths.length ? null : count);
+    };
+    fit();
+    const observer = new ResizeObserver(fit);
+    observer.observe(tabs);
+    observer.observe(measure);
+    return () => observer.disconnect();
+  }, [groups]);
+
+  const inlineGroups =
+    visibleCount === null ? groups : groups.slice(0, visibleCount);
+  const overflowGroups =
+    visibleCount === null ? [] : groups.slice(visibleCount);
 
   // In-Game App first (most important), then partner links (never dropped).
   const externals = useMemo(() => {
@@ -537,13 +580,29 @@ export function Links({
       {/* Desktop (md+): grouped tabs */}
       <div
         ref={navRef}
-        className="max-md:hidden flex flex-1 items-center gap-1 min-w-0"
+        className="max-md:hidden relative flex flex-1 items-center gap-1 min-w-0"
       >
-        <div className="flex items-center gap-0.5 min-w-0">
-          {groups.map(renderDesktopGroup)}
+        <div ref={tabsRef} className="flex flex-1 items-center gap-0.5 min-w-0">
+          {inlineGroups.map(renderDesktopGroup)}
+        </div>
+        {/* Natural tab widths for the fit above (labels only, no links). */}
+        <div
+          ref={measureRef}
+          aria-hidden="true"
+          className="absolute left-0 top-0 flex w-max invisible pointer-events-none"
+        >
+          {groups.map((group) => (
+            <span
+              key={`${group.id}:${group.label}`}
+              className={tabClass(false)}
+            >
+              {group.label}
+              {!group.link && <ChevronDown className="w-3 h-3" />}
+            </span>
+          ))}
         </div>
 
-        <div className="ml-auto flex items-center gap-1 shrink-0">
+        <div className="flex items-center gap-1 shrink-0">
           {/* Externals inline from lg; below that they live in the ⋯ menu. */}
           {externals.map((link) => (
             <ExternalAnchor
@@ -577,6 +636,24 @@ export function Links({
             <div
               className={cn(menuPanel, "right-0 w-56", !moreOpen && "hidden")}
             >
+              {overflowGroups.length > 0 && (
+                <div className="border-b border-neutral-800 mb-1 pb-1">
+                  {overflowGroups.map((group) =>
+                    group.link ? (
+                      renderMenuLink(group.id, group.link)
+                    ) : (
+                      <div key={`${group.id}:${group.label}`}>
+                        <div className="px-3 pt-2 pb-1 text-[11px] uppercase tracking-wide text-muted-foreground/70">
+                          {group.label}
+                        </div>
+                        {group.items?.map((link) =>
+                          renderMenuLink(group.id, link, "truncate pl-5"),
+                        )}
+                      </div>
+                    ),
+                  )}
+                </div>
+              )}
               {externals.length > 0 && (
                 <div className="lg:hidden border-b border-neutral-800 mb-1 pb-1">
                   {externals.map((link) => renderMenuLink("external", link))}
