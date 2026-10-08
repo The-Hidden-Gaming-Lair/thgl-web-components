@@ -61,3 +61,4 @@ export * from "./tips";
 export * from "./types";
 export * from "./user";
 export * from "./whiteboard";
+export * from "./drawing-map-merge";

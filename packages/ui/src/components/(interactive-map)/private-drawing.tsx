@@ -7,7 +7,12 @@ import { Info, Spline } from "lucide-react";
 import { Button } from "../ui/button";
 import { ColorPicker } from "../(controls)/color-picker";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { useConnectionStore, useSettingsStore, type Drawing } from "@repo/lib";
+import {
+  mergeDrawingForMap,
+  useConnectionStore,
+  useSettingsStore,
+  type Drawing,
+} from "@repo/lib";
 import {
   DrawingManager,
   DrawingLayer,
@@ -256,60 +261,42 @@ export function PrivateDrawing({ hidden }: { hidden?: boolean }) {
       setTempPrivateDrawing(updatedDrawing);
     });
 
-    // Handle shape removal (from remove mode)
-    dm.on("drawing:remove", () => {
+    // Rebuild the open map's shapes from the drawing manager (remove mode,
+    // edit/drag mode). The manager only holds this map's shapes, so the merge
+    // keeps the shapes on every other map.
+    const rebuildFromShapes = () => {
       const currentDrawing = useSettingsStore.getState().tempPrivateDrawing;
       if (!currentDrawing) return;
 
-      const remainingShapes = dm.getAllShapes();
-      const updatedDrawing: Partial<Drawing> = { ...currentDrawing };
-      updatedDrawing.polylines = [];
-      updatedDrawing.rectangles = [];
-      updatedDrawing.polygons = [];
-      updatedDrawing.circles = [];
-      updatedDrawing.texts = [];
-
-      for (const shape of remainingShapes) {
+      const rebuilt: Required<
+        Pick<
+          Drawing,
+          "polylines" | "rectangles" | "polygons" | "circles" | "texts"
+        >
+      > = {
+        polylines: [],
+        rectangles: [],
+        polygons: [],
+        circles: [],
+        texts: [],
+      };
+      for (const shape of dm.getAllShapes()) {
         shape.mapName = mapName;
         const part = shapeToDrawing(shape);
-        if (part.polylines) updatedDrawing.polylines.push(...part.polylines);
-        if (part.rectangles) updatedDrawing.rectangles.push(...part.rectangles);
-        if (part.polygons) updatedDrawing.polygons.push(...part.polygons);
-        if (part.circles) updatedDrawing.circles.push(...part.circles);
-        if (part.texts) updatedDrawing.texts.push(...part.texts);
+        if (part.polylines) rebuilt.polylines.push(...part.polylines);
+        if (part.rectangles) rebuilt.rectangles.push(...part.rectangles);
+        if (part.polygons) rebuilt.polygons.push(...part.polygons);
+        if (part.circles) rebuilt.circles.push(...part.circles);
+        if (part.texts) rebuilt.texts.push(...part.texts);
       }
 
       suppressReloadRef.current = true;
-      setTempPrivateDrawing(updatedDrawing);
-    });
-
-    // Handle shape edit (from edit/drag mode)
-    dm.on("drawing:edit", () => {
-      const currentDrawing = useSettingsStore.getState().tempPrivateDrawing;
-      if (!currentDrawing) return;
-
-      // Rebuild the entire drawing from current shapes
-      const remainingShapes = dm.getAllShapes();
-      const updatedDrawing: Partial<Drawing> = { ...currentDrawing };
-      updatedDrawing.polylines = [];
-      updatedDrawing.rectangles = [];
-      updatedDrawing.polygons = [];
-      updatedDrawing.circles = [];
-      updatedDrawing.texts = [];
-
-      for (const shape of remainingShapes) {
-        shape.mapName = mapName;
-        const part = shapeToDrawing(shape);
-        if (part.polylines) updatedDrawing.polylines.push(...part.polylines);
-        if (part.rectangles) updatedDrawing.rectangles.push(...part.rectangles);
-        if (part.polygons) updatedDrawing.polygons.push(...part.polygons);
-        if (part.circles) updatedDrawing.circles.push(...part.circles);
-        if (part.texts) updatedDrawing.texts.push(...part.texts);
-      }
-
-      suppressReloadRef.current = true;
-      setTempPrivateDrawing(updatedDrawing);
-    });
+      setTempPrivateDrawing(
+        mergeDrawingForMap(currentDrawing, rebuilt, mapName),
+      );
+    };
+    dm.on("drawing:remove", rebuildFromShapes);
+    dm.on("drawing:edit", rebuildFromShapes);
 
     return () => {
       dm.destroy();
