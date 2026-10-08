@@ -36,11 +36,18 @@ import {
   MIN_SEARCH_QUERY_LENGTH,
   type InGameCoordinates,
   buildPrivateIconLookups,
+  clearKnownNodeIds,
+  clearPrivateNodeIds,
   collectDoneWhenAllRules,
+  collectKnownNodeIds,
+  collectPrivateNodeIds,
   getFocusMode,
   isSpawnShownByFocus,
+  myFiltersNodeSet,
   resolvePrivateIcon,
   setDoneWhenAllRules,
+  setKnownNodeIds,
+  setPrivateNodeIds,
   type TilesConfig,
 } from "@repo/lib";
 import { CaseSensitive, Hexagon } from "lucide-react";
@@ -418,13 +425,30 @@ export function CoordinatesProvider({
     [rawStaticNodes, staticNodesTransform],
   );
 
-  // Markers that count as discovered when every id in `data.doneWhenAll` is
-  // (coordinates.ts). Registered during render, before the children's
-  // discovered checks run; client only, the rules are module state.
+  // Markers that count as discovered when every id in `data.doneWhenAll` is,
+  // and the ids of the loaded static markers (with every filter of the game
+  // and its variant types for the filter-type gate), so a mark of one marker
+  // never marks another one by position (coordinates.ts). Registered during
+  // render, before the children's discovered checks run; client only, both
+  // are module state.
   useMemo(() => {
     if (typeof window === "undefined") return;
     setDoneWhenAllRules(collectDoneWhenAllRules(staticNodes));
   }, [staticNodes]);
+  const knownNodeIds = useMemo(() => {
+    if (typeof window === "undefined") return null;
+    const known = collectKnownNodeIds(staticNodes, { filters, typesIdMap });
+    setKnownNodeIds(known);
+    return known;
+  }, [staticNodes, filters, typesIdMap]);
+  // On unmount the known ids are emptied again (if no newer provider replaced
+  // them), so a page without a map does not match against this map's ids. The
+  // effect sets them too: a remount (React strict mode) runs the cleanup first.
+  useEffect(() => {
+    if (!knownNodeIds) return;
+    setKnownNodeIds(knownNodeIds);
+    return () => clearKnownNodeIds(knownNodeIds);
+  }, [knownNodeIds]);
 
   const {
     data: publicSearchSpawnsByKeyword,
@@ -566,6 +590,30 @@ export function CoordinatesProvider({
       return acc;
     }, []);
   }, [isHydrated, myFilters, iconLookups]);
+
+  // My Filters shared over the whiteboard: markers.tsx renders their nodes as
+  // private spawns next to the user's own.
+  const sharedMyFilters = useConnectionStore((state) => state.myFilters);
+
+  // The ids of the custom markers (own and shared), so a tick of one never
+  // greys a static marker next to it and the other way round (coordinates.ts).
+  // Apart from the static ids: editing a custom marker only rebuilds this
+  // small set.
+  const privateNodeIds = useMemo(() => {
+    if (typeof window === "undefined") return null;
+    const known = collectPrivateNodeIds(
+      sharedMyFilters.length === 0
+        ? customNodes
+        : [...customNodes, ...myFiltersNodeSet(sharedMyFilters)],
+    );
+    setPrivateNodeIds(known);
+    return known;
+  }, [customNodes, sharedMyFilters]);
+  useEffect(() => {
+    if (!privateNodeIds) return;
+    setPrivateNodeIds(privateNodeIds);
+    return () => clearPrivateNodeIds(privateNodeIds);
+  }, [privateNodeIds]);
 
   const allFilters = useMemo(() => {
     if (!isHydrated) {

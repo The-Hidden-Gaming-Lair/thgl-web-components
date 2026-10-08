@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import {
   CLAY,
+  CLAY_NODE_ID,
   MAPS,
   filterEnabled,
   markerIds,
@@ -20,6 +21,7 @@ import {
  */
 const FILTER_NAME = "my_e2e_custom";
 const NODE_ID = "e2e-node-1";
+const SHARED_NODE_ID = "e2e-shared-node-1";
 
 const customFilter = () => ({
   name: FILTER_NAME,
@@ -125,5 +127,71 @@ test.describe("my filters", () => {
       .poll(temp)
       .toEqual({ filter: FILTER_NAME, color: "#ff00ff", radius: 8 });
     await expect(dialog.getByRole("button", { name: "#ff00ff" })).toBeVisible();
+  });
+
+  // A whiteboard-shared custom marker counts as a current marker like the
+  // user's own (CoordinatesProvider registers useConnectionStore.myFilters
+  // too): its tick never greys the static Clay marker 0.4 units away, and the
+  // other way round. Before, only the own My Filters were registered.
+  test("a tick of a whiteboard-shared custom marker stays on its marker", async ({
+    page,
+  }) => {
+    await openMap(page, MAPS.kilima);
+    const lat = CLAY.spawn.lat + 0.4;
+    const sharedTick = `${SHARED_NODE_ID}@${lat}:${CLAY.spawn.lng}`;
+    await page.evaluate(
+      ({ lat, lng, mapName, id }) =>
+        (window as any).__thgl.useConnectionStore.getState().setMyFilters([
+          {
+            name: "e2e_shared_custom",
+            nodes: [
+              {
+                id,
+                name: "E2E shared node",
+                icon: null,
+                radius: 8,
+                color: "#00ffff",
+                p: [lat, lng],
+                mapName,
+              },
+            ],
+          },
+        ]),
+      {
+        lat,
+        lng: CLAY.spawn.lng,
+        mapName: MAPS.kilima.key,
+        id: SHARED_NODE_ID,
+      },
+    );
+    await expect
+      .poll(async () => (await markerIds(page)).includes(sharedTick))
+      .toBe(true);
+
+    const isDiscovered = (id: string) =>
+      page.evaluate(
+        (nodeId) =>
+          (window as any).__thgl.useSettingsStore
+            .getState()
+            .isDiscoveredNode(nodeId) as boolean,
+        id,
+      );
+    const setMarks = (marks: string[]) =>
+      page.evaluate(
+        (m) =>
+          (window as any).__thgl.useSettingsStore
+            .getState()
+            .setDiscoveredNodes(m),
+        marks,
+      );
+
+    await setMarks([sharedTick]);
+    expect(await isDiscovered(sharedTick)).toBe(true);
+    expect(await isDiscovered(CLAY_NODE_ID)).toBe(false);
+
+    await setMarks([CLAY_NODE_ID]);
+    expect(await isDiscovered(CLAY_NODE_ID)).toBe(true);
+    expect(await isDiscovered(sharedTick)).toBe(false);
+    await setMarks([]);
   });
 });

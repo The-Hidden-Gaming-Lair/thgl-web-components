@@ -1,4 +1,10 @@
-import { API_FORGE_URL, useGameState, useSettingsStore, cn } from "@repo/lib";
+import {
+  API_FORGE_URL,
+  useGameState,
+  useSettingsStore,
+  cn,
+  withoutUnfilledPlaceholders,
+} from "@repo/lib";
 import { useMemo } from "react";
 import { useT } from "../(providers)";
 import { DescriptionMarkdown } from "./description-markdown";
@@ -355,7 +361,10 @@ function SingleItemTooltip({
           ]),
         )
       : undefined;
-    return t(item.termId, { isDesc: true, fallback: item.type, vars });
+    // Placeholders a spawn without template data cannot fill are not shown.
+    return withoutUnfilledPlaceholders(
+      t(item.termId, { isDesc: true, fallback: item.type, vars }),
+    );
   }, [item, t]);
 
   return (
@@ -467,7 +476,9 @@ function ClusterTooltip({
   // Subscribe to discoveredNodes changes so count updates reactively
   const discoveredNodes = useSettingsStore((state) => state.discoveredNodes);
   const isDiscoveredNode = useSettingsStore((state) => state.isDiscoveredNode);
-  const setDiscoverNode = useSettingsStore((state) => state.setDiscoverNode);
+  const setDiscoveredNodesBulk = useSettingsStore(
+    (state) => state.setDiscoveredNodesBulk,
+  );
 
   const typeName =
     items[0].typeLabel ?? t(items[0].type, { fallback: items[0].type });
@@ -494,16 +505,16 @@ function ClusterTooltip({
           ]),
         )
       : undefined;
-    return t(item.termId, { isDesc: true, fallback: item.type, vars });
+    return withoutUnfilledPlaceholders(
+      t(item.termId, { isDesc: true, fallback: item.type, vars }),
+    );
   }, [items, t]);
 
   const toggleAll = () => {
     const target = !allDiscovered;
-    for (const id of itemIds) {
-      if (isDiscoveredNode(id) !== target) {
-        setDiscoverNode(id, target);
-      }
-    }
+    // One store update (and one removal pass over the marks) for all items.
+    const ids = itemIds.filter((id) => isDiscoveredNode(id) !== target);
+    if (ids.length > 0) setDiscoveredNodesBulk(ids, target);
   };
 
   // Clamp item list height: show ~6 items then scroll

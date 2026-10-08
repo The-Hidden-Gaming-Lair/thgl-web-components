@@ -1,7 +1,11 @@
 import Markdown from "markdown-to-jsx";
 import { useCoordinates, useT } from "../(providers)";
 import { useMemo } from "react";
-import { getSpawnDiscoveryId, useSettingsStore } from "@repo/lib";
+import {
+  getSpawnDiscoveryId,
+  useSettingsStore,
+  withoutUnfilledPlaceholders,
+} from "@repo/lib";
 import { Badge } from "../ui/badge";
 
 export function FilterTooltip({ id }: { id: string }) {
@@ -26,6 +30,12 @@ export function FilterTooltip({ id }: { id: string }) {
     () =>
       filters.some((f) => f.values.some((v) => v.id === id && v.experimental)),
     [filters, id],
+  );
+
+  // A filter description can be a spawn template (Wuthering Waves
+  // `<p>…</p><p>{{area}}</p>{{ctx}}`); the filter has no spawn to fill it.
+  const description = withoutUnfilledPlaceholders(
+    t(id, { isDesc: true, fallback: id }),
   );
 
   const hasTypeIDsMap = typesIdMap && Object.keys(typesIdMap).length > 0;
@@ -94,14 +104,11 @@ export function FilterTooltip({ id }: { id: string }) {
         </p>
       )}
 
-      <div className="text-sm text-muted-foreground [&_a]:text-primary [&_a]:underline">
-        <Markdown>
-          {t(id, {
-            isDesc: true,
-            fallback: id,
-          })}
-        </Markdown>
-      </div>
+      {description && (
+        <div className="text-sm text-muted-foreground [&_a]:text-primary [&_a]:underline">
+          <Markdown>{description}</Markdown>
+        </div>
+      )}
     </div>
   );
 }
