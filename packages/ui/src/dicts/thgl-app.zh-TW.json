@@ -41,7 +41,7 @@
   "settings.languageDesc": "變更隨行應用程式介面的語言",
   "settings.privacy": "隱私",
   "settings.helpImproveMaps": "協助改進地圖（匿名）",
-  "settings.helpImproveMapsDesc": "在我們修正地圖問題時，應用程式可能會傳送它在該位置偵測到的內容（物件類型與位置）。絕不傳送你的名字、帳號或其他玩家的資訊。",
+  "settings.helpImproveMapsDesc": "為修正地圖問題，應用程式可能會傳送它在相關位置偵測到的內容（物件類型與位置）。絕不傳送你的名字、帳號或其他玩家的資訊。",
 
   "settings.infoNote": "各遊戲的自動執行設定可在側邊欄中每個遊戲的頁面進行設定。快捷鍵等應用程式設定可在覆蓋層或桌面視窗中進行設定。",
 

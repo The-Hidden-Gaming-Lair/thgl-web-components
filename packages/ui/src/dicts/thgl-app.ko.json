@@ -41,7 +41,7 @@
   "settings.languageDesc": "컴패니언 앱 인터페이스의 언어를 변경합니다",
   "settings.privacy": "개인정보",
   "settings.helpImproveMaps": "지도 개선에 참여 (익명)",
-  "settings.helpImproveMapsDesc": "지도 문제를 수정할 때 앱이 해당 위치에서 감지한 내용(오브젝트 종류와 위치)을 보낼 수 있습니다. 이름, 계정, 다른 플레이어 정보는 보내지 않습니다.",
+  "settings.helpImproveMapsDesc": "지도 문제를 수정하기 위해 앱이 해당 위치에서 감지한 내용(오브젝트 종류와 위치)을 보낼 수 있습니다. 이름, 계정, 다른 플레이어 정보는 보내지 않습니다.",
 
   "settings.infoNote": "게임별 자동 실행 설정은 사이드바에서 각 게임 페이지에서 구성할 수 있습니다. 단축키 등의 앱 설정은 오버레이 또는 데스크톱 창에서 구성할 수 있습니다.",
 

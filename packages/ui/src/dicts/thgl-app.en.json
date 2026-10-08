@@ -41,7 +41,7 @@
   "settings.languageDesc": "Changes the language for the companion app interface",
   "settings.privacy": "Privacy",
   "settings.helpImproveMaps": "Help improve maps (anonymous)",
-  "settings.helpImproveMapsDesc": "When we fix a map problem, the app may send what it detects at that spot (object types and positions). Never your name, account or other players.",
+  "settings.helpImproveMapsDesc": "To fix map problems, the app may send what it detects at the affected spot (object types and positions). Never your name, account or other players.",
 
   "settings.infoNote": "Game-specific auto-run settings can be configured on each game's page in the sidebar. App settings like hotkeys can be configured in the overlay or desktop windows.",
 

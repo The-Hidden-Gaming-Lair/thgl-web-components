@@ -41,7 +41,7 @@
   "settings.languageDesc": "Cambia el idioma de la interfaz de la aplicación complementaria",
   "settings.privacy": "Privacidad",
   "settings.helpImproveMaps": "Ayudar a mejorar los mapas (anónimo)",
-  "settings.helpImproveMapsDesc": "Cuando corregimos un problema del mapa, la app puede enviar lo que detecta en ese lugar (tipos de objetos y posiciones). Nunca tu nombre, tu cuenta ni otros jugadores.",
+  "settings.helpImproveMapsDesc": "Para corregir problemas del mapa, la app puede enviar lo que detecta en el lugar afectado (tipos de objetos y posiciones). Nunca tu nombre, tu cuenta ni otros jugadores.",
 
   "settings.infoNote": "La configuración de inicio automático por juego se puede ajustar en la página de cada juego en la barra lateral. Opciones como atajos de teclado se pueden configurar en las ventanas de overlay o escritorio.",
 

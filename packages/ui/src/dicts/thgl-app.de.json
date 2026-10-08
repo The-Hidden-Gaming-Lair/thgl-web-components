@@ -41,7 +41,7 @@
   "settings.languageDesc": "Ändert die Sprache der Companion App-Oberfläche",
   "settings.privacy": "Datenschutz",
   "settings.helpImproveMaps": "Karten verbessern helfen (anonym)",
-  "settings.helpImproveMapsDesc": "Wenn wir ein Kartenproblem beheben, kann die App senden, was sie an dieser Stelle erkennt (Objekttypen und Positionen). Nie deinen Namen, dein Konto oder andere Spieler.",
+  "settings.helpImproveMapsDesc": "Um Kartenfehler zu beheben, kann die App senden, was sie an der betroffenen Stelle erkennt (Objekttypen und Positionen). Nie deinen Namen, dein Konto oder andere Spieler.",
 
   "settings.infoNote": "Spielspezifische Autostart-Einstellungen können auf der jeweiligen Spielseite in der Seitenleiste konfiguriert werden. App-Einstellungen wie Tastenkürzel können im Overlay- oder Desktop-Fenster konfiguriert werden.",
 
