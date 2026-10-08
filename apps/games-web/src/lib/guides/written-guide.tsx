@@ -12,6 +12,7 @@ import {
   fetchDatabaseType,
   fetchGuidesIndex,
   fetchVersion,
+  findMixedDbEntries,
   games,
   getIconsUrl,
   getT,
@@ -22,7 +23,11 @@ import { HeaderOffset } from "@repo/ui/header";
 import { ContentLayout } from "@repo/ui/ads";
 import { ArticleMarkdown, type ArticleLinkIcon } from "@repo/ui/content";
 import { MapGuides, PageComments } from "@repo/ui/data";
-import { JSONLDScript } from "@repo/ui/apps";
+import {
+  JSONLDScript,
+  getMixedEntries,
+  MixedEntriesTables,
+} from "@repo/ui/apps";
 import { getFullDbDictionary, getFullDictionary } from "@repo/ui/dicts";
 import { SpriteIcon } from "@/lib/db/sprite-icon";
 import { resolveDict } from "@/lib/db/resolve-dict";
@@ -285,6 +290,21 @@ export async function WrittenGuidePage({
     )
     .slice(0, 6);
 
+  // A map block whose types mix several codex entries found in different places
+  // (`mixedDbEntries`, Palia: Recipe: Fish Stew / Sashimi) shows each entry's own table
+  // instead of a map that sends players to the wrong water.
+  const mixedByBlock = await Promise.all(
+    guide.blocks.map((block) =>
+      block.type === "map"
+        ? getMixedEntries(
+            appConfig,
+            locale,
+            findMixedDbEntries(block.types, filters),
+          )
+        : [],
+    ),
+  );
+
   const renderBlock = (block: GuideBlock, i: number) => {
     switch (block.type) {
       case "md":
@@ -294,6 +314,18 @@ export async function WrittenGuidePage({
           </ArticleMarkdown>
         );
       case "map": {
+        if (mixedByBlock[i].length > 0)
+          return (
+            <MixedEntriesTables
+              key={i}
+              intro={t("guide.mixed", {
+                vars: { guide: block.types.map((type) => t(type)).join(", ") },
+                fallback:
+                  "{{guide}} markers can stand for any of the entries below, so the map would mix their spots. Here is where each one is found:",
+              })}
+              entries={mixedByBlock[i]}
+            />
+          );
         // Multi-map games: open on the map with the most spawns of these types.
         const blockMaps = (block.maps ?? []).filter((m) =>
           tileNames.includes(m),
