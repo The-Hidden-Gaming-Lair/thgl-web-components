@@ -273,9 +273,16 @@ describe("discovered marks", () => {
 
   /** Registers the static markers of a test map: [type, id | undefined, p]. */
   const knownMap = (
-    spawns: [string, string | undefined, [number, number]][],
+    spawns: [
+      string,
+      string | undefined,
+      [number, number] | [number, number, number],
+    ][],
   ) => {
-    const byType = new Map<string, { id?: string; p: [number, number] }[]>();
+    const byType = new Map<
+      string,
+      { id?: string; p: [number, number] | [number, number, number] }[]
+    >();
     for (const [type, id, p] of spawns) {
       const list = byType.get(type) ?? [];
       list.push(id === undefined ? { p } : { id, p });
@@ -317,6 +324,136 @@ describe("discovered marks", () => {
           "Floral Cloth@12250:9.999999974752427e-7",
         ]),
       ).toBe(true);
+    });
+  });
+
+  describe("a static id with three numbers and its live marker", () => {
+    // Infinity Nikki: the static id carries x:y:z, the live actor id is
+    // `type@x.toFixed(2):y.toFixed(2)`.
+    const bells: [string, string, [number, number, number]][] = [
+      [
+        "Wanxiang Bell",
+        "Wanxiang Bell@94086:121471:53062.90625",
+        [94086, 121471, 53062.90625],
+      ],
+      [
+        "Wanxiang Bell",
+        "Wanxiang Bell@100848.3828125:122755.1015625:53353.2890625",
+        [100848.3828125, 122755.1015625, 53353.2890625],
+      ],
+    ];
+    const pairs: [staticId: string, liveId: string][] = [
+      [
+        "Wanxiang Bell@94086:121471:53062.90625",
+        "Wanxiang Bell@94086.00:121471.00",
+      ],
+      [
+        "Wanxiang Bell@100848.3828125:122755.1015625:53353.2890625",
+        "Wanxiang Bell@100848.38:122755.10",
+      ],
+    ];
+
+    it("a tick of the static marker greys its live marker", () => {
+      knownMap(bells);
+      for (const [staticId, liveId] of pairs)
+        expect(discovered(liveId, [staticId])).toBe(true);
+    });
+
+    it("also with no static ids registered", () => {
+      for (const [staticId, liveId] of pairs)
+        expect(discovered(liveId, [staticId])).toBe(true);
+    });
+
+    it("unticking the live marker removes the static mark", () => {
+      knownMap(bells);
+      for (const [staticId, liveId] of pairs)
+        expect(removeDiscoveredMatches([staticId], [liveId])).toEqual([]);
+    });
+
+    it("the 2-decimal x:y has no grid match and no swapped reading", () => {
+      knownMap(bells);
+      const mark = "Wanxiang Bell@100848.3828125:122755.1015625:53353.2890625";
+      // 0.5 units away: a live actor of another node, not this bell
+      expect(discovered("Wanxiang Bell@100848.88:122755.10", [mark])).toBe(
+        false,
+      );
+      // the legacy z:x reading of x:y
+      expect(discovered("Wanxiang Bell@122755.10:100848.38", [mark])).toBe(
+        false,
+      );
+    });
+
+    it("the 2-decimal x:y never greys a current marker of the same filter", () => {
+      // A 3-part mark from an older data version and a current 2-part
+      // static marker at its x:y: two markers, not one node.
+      knownMap([
+        ["Wanxiang Bell", "Wanxiang Bell@94086.00:121471.00", [94086, 121471]],
+      ]);
+      expect(
+        discovered("Wanxiang Bell@94086.00:121471.00", [
+          "Wanxiang Bell@94086:121471:53062.90625",
+        ]),
+      ).toBe(false);
+    });
+
+    describe("never joins two current markers", () => {
+      beforeEach(() =>
+        knownMap([
+          [
+            "faction_quest",
+            "faction_quest@-10606.27:-1748.08:0",
+            [-10606.27, -1748.08, 0],
+          ],
+          [
+            "faction_quest",
+            "faction_quest@-10606.27:-1748.08:1",
+            [-10606.27, -1748.08, 1],
+          ],
+          [
+            "faction_quest",
+            "faction_quest@-10606.27:-1748.08:2",
+            [-10606.27, -1748.08, 2],
+          ],
+          [
+            "main_quest",
+            "main_quest@-10606.27:-1748.08",
+            [-10606.27, -1748.08],
+          ],
+        ]),
+      );
+      const mark = "faction_quest@-10606.27:-1748.08:0";
+
+      it("x:y:0 does not grey x:y:1, x:y:2 or the 2-part marker there", () => {
+        expect(discovered("faction_quest@-10606.27:-1748.08:1", [mark])).toBe(
+          false,
+        );
+        expect(discovered("faction_quest@-10606.27:-1748.08:2", [mark])).toBe(
+          false,
+        );
+        expect(discovered("main_quest@-10606.27:-1748.08", [mark])).toBe(false);
+      });
+
+      it("x:y:0 does not grey another filter's live marker there", () => {
+        knownMap([
+          [
+            "faction_quest",
+            "faction_quest@-10606.27:-1748.08:0",
+            [-10606.27, -1748.08, 0],
+          ],
+          [
+            "faction_quest",
+            "faction_quest@-10606.27:-1748.08:1",
+            [-10606.27, -1748.08, 1],
+          ],
+          [
+            "faction_quest",
+            "faction_quest@-10606.27:-1748.08:2",
+            [-10606.27, -1748.08, 2],
+          ],
+          ["main_quest", "main_quest@-10000:-1000", [-10000, -1000]],
+        ]);
+        expect(discovered("main_quest@-10606.27:-1748.08", [mark])).toBe(false);
+      });
     });
   });
 

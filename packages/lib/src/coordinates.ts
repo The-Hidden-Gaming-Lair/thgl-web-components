@@ -645,6 +645,8 @@ type MarkEntry = {
   id: string;
   /** Entry is the swapped (legacy z:x) reading of the mark. */
   swapped?: boolean;
+  /** Entry is the 2-decimal x:y of a 3-part mark; stands in only for an id that is not a current marker (a live actor). */
+  projected?: boolean;
 };
 type MarkPoint = [x: number, y: number, entry: MarkEntry];
 
@@ -719,6 +721,17 @@ export const buildDiscoveryLookup = (discoveredNodes: string[]) => {
     // (a live actor at toFixed(2)) matches the same node addressed at another
     // (its full-precision static/predicted id).
     addCoords(normalizeNodeCoords(tail), entry);
+    // A third number is part of the identity, but a live id is
+    // `type@x.toFixed(2):y.toFixed(2)`: index the mark's 2-decimal x:y too, so
+    // a tick of the static marker still greys its live marker (as before the
+    // strict match). Only for an id that is not a current marker (see
+    // crossIdAllowed); not in the grid and without a swapped reading.
+    if (coords.length > 2)
+      addCoords(`${coords[0].toFixed(2)}:${coords[1].toFixed(2)}`, {
+        mark,
+        id,
+        projected: true,
+      });
     if (coords.length !== 2) continue;
     const [a, b] = coords;
     addPoint(a, b, entry);
@@ -817,6 +830,8 @@ const crossIdAllowed = (q: string, entry: MarkEntry): boolean => {
   // A swapped (legacy z:x) reading only exists for old ids.
   if (entry.swapped && markType !== undefined) return false;
   const qType = currentTypeOf(q);
+  // The projected x:y of a 3-part mark never joins two current markers.
+  if (entry.projected && qType !== undefined) return false;
   if (qType !== undefined && markType !== undefined)
     // Two current static ids are two markers (CHOICE 1).
     return (
