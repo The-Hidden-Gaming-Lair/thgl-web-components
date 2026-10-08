@@ -6,6 +6,7 @@ import {
   collectDoneWhenAllRules,
   collectKnownNodeIds,
   collectPrivateNodeIds,
+  createDiscoveryLookupCache,
   dbEntryIdOf,
   getDoneWhenAllVersion,
   getNodeId,
@@ -1169,5 +1170,78 @@ describe("focus-gated spawns (data.focusMode / focusWhenAny)", () => {
       show(objective, { filterOn: false, selectedNodeId: objective.nodeId }),
     ).toBe(true);
     expect(show(objective, { selectedNodeId: "other@1:2" })).toBe(false);
+  });
+});
+
+describe("createDiscoveryLookupCache", () => {
+  const counted = () => {
+    const builds: string[][] = [];
+    const cache = createDiscoveryLookupCache((marks) => {
+      builds.push(marks);
+      return buildDiscoveryLookup(marks);
+    });
+    return { cache, builds };
+  };
+  const chests = (xs: number[]) =>
+    collectKnownNodeIds([
+      {
+        type: "chest",
+        spawns: xs.map((x) => ({ p: [x, 20] as [number, number] })),
+      },
+    ]);
+
+  afterEach(() => {
+    setKnownNodeIds({ ids: new Map(), types: new Set() });
+    setPrivateNodeIds({ ids: new Map(), types: new Set() });
+    setDoneWhenAllRules(new Map());
+  });
+
+  it("builds the index once per marks array", () => {
+    const { cache, builds } = counted();
+    const marks = ["chest@10.5:20"];
+    const lookup = cache.lookup(marks);
+    expect(cache.lookup(marks)).toBe(lookup);
+    cache.isDiscovered(marks, "chest@10.5:20");
+    expect(builds).toHaveLength(1);
+    const next = [...marks, "chest@99:20"];
+    expect(cache.lookup(next)).not.toBe(lookup);
+    expect(builds).toEqual([marks, next]);
+  });
+
+  it("a rules version bump keeps the index and drops the results", () => {
+    const { cache, builds } = counted();
+    const marks = ["chest@10.5:20"];
+    // No static ids registered: one filter's ids match within 1 unit.
+    expect(cache.isDiscovered(marks, "chest@10.9:20")).toBe(true);
+    const lookup = cache.lookup(marks);
+
+    // The registry set after the build gates: two current markers.
+    const before = getDoneWhenAllVersion();
+    setKnownNodeIds(chests([10.5, 10.9]));
+    expect(getDoneWhenAllVersion()).toBe(before + 1);
+    expect(cache.isDiscovered(marks, "chest@10.9:20")).toBe(false);
+    expect(cache.isDiscovered(marks, "chest@10.5:20")).toBe(true);
+    expect(cache.lookup(marks)).toBe(lookup);
+
+    // A custom marker 0.4 units away: an unknown id until My Filters
+    // registers it, then its own marker.
+    setKnownNodeIds(chests([10.5]));
+    expect(cache.isDiscovered(marks, "my_pin@10.9:20")).toBe(true);
+    setPrivateNodeIds(
+      collectPrivateNodeIds([
+        {
+          type: "my_pins",
+          spawns: [{ id: "my_pin@10.9:20", isPrivate: true, p: [10.9, 20] }],
+        },
+      ]),
+    );
+    expect(cache.isDiscovered(marks, "my_pin@10.9:20")).toBe(false);
+
+    // Done-when-all rules set after the build count.
+    expect(cache.isDiscovered(marks, "giver@npc")).toBe(false);
+    setDoneWhenAllRules(new Map([["giver@npc", ["chest@10.5:20"]]]));
+    expect(cache.isDiscovered(marks, "giver@npc")).toBe(true);
+
+    expect(builds).toHaveLength(1);
   });
 });

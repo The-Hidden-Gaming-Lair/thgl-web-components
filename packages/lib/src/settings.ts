@@ -2,9 +2,7 @@ import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
 import { useAccountStore } from "./account";
 import {
-  buildDiscoveryLookup,
-  checkNodeDiscovered,
-  getDoneWhenAllVersion,
+  createDiscoveryLookupCache,
   removeDiscoveredMatches,
   type DiscoverMode,
 } from "./coordinates";
@@ -1107,56 +1105,15 @@ function stripTombstonedFromProfiles(profiles: Profile[]): Profile[] {
   return stripTombstonedFromProfilesWith(profiles, isFilterTombstoned);
 }
 
-// Cache for isDiscoveredNode results - invalidated when discoveredNodes changes
-let discoveredCache: Map<string, boolean> | null = null;
-let discoveryLookup: ReturnType<typeof buildDiscoveryLookup> | null = null;
-let cachedDiscoveredNodes: string[] | null = null;
-// Parallel cache for isAutoDiscoveredNode (auto-discovered-from-memory subset).
-let autoDiscoveredCache: Map<string, boolean> | null = null;
-let autoDiscoveryLookup: ReturnType<typeof buildDiscoveryLookup> | null = null;
-let cachedAutoDiscoveredNodes: string[] | null = null;
-// Both caches also depend on the loaded markers' done-when-all rules
-// (coordinates.ts), which change with the map, not with discoveredNodes.
-let cachedRulesVersion = -1;
-let cachedAutoRulesVersion = -1;
-
-/**
- * The shared lookup of `discoveredNodes` (built once per array, like the
- * isDiscoveredNode result cache it resets), so an untick reuses it instead of
- * indexing every mark again.
- */
-function getDiscoveryLookup(
-  discoveredNodes: string[],
-): ReturnType<typeof buildDiscoveryLookup> {
-  if (
-    !discoveryLookup ||
-    cachedDiscoveredNodes !== discoveredNodes ||
-    cachedRulesVersion !== getDoneWhenAllVersion()
-  ) {
-    cachedDiscoveredNodes = discoveredNodes;
-    cachedRulesVersion = getDoneWhenAllVersion();
-    discoveredCache = new Map();
-    discoveryLookup = buildDiscoveryLookup(discoveredNodes);
-  }
-  return discoveryLookup;
-}
-
-/** The same for `autoDiscoveredNodes` (isAutoDiscoveredNode). */
-function getAutoDiscoveryLookup(
-  autoDiscoveredNodes: string[],
-): ReturnType<typeof buildDiscoveryLookup> {
-  if (
-    !autoDiscoveryLookup ||
-    cachedAutoDiscoveredNodes !== autoDiscoveredNodes ||
-    cachedAutoRulesVersion !== getDoneWhenAllVersion()
-  ) {
-    cachedAutoDiscoveredNodes = autoDiscoveredNodes;
-    cachedAutoRulesVersion = getDoneWhenAllVersion();
-    autoDiscoveredCache = new Map();
-    autoDiscoveryLookup = buildDiscoveryLookup(autoDiscoveredNodes);
-  }
-  return autoDiscoveryLookup;
-}
+// The shared lookup of `discoveredNodes` and the isDiscoveredNode result cache:
+// the lookup is built once per array (an untick reuses it instead of indexing
+// every mark again), the results are also dropped when the discovery rules
+// change (map switch, My Filters edit; see createDiscoveryLookupCache).
+const discoveredLookupCache = createDiscoveryLookupCache();
+// The same for `autoDiscoveredNodes` (isAutoDiscoveredNode).
+const autoDiscoveredLookupCache = createDiscoveryLookupCache();
+const getDiscoveryLookup = discoveredLookupCache.lookup;
+const getAutoDiscoveryLookup = autoDiscoveredLookupCache.lookup;
 // In-memory miss counters of applyGameReportedSet (NOT persisted), keyed by
 // profile + set: how many consecutive reports each owned id was missing from.
 const gameReportedMisses = new Map<string, Map<string, number>>();
@@ -1532,37 +1489,19 @@ export const useSettingsStore = create(
             });
           },
 
-          isDiscoveredNode: (nodeId) => {
-            const state = get();
-            const discoveredNodes = state.discoveredNodes;
-
-            // Invalidate cache and rebuild the shared lookup if discoveredNodes
-            // changed. Matching (exact / base-id / coordinate-with-tolerance)
-            // lives in coordinates.ts so this selector, the marker render path,
-            // and the discover/undiscover writes all agree.
-            const lookup = getDiscoveryLookup(discoveredNodes);
-
-            // Return cached result if available
-            const cached = discoveredCache!.get(nodeId);
-            if (cached !== undefined) {
-              return cached;
-            }
-
-            const result = checkNodeDiscovered(nodeId, lookup);
-            discoveredCache!.set(nodeId, result);
-            return result;
-          },
+          // Matching (exact / base-id / coordinate-with-tolerance) lives in
+          // coordinates.ts so this selector, the marker render path, and the
+          // discover/undiscover writes all agree.
+          isDiscoveredNode: (nodeId) =>
+            discoveredLookupCache.isDiscovered(get().discoveredNodes, nodeId),
 
           isAutoDiscoveredNode: (nodeId) => {
-            const state = get();
-            const autoDiscoveredNodes = state.autoDiscoveredNodes;
+            const autoDiscoveredNodes = get().autoDiscoveredNodes;
             if (autoDiscoveredNodes.length === 0) return false;
-            const lookup = getAutoDiscoveryLookup(autoDiscoveredNodes);
-            const cached = autoDiscoveredCache!.get(nodeId);
-            if (cached !== undefined) return cached;
-            const result = checkNodeDiscovered(nodeId, lookup);
-            autoDiscoveredCache!.set(nodeId, result);
-            return result;
+            return autoDiscoveredLookupCache.isDiscovered(
+              autoDiscoveredNodes,
+              nodeId,
+            );
           },
 
           toggleDiscoveredNode: (nodeId: string) => {

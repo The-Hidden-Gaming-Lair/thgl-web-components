@@ -1234,3 +1234,48 @@ export const removeDiscoveredMatches = (
   );
   return kept.length === discoveredNodes.length ? discoveredNodes : kept;
 };
+
+/**
+ * A lookup of one marks array plus a result cache of the discovered checks
+ * against it (settings.isDiscoveredNode / isAutoDiscoveredNode and their
+ * unticks). The index ({@link buildDiscoveryLookup}) holds only the marks, no
+ * rules state: the known static ids, the custom marker ids and the
+ * done-when-all rules are read per query. So it is rebuilt only when the marks
+ * ARRAY changes; a rules version bump (every map switch and every My Filters
+ * edit, see {@link getDoneWhenAllVersion}) only clears the results (Dune
+ * Awakening: re-indexing 177k marks took ~0.5 s after each switch).
+ * `build` is injectable for tests.
+ */
+export const createDiscoveryLookupCache = (
+  build: (marks: string[]) => DiscoveryLookup = buildDiscoveryLookup,
+) => {
+  let marks: string[] | null = null;
+  let lookup: DiscoveryLookup | null = null;
+  let results = new Map<string, boolean>();
+  let rulesVersion = -1;
+  const get = (current: string[]): DiscoveryLookup => {
+    if (!lookup || marks !== current) {
+      marks = current;
+      lookup = build(current);
+      results = new Map();
+      rulesVersion = discoveryRulesVersion;
+    } else if (rulesVersion !== discoveryRulesVersion) {
+      results = new Map();
+      rulesVersion = discoveryRulesVersion;
+    }
+    return lookup;
+  };
+  return {
+    /** The lookup of `current` (built once per array). */
+    lookup: get,
+    /** {@link checkNodeDiscovered} against `current`, cached per node id. */
+    isDiscovered: (current: string[], nodeId: string): boolean => {
+      const l = get(current);
+      const cached = results.get(nodeId);
+      if (cached !== undefined) return cached;
+      const result = checkNodeDiscovered(nodeId, l);
+      results.set(nodeId, result);
+      return result;
+    },
+  };
+};
