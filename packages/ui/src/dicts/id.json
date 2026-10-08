@@ -125,6 +125,7 @@
   "guide.subtitle": "{{guide}} - Panduan",
   "guide.description": "Temukan semua lokasi {{guide}} di {{title}}. Gunakan peta interaktif untuk menemukan titik spawn, menandai progres, dan mendapatkan tips untuk setiap item.",
   "guide.spawns": "Panduan ini mencantumkan {{spawns}} {{guide}} yang diketahui di {{maps}} peta. Gunakan pelacak peta di bawah atau soroti koordinat secara langsung.",
+  "guide.mixed": "Penanda {{guide}} bisa berarti entri mana pun di bawah, jadi peta akan mencampur lokasinya. Berikut tempat masing-masing ditemukan:",
   "guide.mapProgress.title": "Pelacak Progres {{map}}",
   "guide.mapProgress.full": "Tampilkan Peta {{map}} Penuh",
   "guide.mapProgress.description": "Lacak penemuan dan progresmu untuk setiap spawn. Klik kanan pada ikon di peta untuk menandainya sebagai ditemukan atau belum ditemukan.",

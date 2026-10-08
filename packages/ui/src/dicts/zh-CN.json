@@ -125,6 +125,7 @@
   "guide.subtitle": "{{guide}} - 指南",
   "guide.description": "发现 {{title}} 中所有 {{guide}} 的位置。使用互动地图查找刷新点、记录进度并获取每个物品的提示。",
   "guide.spawns": "本指南列出了分布于 {{maps}} 张地图上的 {{spawns}} 个已知 {{guide}}。可使用下方地图追踪器或直接高亮坐标。",
+  "guide.mixed": "{{guide}} 标记可能代表下面任意一项，因此地图会把它们的位置混在一起。以下是每一项的获取地点：",
   "guide.mapProgress.title": "{{map}} 进度追踪器",
   "guide.mapProgress.full": "显示 {{map}} 全图",
   "guide.mapProgress.description": "追踪每个刷新点的发现情况和进度。右键点击地图上的图标可标记为已发现或未发现。",

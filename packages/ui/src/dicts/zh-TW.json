@@ -125,6 +125,7 @@
   "guide.subtitle": "{{guide}} - 攻略",
   "guide.description": "探索 {{title}} 中所有 {{guide}} 的位置。使用互動地圖找出重生點、記錄進度，並取得每項物品的提示。",
   "guide.spawns": "本攻略列出分布於 {{maps}} 張地圖上的 {{spawns}} 個已知 {{guide}}。請使用下方的地圖追蹤器或直接標註座標。",
+  "guide.mixed": "{{guide}} 標記可能代表下面任一項，因此地圖會把它們的位置混在一起。以下是每一項的取得地點：",
   "guide.mapProgress.title": "{{map}} 進度追蹤器",
   "guide.mapProgress.full": "顯示 {{map}} 全圖",
   "guide.mapProgress.description": "追蹤每個重生點的探索狀態。右鍵點擊地圖上的圖示即可標記為已發現或未發現。",

@@ -125,6 +125,7 @@
   "guide.subtitle": "{{guide}} - Rehber",
   "guide.description": "{{title}} içinde tüm {{guide}} konumlarını keşfedin. Çıkma noktalarını bulun, ilerlemenizi işaretleyin ve her öğe için ipuçları alın.",
   "guide.spawns": "Bu rehber {{maps}} haritada {{spawns}} bilinen {{guide}} konumunu listeler. Aşağıdaki harita takipçisini kullanabilir veya koordinatları doğrudan vurgulayabilirsiniz.",
+  "guide.mixed": "{{guide}} işaretleri aşağıdaki girişlerden herhangi biri olabilir, bu yüzden harita konumlarını karıştırırdı. Her birinin bulunduğu yer:",
   "guide.mapProgress.title": "{{map}} İlerleme Takibi",
   "guide.mapProgress.full": "Tam {{map}} Haritasını Göster",
   "guide.mapProgress.description": "Her çıkma noktası için keşiflerinizi ve ilerlemenizi takip edin. Haritadaki simgeye sağ tıklayarak keşfedildi ya da keşfedilmedi olarak işaretleyebilirsiniz.",

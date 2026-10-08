@@ -125,6 +125,7 @@
   "guide.subtitle": "{{guide}} - Guia",
   "guide.description": "Descubra todas as localizações de {{guide}} em {{title}}. Use o mapa interativo para encontrar pontos de surgimento, acompanhar o progresso e obter dicas de cada item.",
   "guide.spawns": "Este guia lista {{spawns}} {{guide}} conhecidos em {{maps}} mapas. Use o rastreador abaixo ou destaque as coordenadas diretamente.",
+  "guide.mixed": "Os marcadores de {{guide}} podem ser qualquer uma das entradas abaixo, então o mapa misturaria os locais. Veja onde cada uma é encontrada:",
   "guide.mapProgress.title": "Rastreador de Progresso de {{map}}",
   "guide.mapProgress.full": "Mostrar Mapa Completo de {{map}}",
   "guide.mapProgress.description": "Acompanhe suas descobertas e progresso para cada surgimento. Clique com o botão direito no ícone do mapa para marcar como descoberto ou não descoberto.",

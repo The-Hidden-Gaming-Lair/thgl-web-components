@@ -125,6 +125,7 @@
   "guide.subtitle": "{{guide}} - Guida",
   "guide.description": "Scopri tutte le posizioni di {{guide}} in {{title}}. Usa la mappa interattiva per trovare i punti di spawn, tracciare i progressi e ottenere consigli per ogni oggetto.",
   "guide.spawns": "Questa guida elenca {{spawns}} {{guide}} conosciuti su {{maps}} mappe. Usa il tracciatore sottostante o evidenzia direttamente le coordinate.",
+  "guide.mixed": "I segnalini {{guide}} possono indicare una qualsiasi delle voci qui sotto, quindi la mappa mescolerebbe i loro punti. Ecco dove si trova ciascuna:",
   "guide.mapProgress.title": "Tracciamento Progressi di {{map}}",
   "guide.mapProgress.full": "Mostra Mappa Completa di {{map}}",
   "guide.mapProgress.description": "Traccia le tue scoperte e i progressi per ogni spawn. Clicca con il tasto destro sull'icona nella mappa per marcarla come scoperta o meno.",

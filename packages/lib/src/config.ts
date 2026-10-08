@@ -1306,6 +1306,11 @@ export type FiltersConfig = {
     rangeRadius?: number;
     // Hex colour (#RRGGBB) of the footprint outlines (`spawn.shape`) of this type's markers.
     shapeColor?: string;
+    // Codex entries this ONE marker type stands for when the game can't tell them apart and
+    // each is found somewhere else (Palia: Recipe: Fish Stew = Bahari ocean, Recipe: Sashimi
+    // = Bahari rivers, one fishing blueprint). The markers mix their spots, so the type's
+    // guide page shows each entry's own table instead of the map.
+    mixedDbEntries?: { section: string; id: string }[];
   }[];
 }[];
 

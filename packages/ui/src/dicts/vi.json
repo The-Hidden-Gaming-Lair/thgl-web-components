@@ -125,6 +125,7 @@
   "guide.subtitle": "{{guide}} - Hướng dẫn",
   "guide.description": "Khám phá tất cả địa điểm {{guide}} trong {{title}}. Dùng bản đồ tương tác để tìm điểm xuất hiện, đánh dấu tiến trình và nhận mẹo cho từng vật phẩm.",
   "guide.spawns": "Hướng dẫn này liệt kê {{spawns}} {{guide}} đã biết trên {{maps}} bản đồ. Dùng trình theo dõi bản đồ bên dưới hoặc làm nổi bật tọa độ trực tiếp.",
+  "guide.mixed": "Điểm đánh dấu {{guide}} có thể là bất kỳ mục nào bên dưới, nên bản đồ sẽ trộn lẫn vị trí của chúng. Đây là nơi tìm thấy từng mục:",
   "guide.mapProgress.title": "Trình theo dõi tiến trình {{map}}",
   "guide.mapProgress.full": "Hiện bản đồ {{map}} đầy đủ",
   "guide.mapProgress.description": "Theo dõi các khám phá và tiến trình của bạn cho mỗi điểm xuất hiện. Nhấp chuột phải vào biểu tượng trên bản đồ để đánh dấu là đã khám phá hoặc chưa khám phá.",

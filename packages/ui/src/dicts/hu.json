@@ -125,6 +125,7 @@
   "guide.subtitle": "{{guide}} – Útmutató",
   "guide.description": "Fedezd fel az összes {{guide}} helyszínt a(z) {{title}} játékban. Használd az interaktív térképet a spawn pontok megtalálásához, a haladás jelöléséhez és tippekhez.",
   "guide.spawns": "Ez az útmutató {{spawns}} ismert {{guide}} elemet tartalmaz {{maps}} térképen. Használd az alábbi térkép-nyomkövetőt, vagy jelöld ki közvetlenül a koordinátákat.",
+  "guide.mixed": "A(z) {{guide}} jelölők az alábbi bejegyzések bármelyikét jelenthetik, ezért a térkép összekeverné a helyeiket. Itt látod, hol található mindegyik:",
   "guide.mapProgress.title": "{{map}} haladáskövetés",
   "guide.mapProgress.full": "Teljes {{map}} térkép megjelenítése",
   "guide.mapProgress.description": "Kövesd nyomon a felfedezéseidet és a haladásodat minden spawn pontnál. Kattints jobb gombbal a térképen lévő ikonra a felfedezett/nem felfedezett jelöléshez.",

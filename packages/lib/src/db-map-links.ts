@@ -157,6 +157,32 @@ export function findDbEntriesForFilterTypes({
 }
 
 /**
+ * The codex entries a guide's filter types mix (`mixedDbEntries`: one marker type for several
+ * entries found in different places), deduped, in filter order. Non-empty → the guide shows
+ * each entry's own table instead of a map whose spots belong to different entries.
+ */
+export function findMixedDbEntries(
+  typeIds: string[],
+  filters: FiltersConfig,
+): { section: string; id: string }[] {
+  const wanted = new Set(typeIds);
+  const seen = new Set<string>();
+  const refs: { section: string; id: string }[] = [];
+  for (const f of filters) {
+    for (const v of f.values) {
+      if (!wanted.has(v.id)) continue;
+      for (const ref of v.mixedDbEntries ?? []) {
+        const key = `${ref.section}/${ref.id}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        refs.push(ref);
+      }
+    }
+  }
+  return refs;
+}
+
+/**
  * Map filter types for a DB entry (declared links first, then names). Types
  * that never plot markers (`no_map_markers`) are skipped.
  */
