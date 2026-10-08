@@ -597,6 +597,7 @@
   "db.craftableAt": "製作場所",
   "db.craftedFrom": "素材",
   "db.usedToCraft": "使用先",
+  "db.products": "生産物",
   "db.drops": "ドロップ",
   "db.droppedBy": "ドロップ元",
   "db.details": "詳細",

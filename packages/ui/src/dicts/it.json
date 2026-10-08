@@ -597,6 +597,7 @@
   "db.craftableAt": "Craftabile presso",
   "db.craftedFrom": "Craftato con",
   "db.usedToCraft": "Usato per craftare",
+  "db.products": "Prodotti",
   "db.drops": "Drop",
   "db.droppedBy": "Droppato da",
   "db.details": "Dettagli",

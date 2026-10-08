@@ -597,6 +597,7 @@
   "db.craftableAt": "Üretim Yeri",
   "db.craftedFrom": "Malzemeler",
   "db.usedToCraft": "Kullanıldığı Tarifler",
+  "db.products": "Ürünler",
   "db.drops": "Düşürdükleri",
   "db.droppedBy": "Düşüren",
   "db.details": "Detaylar",

@@ -597,6 +597,7 @@
   "db.craftableAt": "Vyrobitelné u",
   "db.craftedFrom": "Vyrobeno z",
   "db.usedToCraft": "Použito k výrobě",
+  "db.products": "Produkty",
   "db.drops": "Kořist",
   "db.droppedBy": "Padá z",
   "db.details": "Podrobnosti",

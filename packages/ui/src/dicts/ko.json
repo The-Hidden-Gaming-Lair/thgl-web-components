@@ -597,6 +597,7 @@
   "db.craftableAt": "제작 장소",
   "db.craftedFrom": "재료",
   "db.usedToCraft": "사용처",
+  "db.products": "생산품",
   "db.drops": "드롭",
   "db.droppedBy": "드롭 출처",
   "db.details": "상세 정보",

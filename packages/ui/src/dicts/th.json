@@ -597,6 +597,7 @@
   "db.craftableAt": "คราฟต์ได้ที่",
   "db.craftedFrom": "คราฟต์จาก",
   "db.usedToCraft": "ใช้คราฟต์",
+  "db.products": "ผลผลิต",
   "db.drops": "ดรอป",
   "db.droppedBy": "ดรอปโดย",
   "db.details": "รายละเอียด",
