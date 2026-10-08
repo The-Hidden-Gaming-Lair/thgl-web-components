@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.maps-Sanctuary.description": "실시간 위치 추적과 함께 디아블로 4 인터랙티브 지도를 탐험하세요. 릴리트의 제단, 던전, 우두머리, 이벤트 등을 찾아보세요.",
+  "config.internalLinks.maps-Sanctuary.linkText": "지도 탐험하기",
+  "config.internalLinks.aspects.title": "위상",
+  "config.internalLinks.aspects.description": "힘의 전서에 있는 600개 이상의 전설 위상. 직업과 유형별로 필터링할 수 있습니다.",
+  "config.internalLinks.aspects.linkText": "위상 보기",
+  "config.internalLinks.uniques.title": "고유 아이템",
+  "config.internalLinks.uniques.description": "디아블로 IV의 모든 고유 아이템과 직업 제한, 아이템 유형, 고유 위력 설명.",
+  "config.internalLinks.uniques.linkText": "고유 아이템 보기",
+  "config.db.heroSubtitle": "게임 데이터베이스"
+}

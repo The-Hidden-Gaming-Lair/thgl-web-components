@@ -34,6 +34,112 @@ const globalDictionaries = {
 
 // App-specific dictionaries per locale
 const appDictionaries = {
+  "dragonsword-awakening": {
+    en: () =>
+      import("./dragonsword-awakening.en.json").then((mod) => mod.default),
+    ja: () =>
+      import("./dragonsword-awakening.ja.json").then((mod) => mod.default),
+    ko: () =>
+      import("./dragonsword-awakening.ko.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./dragonsword-awakening.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./dragonsword-awakening.zh-TW.json").then((mod) => mod.default),
+    de: () =>
+      import("./dragonsword-awakening.de.json").then((mod) => mod.default),
+    fr: () =>
+      import("./dragonsword-awakening.fr.json").then((mod) => mod.default),
+    es: () =>
+      import("./dragonsword-awakening.es.json").then((mod) => mod.default),
+    pt: () =>
+      import("./dragonsword-awakening.pt.json").then((mod) => mod.default),
+    ru: () =>
+      import("./dragonsword-awakening.ru.json").then((mod) => mod.default),
+    th: () =>
+      import("./dragonsword-awakening.th.json").then((mod) => mod.default),
+  },
+  "delta-force": {
+    en: () => import("./delta-force.en.json").then((mod) => mod.default),
+    de: () => import("./delta-force.de.json").then((mod) => mod.default),
+    es: () => import("./delta-force.es.json").then((mod) => mod.default),
+    fr: () => import("./delta-force.fr.json").then((mod) => mod.default),
+    ja: () => import("./delta-force.ja.json").then((mod) => mod.default),
+    ko: () => import("./delta-force.ko.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./delta-force.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./delta-force.ru.json").then((mod) => mod.default),
+    th: () => import("./delta-force.th.json").then((mod) => mod.default),
+    tr: () => import("./delta-force.tr.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./delta-force.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./delta-force.zh-TW.json").then((mod) => mod.default),
+  },
+  "crimson-desert": {
+    en: () => import("./crimson-desert.en.json").then((mod) => mod.default),
+    ko: () => import("./crimson-desert.ko.json").then((mod) => mod.default),
+    ja: () => import("./crimson-desert.ja.json").then((mod) => mod.default),
+    fr: () => import("./crimson-desert.fr.json").then((mod) => mod.default),
+    de: () => import("./crimson-desert.de.json").then((mod) => mod.default),
+    it: () => import("./crimson-desert.it.json").then((mod) => mod.default),
+    pl: () => import("./crimson-desert.pl.json").then((mod) => mod.default),
+    "pt-BR": () =>
+      import("./crimson-desert.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./crimson-desert.ru.json").then((mod) => mod.default),
+    es: () => import("./crimson-desert.es.json").then((mod) => mod.default),
+    tr: () => import("./crimson-desert.tr.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./crimson-desert.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./crimson-desert.zh-TW.json").then((mod) => mod.default),
+  },
+  diablo4: {
+    en: () => import("./diablo4.en.json").then((mod) => mod.default),
+    de: () => import("./diablo4.de.json").then((mod) => mod.default),
+    es: () => import("./diablo4.es.json").then((mod) => mod.default),
+    "es-MX": () => import("./diablo4.es-MX.json").then((mod) => mod.default),
+    fr: () => import("./diablo4.fr.json").then((mod) => mod.default),
+    it: () => import("./diablo4.it.json").then((mod) => mod.default),
+    ja: () => import("./diablo4.ja.json").then((mod) => mod.default),
+    ko: () => import("./diablo4.ko.json").then((mod) => mod.default),
+    pl: () => import("./diablo4.pl.json").then((mod) => mod.default),
+    "pt-BR": () => import("./diablo4.pt-BR.json").then((mod) => mod.default),
+    ru: () => import("./diablo4.ru.json").then((mod) => mod.default),
+    tr: () => import("./diablo4.tr.json").then((mod) => mod.default),
+    "zh-CN": () => import("./diablo4.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () => import("./diablo4.zh-TW.json").then((mod) => mod.default),
+  },
+  "chrono-odyssey": {
+    en: () => import("./chrono-odyssey.en.json").then((mod) => mod.default),
+    ja: () => import("./chrono-odyssey.ja.json").then((mod) => mod.default),
+    ko: () => import("./chrono-odyssey.ko.json").then((mod) => mod.default),
+    "zh-CN": () =>
+      import("./chrono-odyssey.zh-CN.json").then((mod) => mod.default),
+    "zh-TW": () =>
+      import("./chrono-odyssey.zh-TW.json").then((mod) => mod.default),
+  },
+  "blue-protocol-star-resonance": {
+    en: () =>
+      import("./blue-protocol-star-resonance.en.json").then(
+        (mod) => mod.default,
+      ),
+    ja: () =>
+      import("./blue-protocol-star-resonance.ja.json").then(
+        (mod) => mod.default,
+      ),
+    "zh-CN": () =>
+      import("./blue-protocol-star-resonance.zh-CN.json").then(
+        (mod) => mod.default,
+      ),
+    "zh-TW": () =>
+      import("./blue-protocol-star-resonance.zh-TW.json").then(
+        (mod) => mod.default,
+      ),
+    th: () =>
+      import("./blue-protocol-star-resonance.th.json").then(
+        (mod) => mod.default,
+      ),
+  },
   "graveyard-keeper-2": {
     en: () => import("./graveyard-keeper-2.en.json").then((mod) => mod.default),
     de: () => import("./graveyard-keeper-2.de.json").then((mod) => mod.default),

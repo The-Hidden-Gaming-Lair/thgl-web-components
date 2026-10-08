@@ -22,7 +22,7 @@ export const crimsonDesert = resolveAppConfig({
   externalLinks: [
     {
       href: "https://crimsondesert.gaming.tools/",
-      title: "Database",
+      title: "database",
     },
   ],
   // No internalLinks: map cards are auto-generated from version.data.tiles
@@ -58,85 +58,84 @@ export const crimsonDesert = resolveAppConfig({
   // (data-mining/src/crimson-desert/database.ts). Slugs avoid the static /db/<folder>
   // routes (items, weapons, creatures, …) and the map's filter-group keys.
   db: {
-    heroSubtitle: "Game Database",
-    searchPlaceholder:
-      "Search equipment, materials, recipes, vendors, creatures…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
         href: "/db/equipment",
         type: "equipment",
+        titleKey: "config.db.equipment.title",
         titleFallback: "Equipment",
         icon: "🗡️",
-        description:
-          "Weapons, armor, cloaks, accessories, packs, tools and mount gear with base stats, refinement levels and materials, prices, vendors, recipes and where to find them.",
+        description: "config.db.equipment.description",
       },
       {
         href: "/db/consumables",
         type: "consumables",
+        titleKey: "config.db.consumables.title",
         titleFallback: "Consumables",
         icon: "🍲",
-        description:
-          "Provisions and alchemy results with their recipes, ingredients, prices and the vendors that sell them.",
+        description: "config.db.consumables.description",
       },
       {
         href: "/db/materials",
         type: "materials",
+        titleKey: "config.db.materials.title",
         titleFallback: "Materials",
         icon: "🪨",
-        description:
-          "Cooking ingredients, alchemy and crafting materials: which creatures drop them, who sells them and what they craft.",
+        description: "config.db.materials.description",
       },
       {
         href: "/db/recipes",
         type: "recipes",
+        titleKey: "config.db.recipes.title",
         titleFallback: "Recipes",
         icon: "🔨",
-        description:
-          "Every cooking, alchemy, smithing, witchcraft, sewing and carpentry recipe with its ingredients, products and station.",
+        description: "config.db.recipes.description",
       },
       {
         href: "/db/vendors",
         type: "vendors",
+        titleKey: "config.db.vendors.title",
         titleFallback: "Vendors",
         icon: "🏪",
-        description:
-          "Provisioners, equipment vendors, street vendors, farm owners and trade managers with their full stock and prices.",
+        description: "config.db.vendors.description",
       },
       {
         href: "/db/bestiary",
         type: "bestiary",
+        titleKey: "config.db.bestiary.title",
         titleFallback: "Bestiary",
         icon: "🐺",
-        description:
-          "Creatures, bosses and mounts from the in-game Knowledge tabs with their lore, drops, equipment and map locations.",
+        description: "config.db.bestiary.description",
       },
       {
         href: "/db/documents",
         type: "documents",
+        titleKey: "config.db.documents.title",
         titleFallback: "Documents",
         icon: "📜",
-        description:
-          "Books, letters, posters, bounty notices, treasure maps and crafting manuals, with prices and where they are found.",
+        description: "config.db.documents.description",
       },
       {
         href: "/db/miscellaneous",
         type: "miscellaneous",
+        titleKey: "config.db.miscellaneous.title",
         titleFallback: "Other Items",
         icon: "📦",
-        description:
-          "Furniture, keepsakes, abyss gear, keys, projectiles, currencies, trade goods and every other item in the inventory.",
+        description: "config.db.miscellaneous.description",
       },
     ],
     typeLabels: {
-      equipment: "Equipment",
-      consumables: "Consumables",
-      materials: "Materials",
-      recipes: "Recipes",
-      vendors: "Vendors",
-      bestiary: "Bestiary",
-      documents: "Documents",
-      miscellaneous: "Other Items",
+      equipment: "config.db.typeLabels.equipment",
+      consumables: "config.db.typeLabels.consumables",
+      materials: "config.db.typeLabels.materials",
+      recipes: "config.db.typeLabels.recipes",
+      vendors: "config.db.typeLabels.vendors",
+      bestiary: "config.db.typeLabels.bestiary",
+      documents: "config.db.typeLabels.documents",
+      miscellaneous: "config.db.typeLabels.miscellaneous",
     },
   },
 });

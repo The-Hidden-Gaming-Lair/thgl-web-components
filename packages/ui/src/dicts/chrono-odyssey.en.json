@@ -1,0 +1,20 @@
+{
+  "config.internalLinks.inventory.title": "Items",
+  "config.internalLinks.inventory.description": "Every Chrono Odyssey item: weapons, armor, accessories, materials and consumables with rarity, stats and crafting uses.",
+  "config.internalLinks.inventory.linkText": "Open the Items database",
+  "config.internalLinks.recipes.title": "Recipes",
+  "config.internalLinks.recipes.description": "Every crafting recipe by workbench, with ingredients, mastery level and gold cost, cross-linked to each item.",
+  "config.internalLinks.recipes.linkText": "Browse Recipes",
+  "config.db.heroSubtitle": "Game Database",
+  "config.db.searchPlaceholder": "Search items, recipes, monsters…",
+  "config.db.inventory.description": "Weapons, armor, accessories, materials and consumables.",
+  "config.db.recipes.description": "Crafting recipes by workbench, with ingredients and costs.",
+  "config.db.bestiary.description": "Monsters and bosses with level, stats and spawn spots.",
+  "config.db.dungeons.description": "Expeditions, labyrinths and trials with bosses and rewards.",
+  "config.db.bound_stones.description": "Every Bound Stone fast-travel point on the map.",
+  "config.db.beacons_of_time.description": "Every Beacon of Time and where to find it.",
+  "config.db.vaults.description": "Every Vault on the map.",
+  "config.db.typeLabels.inventory": "Item",
+  "config.db.typeLabels.recipes": "Recipe",
+  "config.db.typeLabels.bestiary": "Monster"
+}

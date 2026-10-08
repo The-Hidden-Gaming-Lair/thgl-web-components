@@ -9,20 +9,18 @@ export const chronoOdyssey = resolveAppConfig({
   appUrl: null,
   internalLinks: [
     {
-      title: "Items",
-      description:
-        "Every Chrono Odyssey item: weapons, armor, accessories, materials and consumables with rarity, stats and crafting uses.",
+      title: "config.internalLinks.inventory.title",
+      description: "config.internalLinks.inventory.description",
       href: "/db/inventory",
       iconName: "Gift",
-      linkText: "Open the Items database",
+      linkText: "config.internalLinks.inventory.linkText",
     },
     {
-      title: "Recipes",
-      description:
-        "Every crafting recipe by workbench, with ingredients, mastery level and gold cost, cross-linked to each item.",
+      title: "config.internalLinks.recipes.title",
+      description: "config.internalLinks.recipes.description",
       href: "/db/recipes",
       iconName: "BookOpen",
-      linkText: "Browse Recipes",
+      linkText: "config.internalLinks.recipes.linkText",
     },
     {
       title: "crafting.navTitle",
@@ -48,8 +46,8 @@ export const chronoOdyssey = resolveAppConfig({
       { section: "beacons_of_time", descriptions: true },
       { section: "vaults", descriptions: true },
     ],
-    heroSubtitle: "Game Database",
-    searchPlaceholder: "Search items, recipes, monsters…",
+    heroSubtitle: "config.db.heroSubtitle",
+    searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,
     homeSections: [
       {
@@ -58,7 +56,7 @@ export const chronoOdyssey = resolveAppConfig({
         titleKey: "inventory",
         titleFallback: "Items",
         icon: "🗡️",
-        description: "Weapons, armor, accessories, materials and consumables.",
+        description: "config.db.inventory.description",
       },
       {
         href: "/db/recipes",
@@ -66,8 +64,7 @@ export const chronoOdyssey = resolveAppConfig({
         titleKey: "recipes",
         titleFallback: "Recipes",
         icon: "📜",
-        description:
-          "Crafting recipes by workbench, with ingredients and costs.",
+        description: "config.db.recipes.description",
       },
       {
         href: "/db/bestiary",
@@ -75,7 +72,7 @@ export const chronoOdyssey = resolveAppConfig({
         titleKey: "bestiary",
         titleFallback: "Monsters",
         icon: "🐺",
-        description: "Monsters and bosses with level, stats and spawn spots.",
+        description: "config.db.bestiary.description",
       },
       {
         href: "/db/dungeons",
@@ -83,8 +80,7 @@ export const chronoOdyssey = resolveAppConfig({
         titleKey: "dungeons",
         titleFallback: "Dungeons",
         icon: "🏛️",
-        description:
-          "Expeditions, labyrinths and trials with bosses and rewards.",
+        description: "config.db.dungeons.description",
       },
       {
         href: "/db/bound_stones",
@@ -92,7 +88,7 @@ export const chronoOdyssey = resolveAppConfig({
         titleKey: "bound_stones",
         titleFallback: "Bound Stones",
         icon: "🪨",
-        description: "Every Bound Stone fast-travel point on the map.",
+        description: "config.db.bound_stones.description",
       },
       {
         href: "/db/beacons_of_time",
@@ -100,7 +96,7 @@ export const chronoOdyssey = resolveAppConfig({
         titleKey: "beacons_of_time",
         titleFallback: "Beacons of Time",
         icon: "⏳",
-        description: "Every Beacon of Time and where to find it.",
+        description: "config.db.beacons_of_time.description",
       },
       {
         href: "/db/vaults",
@@ -108,15 +104,15 @@ export const chronoOdyssey = resolveAppConfig({
         titleKey: "vaults",
         titleFallback: "Vaults",
         icon: "🔒",
-        description: "Every Vault on the map.",
+        description: "config.db.vaults.description",
       },
     ],
     // Singular entry labels; the collectibles' are the map types' dict terms
     // (the game's own names, localized).
     typeLabels: {
-      inventory: "Item",
-      recipes: "Recipe",
-      bestiary: "Monster",
+      inventory: "config.db.typeLabels.inventory",
+      recipes: "config.db.typeLabels.recipes",
+      bestiary: "config.db.typeLabels.bestiary",
       dungeons: "Dungeon",
       bound_stones: "bound-stone",
       beacons_of_time: "beacon-of-time",

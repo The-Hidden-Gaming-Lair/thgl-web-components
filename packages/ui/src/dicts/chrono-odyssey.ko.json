@@ -1,0 +1,20 @@
+{
+  "config.internalLinks.inventory.title": "아이템",
+  "config.internalLinks.inventory.description": "Chrono Odyssey의 모든 아이템: 무기, 방어구, 장신구, 재료, 소모품의 등급, 능력치, 제작 용도.",
+  "config.internalLinks.inventory.linkText": "아이템 데이터베이스 열기",
+  "config.internalLinks.recipes.title": "레시피",
+  "config.internalLinks.recipes.description": "작업대별 모든 제작 레시피. 재료, 숙련도 레벨, 골드 비용과 함께 각 아이템에 연결됩니다.",
+  "config.internalLinks.recipes.linkText": "레시피 보기",
+  "config.db.heroSubtitle": "게임 데이터베이스",
+  "config.db.searchPlaceholder": "아이템, 레시피, 몬스터 검색…",
+  "config.db.inventory.description": "무기, 방어구, 장신구, 재료, 소모품.",
+  "config.db.recipes.description": "작업대별 제작 레시피와 재료, 비용.",
+  "config.db.bestiary.description": "몬스터와 보스의 레벨, 능력치, 출현 위치.",
+  "config.db.dungeons.description": "원정, 미궁, 시련의 보스와 보상.",
+  "config.db.bound_stones.description": "지도 위의 모든 결속석 빠른 이동 지점.",
+  "config.db.beacons_of_time.description": "모든 시간의 이정표와 위치.",
+  "config.db.vaults.description": "지도 위의 모든 볼트.",
+  "config.db.typeLabels.inventory": "아이템",
+  "config.db.typeLabels.recipes": "레시피",
+  "config.db.typeLabels.bestiary": "몬스터"
+}

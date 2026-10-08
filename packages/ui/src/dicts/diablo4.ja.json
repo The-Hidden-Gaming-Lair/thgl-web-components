@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.maps-Sanctuary.description": "Diablo 4のインタラクティブマップをリアルタイムの位置追跡とともに探索しよう。リリスの祭壇、ダンジョン、ボス、イベントなどを見つけられます。",
+  "config.internalLinks.maps-Sanctuary.linkText": "マップを見る",
+  "config.internalLinks.aspects.title": "化身",
+  "config.internalLinks.aspects.description": "力の古文書にある600以上のレジェンダリー化身。クラスと種類で絞り込めます。",
+  "config.internalLinks.aspects.linkText": "化身を見る",
+  "config.internalLinks.uniques.title": "ユニークアイテム",
+  "config.internalLinks.uniques.description": "Diablo IVのすべてのユニークアイテムのクラス制限、アイテムタイプ、ユニークパワーの説明。",
+  "config.internalLinks.uniques.linkText": "ユニークアイテムを見る",
+  "config.db.heroSubtitle": "ゲームデータベース"
+}

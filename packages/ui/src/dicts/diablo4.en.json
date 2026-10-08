@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.maps-Sanctuary.description": "Explore Diablo 4 Interactive Maps with real-time position tracking. Find Altars of Lilith, dungeons, bosses, events, and more.",
+  "config.internalLinks.maps-Sanctuary.linkText": "Explore the Map",
+  "config.internalLinks.aspects.title": "Aspects",
+  "config.internalLinks.aspects.description": "Browse all 600+ Legendary Aspects from the Codex of Power — filterable by class and type.",
+  "config.internalLinks.aspects.linkText": "Browse Aspects",
+  "config.internalLinks.uniques.title": "Unique Items",
+  "config.internalLinks.uniques.description": "Every Unique item in Diablo IV with class restrictions, item type, and unique power descriptions.",
+  "config.internalLinks.uniques.linkText": "Browse Unique Items",
+  "config.db.heroSubtitle": "Game Database"
+}

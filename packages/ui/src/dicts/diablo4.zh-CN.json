@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.maps-Sanctuary.description": "使用实时位置追踪探索《暗黑破坏神 4》互动地图。查找莉莉丝祭坛、地下城、首领、事件等。",
+  "config.internalLinks.maps-Sanctuary.linkText": "探索地图",
+  "config.internalLinks.aspects.title": "威能",
+  "config.internalLinks.aspects.description": "能量法典中全部 600 多个传奇威能，可按职业和类型筛选。",
+  "config.internalLinks.aspects.linkText": "浏览威能",
+  "config.internalLinks.uniques.title": "暗金物品",
+  "config.internalLinks.uniques.description": "《暗黑破坏神 IV》中所有暗金物品，包含职业限制、物品类型和暗金威能说明。",
+  "config.internalLinks.uniques.linkText": "浏览暗金物品",
+  "config.db.heroSubtitle": "游戏数据库"
+}

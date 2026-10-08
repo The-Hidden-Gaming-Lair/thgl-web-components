@@ -1,0 +1,20 @@
+{
+  "config.internalLinks.inventory.title": "物品",
+  "config.internalLinks.inventory.description": "Chrono Odyssey 的所有物品：武器、防具、飾品、材料和消耗品，包含稀有度、屬性和製作用途。",
+  "config.internalLinks.inventory.linkText": "開啟物品資料庫",
+  "config.internalLinks.recipes.title": "配方",
+  "config.internalLinks.recipes.description": "依工作台分類的所有製作配方，包含材料、熟練度等級和金幣花費，並連結到每個物品。",
+  "config.internalLinks.recipes.linkText": "瀏覽配方",
+  "config.db.heroSubtitle": "遊戲資料庫",
+  "config.db.searchPlaceholder": "搜尋物品、配方、怪物…",
+  "config.db.inventory.description": "武器、防具、飾品、材料和消耗品。",
+  "config.db.recipes.description": "依工作台分類的製作配方，包含材料和花費。",
+  "config.db.bestiary.description": "怪物和首領的等級、屬性和出現位置。",
+  "config.db.dungeons.description": "遠征、迷宮和考驗的首領與獎勵。",
+  "config.db.bound_stones.description": "地圖上所有連結石快速傳送點。",
+  "config.db.beacons_of_time.description": "所有時間里程碑及其位置。",
+  "config.db.vaults.description": "地圖上的所有金庫。",
+  "config.db.typeLabels.inventory": "物品",
+  "config.db.typeLabels.recipes": "配方",
+  "config.db.typeLabels.bestiary": "怪物"
+}

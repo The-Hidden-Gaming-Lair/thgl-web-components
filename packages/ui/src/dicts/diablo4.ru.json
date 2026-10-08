@@ -1,0 +1,11 @@
+{
+  "config.internalLinks.maps-Sanctuary.description": "Исследуйте интерактивные карты Diablo 4 с отслеживанием позиции в реальном времени. Находите алтари Лилит, подземелья, боссов, события и многое другое.",
+  "config.internalLinks.maps-Sanctuary.linkText": "Открыть карту",
+  "config.internalLinks.aspects.title": "Аспекты",
+  "config.internalLinks.aspects.description": "Более 600 легендарных аспектов из Кодекса силы с фильтрами по классу и типу.",
+  "config.internalLinks.aspects.linkText": "Смотреть аспекты",
+  "config.internalLinks.uniques.title": "Уникальные предметы",
+  "config.internalLinks.uniques.description": "Все уникальные предметы Diablo IV с ограничениями по классу, типом предмета и описанием уникального свойства.",
+  "config.internalLinks.uniques.linkText": "Смотреть уникальные предметы",
+  "config.db.heroSubtitle": "База данных игры"
+}
