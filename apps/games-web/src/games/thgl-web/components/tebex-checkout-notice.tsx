@@ -18,6 +18,10 @@ const MESSAGES: Record<string, { text: string; tone: "info" | "warn" }> = {
     text: "无法开始结账，请稍后再试。 The checkout could not be started - please try again in a moment.",
     tone: "warn",
   },
+  unavailable: {
+    text: "支付宝 / 微信支付即将推出。 Alipay / WeChat Pay is coming soon.",
+    tone: "info",
+  },
   "invalid-tier": { text: "未知的等级。 Unknown tier.", tone: "warn" },
 };
 

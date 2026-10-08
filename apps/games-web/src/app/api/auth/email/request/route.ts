@@ -1,4 +1,5 @@
 import { type NextRequest } from "next/server";
+import { TEBEX_ENABLED } from "@repo/lib";
 import { CORS_HEADERS } from "@/games/thgl-web/lib/patreon";
 import { normalizeEmail, requestLoginCode } from "@/lib/email-login";
 import { clientIpFrom } from "@/lib/tebex";
@@ -11,6 +12,13 @@ import { clientIpFrom } from "@/lib/tebex";
 export const maxDuration = 25;
 
 export async function POST(request: NextRequest) {
+  // Off until Tebex approves the store (TEBEX_ENABLED, @repo/lib config).
+  if (!TEBEX_ENABLED) {
+    return Response.json(
+      { error: "unavailable" },
+      { status: 503, headers: CORS_HEADERS },
+    );
+  }
   const body = (await request.json().catch(() => null)) as {
     email?: unknown;
     lang?: unknown;

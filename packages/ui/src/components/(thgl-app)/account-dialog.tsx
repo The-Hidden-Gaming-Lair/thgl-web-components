@@ -1,5 +1,11 @@
 "use client";
-import { defaultPerks, games, TH_GL_URL, useAccountStore } from "@repo/lib";
+import {
+  defaultPerks,
+  games,
+  TEBEX_ENABLED,
+  TH_GL_URL,
+  useAccountStore,
+} from "@repo/lib";
 import { Button } from "../(controls)";
 import Cookies from "js-cookie";
 import {
@@ -187,14 +193,16 @@ export function AccountDialog() {
             <PricingLink />
             {/* E-Mail sign-in for Tebex (Alipay / WeChat Pay) supporters -
                 typed in, so it works in the app like the Patreon popup. */}
-            <details>
-              <summary className="list-none [&::-webkit-details-marker]:hidden">
-                <span className="flex h-9 w-full cursor-pointer items-center justify-center rounded-md border border-input text-sm font-medium hover:bg-accent">
-                  {zh ? "使用邮箱登录" : "Sign in with E-Mail"}
-                </span>
-              </summary>
-              <EmailSignIn className="mt-2" />
-            </details>
+            {TEBEX_ENABLED && (
+              <details>
+                <summary className="list-none [&::-webkit-details-marker]:hidden">
+                  <span className="flex h-9 w-full cursor-pointer items-center justify-center rounded-md border border-input text-sm font-medium hover:bg-accent">
+                    {zh ? "使用邮箱登录" : "Sign in with E-Mail"}
+                  </span>
+                </summary>
+                <EmailSignIn className="mt-2" />
+              </details>
+            )}
             <SupporterKeyForm />
           </section>
           <DialogFooter>

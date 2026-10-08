@@ -5,6 +5,7 @@ import { Button, Card, CardContent } from "@repo/ui/controls";
 import { cn } from "@/games/thgl-web/lib/utils";
 import { TebexCheckoutNotice } from "@/games/thgl-web/components/tebex-checkout-notice";
 import { TEBEX_CN_PRICES, type TebexTierKey } from "@/lib/tebex";
+import { TEBEX_ENABLED } from "@repo/lib";
 
 // China test (Leon 2026-10-07): unlisted Tebex checkout for mainland China -
 // Alipay + WeChat Pay only (the Tebex store has every other method disabled),
@@ -63,6 +64,12 @@ export default function SupportMeTebex() {
         </p>
       </div>
 
+      {!TEBEX_ENABLED && (
+        <p className="text-center text-sm text-amber-500">
+          支付宝 / 微信支付即将推出，敬请期待。
+        </p>
+      )}
+
       <Suspense>
         <TebexCheckoutNotice />
       </Suspense>
@@ -101,17 +108,29 @@ export default function SupportMeTebex() {
                     </li>
                   ))}
                 </ul>
-                <form method="post" action="/api/tebex/checkout">
-                  <input type="hidden" name="tier" value={tier.key} />
+                {TEBEX_ENABLED ? (
+                  <form method="post" action="/api/tebex/checkout">
+                    <input type="hidden" name="tier" value={tier.key} />
+                    <Button
+                      type="submit"
+                      size="lg"
+                      variant={tier.highlight ? "default" : "secondary"}
+                      className="w-full"
+                    >
+                      {tier.cta}
+                    </Button>
+                  </form>
+                ) : (
+                  // Off until Tebex approves the store (TEBEX_ENABLED).
                   <Button
-                    type="submit"
                     size="lg"
-                    variant={tier.highlight ? "default" : "secondary"}
+                    variant="secondary"
                     className="w-full"
+                    disabled
                   >
-                    {tier.cta}
+                    即将推出
                   </Button>
-                </form>
+                )}
               </CardContent>
             </Card>
           );

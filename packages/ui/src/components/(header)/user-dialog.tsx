@@ -11,6 +11,7 @@ import {
   defaultPerks,
   games,
   isOverwolf,
+  TEBEX_ENABLED,
   TH_GL_URL,
   useAccountStore,
 } from "@repo/lib";
@@ -307,7 +308,7 @@ function UnauthenticatedView() {
           {zh ? "使用 Patreon 登录" : "Sign in with Patreon"}
         </a>
       </Button>
-      {!isOverwolf && (
+      {!isOverwolf && TEBEX_ENABLED && (
         <details className="group">
           <summary className="list-none [&::-webkit-details-marker]:hidden">
             <span className="flex h-9 w-full cursor-pointer items-center justify-center rounded-md border border-input text-sm font-medium hover:bg-accent">

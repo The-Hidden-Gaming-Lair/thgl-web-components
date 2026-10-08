@@ -1,4 +1,5 @@
 import { type NextRequest } from "next/server";
+import { TEBEX_ENABLED } from "@repo/lib";
 import { sign } from "jsonwebtoken";
 import { decodeUserSecret } from "@/lib/token-cookie";
 import { toCookieString } from "@/games/thgl-web/lib/patreon";
@@ -26,6 +27,9 @@ export async function POST(request: NextRequest) {
   const origin = originOf(request);
   const back = (status: string) =>
     Response.redirect(`${origin}/support-me/tebex?tebex=${status}`, 303);
+
+  // Off until Tebex approves the store (TEBEX_ENABLED, @repo/lib config).
+  if (!TEBEX_ENABLED) return back("unavailable");
 
   const form = await request.formData().catch(() => null);
   const tier = form?.get("tier");

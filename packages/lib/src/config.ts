@@ -1522,3 +1522,15 @@ export function isSameWorld(
   const bParent = tiles[b]?.layer?.parent;
   return aParent === b || bParent === a || (!!aParent && aParent === bParent);
 }
+
+/**
+ * Tebex (Alipay / WeChat Pay, China test) on/off. OFF until Tebex approves
+ * the store (Leon 2026-10-08: "disable test mode until we got approved by
+ * tebex, don't throw away the code") - in Tebex Test Mode every checkout
+ * grants real perks for free. Off hides the checkout (China page shows
+ * "coming soon", /api/tebex/checkout refuses) and "Sign in with E-Mail"
+ * (UI + /api/auth/email/request). The webhook, existing Tebex accounts and
+ * the Account Key sign-in keep working. Flip to true after approval +
+ * Test Mode off in the Tebex panel.
+ */
+export const TEBEX_ENABLED = false;

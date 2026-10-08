@@ -18,7 +18,12 @@ import {
   getCurrentUser,
 } from "@/games/thgl-web/lib/patreon";
 import { tiers } from "@/games/thgl-web/lib/tiers";
-import { games, API_FORGE_URL, type THGLAccount } from "@repo/lib";
+import {
+  games,
+  API_FORGE_URL,
+  TEBEX_ENABLED,
+  type THGLAccount,
+} from "@repo/lib";
 import { getPerks } from "@/games/thgl-web/lib/patreon";
 import { InitializeAccount } from "@repo/ui/thgl-app";
 import { decodeUserSecret } from "@/lib/token-cookie";
@@ -139,7 +144,7 @@ function TebexAccountContent({
           </p>
         )}
 
-        {emails.length > 0 && (
+        {TEBEX_ENABLED && emails.length > 0 && (
           <div className="border-t border-border pt-4 space-y-1 text-sm">
             <p className="font-semibold">{zh ? "邮箱" : "Email"}</p>
             <p className="break-all">{emails.join(", ")}</p>
@@ -497,7 +502,7 @@ export default async function SupportMeAccount({
               {zh ? "使用 Patreon 登录" : "Sign in with Patreon"}
             </Link>
           </Button>
-          <EmailSignInSection zh={zh} />
+          {TEBEX_ENABLED && <EmailSignInSection zh={zh} />}
         </div>
         <p className="italic text-sm text-muted-foreground mt-4">
           {zh
