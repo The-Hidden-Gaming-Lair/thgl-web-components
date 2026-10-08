@@ -19,6 +19,7 @@ import { Separator } from "../ui/separator";
 import Cookies from "js-cookie";
 import { ExternalAnchor } from "./external-anchor";
 import { useUnlockWithSecret } from "./use-unlock-with-secret";
+import { EmailSignIn } from "./email-sign-in";
 import { Input } from "../ui/input";
 import { useMemo, useState } from "react";
 import {
@@ -301,6 +302,17 @@ function UnauthenticatedView() {
       <Button className="w-full" asChild>
         <a href={authUrl}>Already a supporter? Sign In</a>
       </Button>
+
+      {/* Email sign-in (one-time code): accounts without a Patreon login
+          (Alipay / WeChat Pay buyers) and free email accounts. */}
+      {!isOverwolf && (
+        <details className="text-xs">
+          <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
+            Sign in with email / 用邮箱登录
+          </summary>
+          <EmailSignIn className="mt-2" />
+        </details>
+      )}
 
       {/* Supporter Key (web + Companion App): accounts without a Patreon login
           (Tebex purchases) restore their perks with the key from their account

@@ -104,7 +104,7 @@ const RENEWAL_GRACE_SECONDS = 3 * 24 * 3600;
 // when it can't renew): one period.
 const ONE_OFF_PERIOD_SECONDS = 31 * 24 * 3600;
 // The Free account never expires (it only marks the account as existing).
-const FREE_EXPIRES_AT = 4102444800; // 2100-01-01
+export const TEBEX_FREE_EXPIRES_AT = 4102444800; // 2100-01-01
 
 // ---------------------------------------------------------------------------
 // Headless API: checkout
@@ -277,7 +277,7 @@ async function upsertEntitlement(row: EntitlementRow): Promise<void> {
               (ref, user_id, package_id, tier_id, status, revoked, expires_at, email, event_at, updated_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(ref) DO UPDATE SET
-              user_id = excluded.user_id, package_id = excluded.package_id,
+              package_id = excluded.package_id,
               tier_id = excluded.tier_id, status = excluded.status,
               revoked = excluded.revoked, expires_at = excluded.expires_at,
               email = COALESCE(excluded.email, tebex_entitlements.email),
@@ -296,6 +296,23 @@ async function upsertEntitlement(row: EntitlementRow): Promise<void> {
         arg.int(now),
       ],
     },
+    // The purchase email signs in to the account (lib/email-login.ts). Linked
+    // to the row's CURRENT owner: user_id is never overwritten above, so a
+    // renewal of an entitlement that an email sign-in merged into another
+    // account stays there (the webhook still carries the checkout-time id).
+    ...(row.email
+      ? [
+          {
+            sql: `INSERT OR IGNORE INTO account_emails (email, user_id, created_at)
+                  SELECT ?, user_id, ? FROM tebex_entitlements WHERE ref = ?`,
+            args: [
+              arg.text(row.email.trim().toLowerCase()),
+              arg.int(now),
+              arg.text(row.ref),
+            ],
+          },
+        ]
+      : []),
   ]);
 }
 
@@ -388,7 +405,7 @@ export async function handleTebexWebhook(event: TebexWebhook): Promise<string> {
       const paidAt = toUnix(pay.created_at) ?? eventAt;
       const isFree = tierId === TEBEX_FREE_TIER_ID;
       const expiresAt = isFree
-        ? FREE_EXPIRES_AT
+        ? TEBEX_FREE_EXPIRES_AT
         : (toUnix(pay.products?.[0]?.expires_at) ??
           paidAt + ONE_OFF_PERIOD_SECONDS);
       await upsertEntitlement({

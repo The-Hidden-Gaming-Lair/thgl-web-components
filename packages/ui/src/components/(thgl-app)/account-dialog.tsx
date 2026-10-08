@@ -16,6 +16,7 @@ import { Eye, ExternalLink, Shield, Star, Ticket, Zap } from "lucide-react";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { useUnlockWithSecret } from "../(header)/use-unlock-with-secret";
+import { EmailSignIn } from "../(header)/email-sign-in";
 
 const PERK_CONFIG = [
   { key: "adRemoval" as const, label: "Ad-Free", icon: Shield, tier: "Pro+" },
@@ -181,6 +182,13 @@ export function AccountDialog() {
             </div>
             <Separator />
             <PricingLink />
+            {/* Typed in, so it works in the app like the Patreon popup. */}
+            <details className="text-xs">
+              <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
+                Sign in with email / 用邮箱登录
+              </summary>
+              <EmailSignIn className="mt-2" />
+            </details>
             <SupporterKeyForm />
           </section>
           <DialogFooter>

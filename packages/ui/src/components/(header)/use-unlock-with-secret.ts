@@ -22,9 +22,21 @@ export function useUnlockWithSecret() {
   const account = useAccountStore();
   const [loading, setLoading] = useState(false);
 
-  const unlock = async (userId: string) => {
-    if (loading) return;
+  /**
+   * `silent`: no toast (the email sign-in shows its own result). Resolves to
+   * "ok" (supporter), "free" (valid account without a paid tier), "invalid"
+   * or "error".
+   */
+  const unlock = async (
+    userId: string,
+    { silent = false }: { silent?: boolean } = {},
+  ): Promise<"ok" | "free" | "invalid" | "error"> => {
+    if (loading) return "error";
     setLoading(true);
+    const notify = (message: string) => {
+      if (!silent) toast(message);
+    };
+    let outcome: "ok" | "free" | "invalid" | "error" = "error";
     const response = await fetch(`${TH_GL_URL}/api/patreon/overwolf`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -54,7 +66,8 @@ export function useUnlockWithSecret() {
           // 403 = a valid account without a paid tier (e.g. a free Tebex
           // account) - still signed in, so server pages need the cookie too.
           if (!isOverwolf) restoreUserIdCookie(userId);
-          toast("User is not a subscriber");
+          notify("User is not a subscriber");
+          outcome = "free";
         } else if (response.status === 404) {
           account.setAccount({
             userId: null,
@@ -64,9 +77,10 @@ export function useUnlockWithSecret() {
             username: null,
             avatarUrl: null,
           });
-          toast("Invalid secret");
+          notify("Invalid secret");
+          outcome = "invalid";
         } else if ("error" in body && typeof body.error === "string") {
-          toast(body.error);
+          notify(body.error);
         }
       } else {
         account.setAccount({
@@ -89,12 +103,14 @@ export function useUnlockWithSecret() {
         // Web / Companion App: server-rendered pages read the cookie, so
         // write it now instead of waiting for the next-load self-heal.
         if (!isOverwolf) restoreUserIdCookie(body.secret ?? userId);
-        toast("Subscription enabled");
+        notify("Subscription enabled");
+        outcome = "ok";
       }
     } catch {
-      toast("An error occurred. Please try again later.");
+      notify("An error occurred. Please try again later.");
     }
     setLoading(false);
+    return outcome;
   };
 
   return { unlock, loading };

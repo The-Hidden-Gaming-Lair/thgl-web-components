@@ -31,7 +31,9 @@ import {
   resolveTebexAccount,
 } from "@/lib/tebex";
 import { SupporterKey } from "@/games/thgl-web/components/supporter-key";
+import { emailsForAccount } from "@/lib/email-login";
 import { SupporterKeyLogin } from "@/games/thgl-web/components/supporter-key-login";
+import { EmailSignInSection } from "@/games/thgl-web/components/email-sign-in-section";
 
 // Tebex's customer portal: buyers sign in with their purchase email to view
 // payments and cancel their subscription.
@@ -43,10 +45,13 @@ function TebexAccountContent({
   tebexId,
   tebex,
   pending,
+  emails,
 }: {
   secret: string;
   tebexId: string;
   tebex: TebexAccount | null;
+  /** Emails that sign in to this account (lib/email-login.ts). */
+  emails: string[];
   /** Tier of a just-finished checkout (?tebex=complete&tier=…), else null. */
   pending: TebexTierKey | null;
 }) {
@@ -133,6 +138,24 @@ function TebexAccountContent({
           </p>
         )}
 
+        {emails.length > 0 && (
+          <div className="border-t border-border pt-4 space-y-1 text-sm">
+            <p className="font-semibold">
+              Email
+              <span className="block">邮箱</span>
+            </p>
+            <p className="break-all">{emails.join(", ")}</p>
+            <p className="text-muted-foreground">
+              Sign in on other devices and in the Companion App with &quot;Sign
+              in with email&quot; - we send you a one-time code.
+            </p>
+            <p className="text-muted-foreground">
+              在其他设备或伴侣应用中，点击“Sign in with
+              email”，我们会向此邮箱发送一次性验证码。
+            </p>
+          </div>
+        )}
+
         <div className="border-t border-border pt-4 space-y-3 text-sm">
           <p className="font-semibold">
             Your Supporter Key
@@ -202,13 +225,17 @@ export default async function SupportMeAccount({
     : null;
 
   if (tebexId && userId?.value) {
-    const tebex = await resolveTebexAccount(tebexId);
+    const [tebex, emails] = await Promise.all([
+      resolveTebexAccount(tebexId),
+      emailsForAccount(tebexId).catch(() => [] as string[]),
+    ]);
     entitledTierIDs = tebex?.tierIds ?? [];
     content = (
       <TebexAccountContent
         secret={userId.value}
         tebexId={tebexId}
         tebex={tebex}
+        emails={emails}
         pending={
           tebexParam === "complete"
             ? isTebexTierKey(tierParam)
@@ -478,6 +505,7 @@ export default async function SupportMeAccount({
           This will store a cookie in your browser to remember your Patreon
           account. You can sign out at any time.
         </p>
+        <EmailSignInSection />
         <SupporterKeyLogin />
       </div>
     );

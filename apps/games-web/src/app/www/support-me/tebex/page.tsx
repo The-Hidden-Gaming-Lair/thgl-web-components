@@ -101,17 +101,31 @@ export default function SupportMeTebex() {
                     </li>
                   ))}
                 </ul>
-                <form method="post" action="/api/tebex/checkout">
-                  <input type="hidden" name="tier" value={tier.key} />
+                {tier.key === "free" ? (
+                  // Free = email sign-up (one-time code), no checkout.
                   <Button
-                    type="submit"
                     size="lg"
-                    variant={tier.highlight ? "default" : "secondary"}
+                    variant="secondary"
                     className="w-full"
+                    asChild
                   >
-                    {tier.cta}
+                    <Link href="/support-me/account#email-sign-in">
+                      {tier.cta}
+                    </Link>
                   </Button>
-                </form>
+                ) : (
+                  <form method="post" action="/api/tebex/checkout">
+                    <input type="hidden" name="tier" value={tier.key} />
+                    <Button
+                      type="submit"
+                      size="lg"
+                      variant={tier.highlight ? "default" : "secondary"}
+                      className="w-full"
+                    >
+                      {tier.cta}
+                    </Button>
+                  </form>
+                )}
               </CardContent>
             </Card>
           );
@@ -133,8 +147,7 @@ export default function SupportMeTebex() {
           >
             账户页面
           </Link>
-          ，几秒钟内即可激活。请保存账户页面上显示的“支持者密钥”（Supporter
-          Key）：在其他浏览器、其他设备或伴侣应用中恢复你的账户和权益都需要它。
+          ，几秒钟内即可激活。之后在其他浏览器、其他设备或伴侣应用中，用你付款时填写的邮箱登录即可（我们会发送一次性验证码，无需密码）。
         </p>
         <p>
           你可以随时在账户页面点击“Manage

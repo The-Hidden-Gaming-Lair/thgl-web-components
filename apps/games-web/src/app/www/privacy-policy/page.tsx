@@ -197,6 +197,19 @@ export default function PrivacyPolicy(): JSX.Element {
             </a>{" "}
             for how Tebex processes your data.
           </p>
+          <p>
+            <strong className="text-foreground">Sign in with email:</strong>{" "}
+            accounts without a Patreon login can sign in with a one-time code
+            sent by email; an email address that has no account yet gets a free
+            account. I store the email address linked to your account ID (for a
+            Tebex purchase, the email Tebex sends me), the sign-in code only as
+            a hash until it is used or expires after 10 minutes, and, for one
+            day, which email address and IP address requested a code (abuse
+            protection). The emails are sent by Mailjet (Sinch Mailjet SAS,
+            France, servers in the EU) as my processor. Legal basis: Art.
+            6(1)(b) GDPR. You can ask me to delete your account and email
+            address at any time.
+          </p>
         </div>
       </section>
       <hr className="border-border" />
