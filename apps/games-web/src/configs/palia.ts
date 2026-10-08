@@ -106,6 +106,7 @@ export const palia = resolveAppConfig({
   trackerFilters: [
     "treasures",
     "cat_decor",
+    "discovery_quests",
     "bp_questitem_calerilvl3book",
     "bp_questitem_cookbook_1",
     "bp_questitem_cookbook_2",
