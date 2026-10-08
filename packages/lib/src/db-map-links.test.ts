@@ -3,6 +3,7 @@ import {
   findMixedDbEntries,
   hasGuideTracker,
   isSightingGuide,
+  narrowMixedDbEntries,
 } from "./db-map-links";
 
 const filters: FiltersConfig = [
@@ -52,6 +53,26 @@ describe("findMixedDbEntries", () => {
 
   test("a plain type keeps its map (no mixed entries)", () => {
     expect(findMixedDbEntries(["Fish_Gillyfin"], filters)).toEqual([]);
+  });
+});
+
+describe("narrowMixedDbEntries", () => {
+  const refs = [
+    { section: "inventory", id: "item_recipe_cooking_fish_stew" },
+    { section: "inventory", id: "item_recipe_cooking_sashimi" },
+  ];
+
+  test("a guide about one of the entries keeps only that one", () => {
+    expect(
+      narrowMixedDbEntries(refs, [
+        "fish/fish_gillyfin",
+        "inventory/item_recipe_cooking_fish_stew",
+      ]),
+    ).toEqual([refs[0]]);
+  });
+
+  test("a guide about none of them keeps all", () => {
+    expect(narrowMixedDbEntries(refs, ["fish/fish_gillyfin"])).toEqual(refs);
   });
 });
 

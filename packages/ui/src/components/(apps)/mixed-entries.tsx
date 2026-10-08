@@ -77,17 +77,17 @@ export async function getMixedEntries(
   }
 }
 
-/** The intro line + each mixed entry's name and table, in place of the map. */
+/** The intro line (if any) + each mixed entry's name and table, in place of the map. */
 export function MixedEntriesTables({
   intro,
   entries,
 }: {
-  intro: string;
+  intro?: string;
   entries: MixedEntry[];
 }) {
   return (
     <section className="my-4">
-      <p className="text-sm mb-4">{intro}</p>
+      {intro && <p className="text-sm mb-4">{intro}</p>}
       {entries.map((entry) => (
         <div key={entry.href} className="mb-6 max-w-md mx-auto text-left">
           <Link

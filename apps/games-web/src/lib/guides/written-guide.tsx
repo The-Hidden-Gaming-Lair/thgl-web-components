@@ -19,6 +19,7 @@ import {
   hasGuideTracker,
   isSightingGuide,
   localizePath,
+  narrowMixedDbEntries,
 } from "@repo/lib";
 import { HeaderOffset } from "@repo/ui/header";
 import { ContentLayout } from "@repo/ui/ads";
@@ -293,14 +294,18 @@ export async function WrittenGuidePage({
 
   // A map block whose types mix several codex entries found in different places
   // (`mixedDbEntries`, Palia: Recipe: Fish Stew / Sashimi) shows each entry's own table
-  // instead of a map that sends players to the wrong water.
+  // instead of a map that sends players to the wrong water. Only the entries this guide is
+  // about: the Fish Stew guide shows Recipe: Fish Stew, not the Sashimi recipe sharing its marker.
   const mixedByBlock = await Promise.all(
     guide.blocks.map((block) =>
       block.type === "map"
         ? getMixedEntries(
             appConfig,
             locale,
-            findMixedDbEntries(block.types, filters),
+            narrowMixedDbEntries(
+              findMixedDbEntries(block.types, filters),
+              guide.entities,
+            ),
           )
         : [],
     ),
@@ -319,11 +324,17 @@ export async function WrittenGuidePage({
           return (
             <MixedEntriesTables
               key={i}
-              intro={t("guide.mixed", {
-                vars: { guide: block.types.map((type) => t(type)).join(", ") },
-                fallback:
-                  "{{guide}} markers can stand for any of the entries below, so the map would mix their spots. Here is where each one is found:",
-              })}
+              intro={
+                mixedByBlock[i].length > 1
+                  ? t("guide.mixed", {
+                      vars: {
+                        guide: block.types.map((type) => t(type)).join(", "),
+                      },
+                      fallback:
+                        "{{guide}} markers can stand for any of the entries below, so the map would mix their spots. Here is where each one is found:",
+                    })
+                  : undefined
+              }
               entries={mixedByBlock[i]}
             />
           );

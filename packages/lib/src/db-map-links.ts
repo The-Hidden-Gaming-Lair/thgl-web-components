@@ -183,6 +183,20 @@ export function findMixedDbEntries(
 }
 
 /**
+ * A written guide's mixed entries, narrowed to the ones the guide is about (`entities`,
+ * `section/id`): the Fish Stew guide shows only Recipe: Fish Stew, not the Sashimi recipe
+ * that shares its marker. None of them in the guide → all of them.
+ */
+export function narrowMixedDbEntries(
+  refs: { section: string; id: string }[],
+  entities: string[],
+): { section: string; id: string }[] {
+  const wanted = new Set(entities);
+  const own = refs.filter((r) => wanted.has(`${r.section}/${r.id}`));
+  return own.length > 0 ? own : refs;
+}
+
+/**
  * True when every one of a guide's filter types belongs to a `sightingFilters` group or
  * category (AppConfig): its markers are spots players reported a catch or sighting at, not
  * fixed spawns, so the guide shows the map without a per-spot progress tracker.
