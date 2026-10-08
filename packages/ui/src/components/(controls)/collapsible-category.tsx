@@ -10,6 +10,7 @@ import { useT } from "../(providers)";
 import { useEffect, useMemo, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { FilterSettingsPopover } from "./filter-settings-popover";
+import { LiveOnlyIcon, useLiveOnlyHidden } from "./live-only-hint";
 
 export function CollapsibleCategory({
   category,
@@ -47,6 +48,10 @@ export function CollapsibleCategory({
     [userFilters, allValueIds],
   );
 
+  const allValues = useMemo(() => filters.flatMap((f) => f.values), [filters]);
+  const { hidden: liveOnlyHidden, hint: liveOnlyHint } =
+    useLiveOnlyHidden(allValues);
+
   const totalCount = allValueIds.length;
   const ratio = totalCount > 0 ? activeCount / totalCount : 0;
 
@@ -80,6 +85,7 @@ export function CollapsibleCategory({
             <span className="text-[10px] text-muted-foreground tabular-nums shrink-0">
               {activeCount}/{totalCount}
             </span>
+            {liveOnlyHidden.size > 0 && <LiveOnlyIcon hint={liveOnlyHint} />}
           </button>
         </CollapsibleTrigger>
         <button

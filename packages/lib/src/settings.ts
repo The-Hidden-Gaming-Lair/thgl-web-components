@@ -127,6 +127,32 @@ export function resolveLiveModeForType(
   return mode;
 }
 
+/**
+ * The ticked live-only filters (`no_map_markers`: no predicted markers exist)
+ * whose resolved mode is `static` — they plot nothing at all, so the filter
+ * panel flags them (#903).
+ */
+export function getHiddenLiveOnlyFilters(
+  values: { id: string; no_map_markers?: boolean }[],
+  activeFilters: string[],
+  globalEffectiveMode: LiveMode,
+  liveModeByFilter: Record<string, LiveMode> | undefined,
+  hasPreview: boolean,
+): Set<string> {
+  const hidden = new Set<string>();
+  for (const v of values) {
+    if (!v.no_map_markers || !activeFilters.includes(v.id)) continue;
+    const mode = resolveLiveModeForType(
+      v.id,
+      globalEffectiveMode,
+      liveModeByFilter,
+      hasPreview,
+    );
+    if (mode === "static") hidden.add(v.id);
+  }
+  return hidden;
+}
+
 export type PrivateNode = {
   id: string;
   name?: string;

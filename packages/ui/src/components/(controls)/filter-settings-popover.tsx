@@ -162,18 +162,39 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
     isGroup ? null : props.filterId,
   ]);
 
+  // Live-only filters (no_map_markers) have no predicted markers: a
+  // "Predicted" override would hide them completely (#903), so the option is
+  // not offered for them and a group-wide "Predicted" skips them.
+  const liveOnlyIds = useMemo(() => {
+    const ids = new Set<string>();
+    for (const g of filters) {
+      for (const v of g.values) if (v.no_map_markers) ids.add(v.id);
+    }
+    return ids;
+  }, [filters]);
+
   // Group live-mode state: collapse to a single value only if every trackable
   // filter agrees, else "mixed". Absent override = "default".
   const groupLiveMode = useMemo<LiveMode | "default" | "mixed">(() => {
     if (!isGroup) return "default";
     const trackedTypes = typesIdMap ? new Set(Object.values(typesIdMap)) : null;
-    const ids = props.filterIds.filter((id) => trackedTypes?.has(id));
+    const tracked = props.filterIds.filter((id) => trackedTypes?.has(id));
+    // A group-wide "Predicted" leaves live-only filters out, so they don't
+    // count against agreement unless the group has nothing else.
+    const withPredictions = tracked.filter((id) => !liveOnlyIds.has(id));
+    const ids = withPredictions.length > 0 ? withPredictions : tracked;
     if (ids.length === 0) return "default";
     const first = liveModeByFilter[ids[0]] ?? "default";
     return ids.every((id) => (liveModeByFilter[id] ?? "default") === first)
       ? first
       : "mixed";
-  }, [isGroup, isGroup ? props.filterIds : null, liveModeByFilter, typesIdMap]);
+  }, [
+    isGroup,
+    isGroup ? props.filterIds : null,
+    liveModeByFilter,
+    typesIdMap,
+    liveOnlyIds,
+  ]);
 
   const liveModeValue: LiveMode | "default" = isGroup
     ? groupLiveMode === "mixed"
@@ -183,7 +204,12 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
 
   const handleLiveModeChange = (value: LiveMode | "default") => {
     if (isGroup) {
-      setLiveModeByFilters(props.filterIds, value);
+      setLiveModeByFilters(
+        value === "static"
+          ? props.filterIds.filter((id) => !liveOnlyIds.has(id))
+          : props.filterIds,
+        value,
+      );
     } else {
       setLiveModeByFilter(props.filterId, value);
     }
@@ -562,7 +588,20 @@ export function FilterSettingsPopover(props: FilterSettingsPopoverProps) {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="default">Default</SelectItem>
-                  <SelectItem value="static">Predicted</SelectItem>
+                  {(isGroup ||
+                    !props.noMapMarkers ||
+                    liveModeValue === "static") && (
+                    <SelectItem
+                      value="static"
+                      disabled={
+                        isGroup
+                          ? props.filterIds.every((id) => liveOnlyIds.has(id))
+                          : props.noMapMarkers
+                      }
+                    >
+                      Predicted
+                    </SelectItem>
+                  )}
                   <SelectItem value="combined" disabled={combinedLocked}>
                     <span className="flex items-center gap-1">
                       Combined

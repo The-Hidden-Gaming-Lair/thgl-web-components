@@ -19,6 +19,7 @@ import { useT } from "../(providers)";
 import { useMemo } from "react";
 import { ChevronRight, FlaskConical, Lock, PackageSearch } from "lucide-react";
 import { PreviewBadge, showPreviewUpsell } from "./preview-badge";
+import { LiveOnlyIcon, useLiveOnlyHidden } from "./live-only-hint";
 
 export function CollapsibleFilter({
   appName,
@@ -62,6 +63,10 @@ export function CollapsibleFilter({
     [filter.values],
   );
 
+  const { hidden: liveOnlyHidden, hint: liveOnlyHint } = useLiveOnlyHidden(
+    filter.values,
+  );
+
   const ratio =
     filter.values.length > 0 ? activeFiltersLength / filter.values.length : 0;
 
@@ -101,6 +106,7 @@ export function CollapsibleFilter({
             <span className="text-xs text-muted-foreground tabular-nums shrink-0">
               {activeFiltersLength}/{filter.values.length}
             </span>
+            {liveOnlyHidden.size > 0 && <LiveOnlyIcon hint={liveOnlyHint} />}
           </button>
         </CollapsibleTrigger>
         <button
@@ -238,6 +244,12 @@ export function CollapsibleFilter({
                       {locked && (
                         <Lock className="h-3 w-3 shrink-0" aria-hidden />
                       )}
+                      {liveOnlyHidden.has(f.id) && (
+                        <LiveOnlyIcon
+                          hint={liveOnlyHint}
+                          className="h-3.5 w-3.5"
+                        />
+                      )}
                       {preview && <PreviewBadge className="ml-0 shrink-0" />}
                     </button>
                   </TooltipTrigger>
@@ -245,6 +257,11 @@ export function CollapsibleFilter({
                     {t(f.id) || f.id}
                     {contentsMatches?.has(f.id) &&
                       ` · ${contentsMatches.get(f.id)}`}
+                    {liveOnlyHidden.has(f.id) && (
+                      <span className="block text-orange-500">
+                        {liveOnlyHint}
+                      </span>
+                    )}
                   </TooltipContent>
                 </Tooltip>
                 <div className="grow" />
