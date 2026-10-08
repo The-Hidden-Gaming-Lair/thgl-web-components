@@ -8,7 +8,7 @@
 export function SignOut({ isTebexAccount }: { isTebexAccount?: boolean }) {
   return (
     <button
-      className="text-sm hover:underline"
+      className="text-sm whitespace-nowrap hover:underline"
       onClick={() => {
         if (
           isTebexAccount &&

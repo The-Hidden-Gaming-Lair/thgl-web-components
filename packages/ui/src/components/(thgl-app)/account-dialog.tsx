@@ -13,6 +13,9 @@ import {
 import { Separator } from "../ui/separator";
 import Link from "next/link";
 import { Eye, ExternalLink, Shield, Star, Ticket, Zap } from "lucide-react";
+import { useState } from "react";
+import { Input } from "../ui/input";
+import { useUnlockWithSecret } from "../(header)/use-unlock-with-secret";
 
 const PERK_CONFIG = [
   { key: "adRemoval" as const, label: "Ad-Free", icon: Shield, tier: "Pro+" },
@@ -109,6 +112,46 @@ function PricingLink() {
   );
 }
 
+/**
+ * Supporter Key sign-in: accounts without a Patreon login (Tebex purchases,
+ * e.g. the China Alipay / WeChat Pay checkout) restore themselves in the
+ * Companion App with the key from their www account page. The app has its
+ * own cookie store, so a website sign-in doesn't carry over.
+ */
+function SupporterKeyForm() {
+  const [key, setKey] = useState("");
+  const { unlock, loading } = useUnlockWithSecret();
+  return (
+    <details className="text-xs">
+      <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
+        Have a Supporter Key? / 有支持者密钥？
+      </summary>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          void unlock(key);
+        }}
+        className="flex gap-2 mt-2"
+      >
+        <Input
+          value={key}
+          onChange={(e) => setKey(e.target.value.trim())}
+          placeholder="Paste your Supporter Key / 粘贴你的支持者密钥"
+          className="text-xs h-8"
+        />
+        <Button
+          type="submit"
+          size="sm"
+          className="h-8 shrink-0"
+          disabled={key.length === 0 || loading}
+        >
+          Unlock
+        </Button>
+      </form>
+    </details>
+  );
+}
+
 export function AccountDialog() {
   const account = useAccountStore();
 
@@ -138,6 +181,7 @@ export function AccountDialog() {
             </div>
             <Separator />
             <PricingLink />
+            <SupporterKeyForm />
           </section>
           <DialogFooter>
             <Link href="https://www.patreon.com/home" target="_blank" passHref>

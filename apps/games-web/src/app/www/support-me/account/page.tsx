@@ -75,7 +75,7 @@ function TebexAccountContent({
     <>
       {account && <InitializeAccount account={account} />}
       {waiting && <meta httpEquiv="refresh" content="4" />}
-      <div className="bg-muted/30 rounded-lg p-8 max-w-3xl mx-auto space-y-6">
+      <div className="bg-muted/30 rounded-lg p-4 sm:p-8 max-w-3xl mx-auto space-y-6">
         <h2 className="text-2xl font-bold text-center">Account</h2>
         {tebex === null ? (
           <p className="text-amber-500 text-center text-sm">
@@ -134,7 +134,10 @@ function TebexAccountContent({
         )}
 
         <div className="border-t border-border pt-4 space-y-3 text-sm">
-          <p className="font-semibold">Your Supporter Key / 你的支持者密钥</p>
+          <p className="font-semibold">
+            Your Supporter Key
+            <span className="block">你的支持者密钥</span>
+          </p>
           <p className="text-muted-foreground">
             Keep this key safe. To unlock your perks in the Companion App, in
             another browser or on another device, open the sign-in dialog there,
@@ -147,7 +150,7 @@ function TebexAccountContent({
           <SupporterKey secret={secret} />
         </div>
 
-        <div className="flex gap-3 justify-center pt-4 border-t border-border">
+        <div className="flex flex-wrap items-center gap-3 justify-center pt-4 border-t border-border">
           <Button variant="secondary" asChild>
             <Link href={TEBEX_PAYMENT_HISTORY_URL} target="_blank">
               Manage Subscription
