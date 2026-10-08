@@ -2,8 +2,9 @@ import { expect, test, type Page } from "@playwright/test";
 import { BASE_URL, waitForMapReady } from "./fixtures";
 
 /**
- * The marker panel and the hover tooltip never show a `{{...}}` placeholder
- * the spawn cannot fill (withoutUnfilledPlaceholders, marker-description.ts).
+ * The marker panel, the hover tooltip and the filter settings popover never
+ * show a `{{...}}` placeholder the spawn cannot fill
+ * (withoutUnfilledPlaceholders, marker-description.ts).
  *
  * Regression (web, 3a25e433): Wuthering Waves descriptions are templates
  * (`<p>Monster Treasure (Respawns)</p><p>Spawns Daily</p><p>{{area}}</p>{{ctx}}`)
@@ -76,5 +77,28 @@ test.describe("description placeholders (Wuthering Waves)", () => {
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
     await expect(page.getByText(SPAWN.heading).first()).toBeVisible();
     expect(await visibleText(page)).not.toContain("{{");
+  });
+
+  // The filter's own description is the same template, and a filter has no
+  // spawn to fill it (85 Wuthering Waves filters showed `{{area}}{{ctx}}`).
+  test("the filter settings popover hides placeholders", async ({ page }) => {
+    const FILTER = {
+      label: "Fractsidus Mawdoll (SE)",
+      heading: "SpecialElite (Respawns)",
+    };
+    await page.goto(`${WUWA_URL}/maps/${encodeURIComponent(MAP.title)}`);
+    await waitForMapReady(page, MAP.key);
+    await page.getByPlaceholder("Type to search...").fill(FILTER.label);
+    const value = page
+      .getByRole("button", { name: FILTER.label, exact: true })
+      .first();
+    await expect(value).toBeVisible();
+    await value
+      .locator("xpath=..")
+      .getByRole("button", { name: "Filter settings" })
+      .click();
+    const popover = page.getByRole("dialog");
+    await expect(popover.getByText(FILTER.heading)).toBeVisible();
+    expect(await popover.innerText()).not.toContain("{{");
   });
 });
