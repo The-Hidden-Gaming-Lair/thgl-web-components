@@ -68,6 +68,32 @@ describe("fetchJsonWithMemoryCache", () => {
     expect(calls).toEqual([url, url, url]);
   });
 
+  it("waits for the refresh once an entry is past maxStaleMs", async () => {
+    const url = "https://cdn.example/bounded.json";
+    reply(url, { body: { v: 1 } }, { body: { v: 2 } });
+    const opts = { maxStaleMs: 30_000 };
+
+    await fetchJsonWithMemoryCache(url, opts);
+    // An idle pod: nobody asked for an hour. Serving v1 now would hand the
+    // old data to a render the edge then caches for a day.
+    jest.advanceTimersByTime(60 * 60 * 1000);
+    expect(await fetchJsonWithMemoryCache(url, opts)).toEqual({ v: 2 });
+  });
+
+  it("falls back to the stale copy when a bounded refresh fails", async () => {
+    const url = "https://cdn.example/bounded-fails.json";
+    reply(url, { body: { v: 1 } }, { fail: true }, { fail: true });
+    jest.spyOn(console, "warn").mockImplementation(() => {});
+    const opts = { maxStaleMs: 30_000 };
+
+    await fetchJsonWithMemoryCache(url, opts);
+    jest.advanceTimersByTime(60 * 60 * 1000);
+    expect(await fetchJsonWithMemoryCache(url, opts)).toEqual({ v: 1 });
+    // Backs off for a TTL instead of blocking every call on a dead CDN.
+    expect(await fetchJsonWithMemoryCache(url, opts)).toEqual({ v: 1 });
+    expect(calls).toEqual([url, url, url]);
+  });
+
   it("retries a thrown fetch once", async () => {
     const url = "https://cdn.example/retry.json";
     reply(url, { fail: true }, { body: { ok: true } });

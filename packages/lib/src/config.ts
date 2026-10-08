@@ -557,6 +557,12 @@ type MemoryFetchOptions<T> = {
   onNotFound?: () => T | undefined;
   ttlMs?: number;
   immutable?: boolean;
+  /**
+   * How long past its TTL an entry may still be served while it refreshes in
+   * the background. Beyond that the call waits for the fresh copy (the stale
+   * one only on failure). Unset = serve stale forever, refresh behind it.
+   */
+  maxStaleMs?: number;
   /** Called whenever fresh data is stored — the first load and every background refresh. */
   onFresh?: (data: T) => void;
 };
@@ -643,6 +649,18 @@ export async function fetchJsonWithMemoryCache<T>(
   if (cached && (ttl > 0 || cached.expiresAt > Date.now())) {
     memoryFetchCache.delete(url);
     memoryFetchCache.set(url, cached);
+    const maxStale = options?.maxStaleMs;
+    if (
+      maxStale !== undefined &&
+      ttl > 0 &&
+      cached.expiresAt + maxStale <= Date.now()
+    ) {
+      return loadIntoMemoryCache(url, options).catch((error) => {
+        cached.expiresAt = Date.now() + ttl;
+        console.warn(`Refresh failed, serving stale ${url}:`, error);
+        return cached.data as T;
+      });
+    }
     if (cached.expiresAt <= Date.now() && !memoryFetchInflight.has(url)) {
       loadIntoMemoryCache(url, options).catch((error) => {
         // Keep serving the stale copy; retry after another TTL.
@@ -680,6 +698,11 @@ export async function fetchVersion(appName: string): Promise<Version> {
     getAppUrl(appName, "/version.json"),
     {
       ttlMs: process.env.NODE_ENV === "development" ? 0 : MEMORY_FETCH_TTL_MS,
+      // Bounded: every pod renders the new data version at most 90 s after a
+      // data update, even one that sat idle for hours - games-web's
+      // /api/revalidate re-purges the tenant's edge after 150 s and relies on
+      // it (an idle pod's first render must not refill the edge with old data).
+      maxStaleMs: 30_000,
       // A background refresh (stale-while-revalidate) reports the new version
       // as soon as it lands, not only on the next call.
       onFresh: observe,
