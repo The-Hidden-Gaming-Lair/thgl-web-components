@@ -463,6 +463,8 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
               liveState.setWindowMode(message.payload);
             } else if (message.action === "alwaysRunAsAdminChanged") {
               liveState.setAlwaysRunAsAdmin(message.payload);
+            } else if (message.action === "helpImproveMapsChanged") {
+              liveState.setHelpImproveMaps(message.payload);
             } else if (message.action === "exclusiveFullscreenChanged") {
               liveState.setExclusiveFullscreen(message.payload);
             }
@@ -488,6 +490,8 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
               liveState.setWindowMode(message.payload);
             } else if (message.action === "alwaysRunAsAdminChanged") {
               liveState.setAlwaysRunAsAdmin(message.payload);
+            } else if (message.action === "helpImproveMapsChanged") {
+              liveState.setHelpImproveMaps(message.payload);
             } else if (message.action === "closeActionChanged") {
               liveState.setCloseAction(message.payload);
             } else if (message.action === "exclusiveFullscreenChanged") {
@@ -539,6 +543,7 @@ export async function initializeApp(role: "client" | "dashboard" = "client") {
           liveState.setGpuFlag(data.gpuFlag);
           liveState.setIsRunningAsAdmin(data.isRunningAsAdmin ?? false);
           liveState.setAlwaysRunAsAdmin(data.alwaysRunAsAdmin ?? false);
+          liveState.setHelpImproveMaps(data.helpImproveMaps ?? true);
           liveState.setCompatRunAsAdminFlag(compatRunAsAdminFlagState(data));
           liveState.setExclusiveFullscreen(data.exclusiveFullscreen ?? false);
           liveState.setCloseAction(data.closeAction ?? "ask");

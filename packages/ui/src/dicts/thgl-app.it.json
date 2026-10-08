@@ -39,6 +39,9 @@
   "settings.displayLanguage": "Lingua di visualizzazione",
   "settings.languagePlaceholder": "Seleziona la lingua",
   "settings.languageDesc": "Cambia la lingua dell'interfaccia dell'app companion",
+  "settings.privacy": "Privacy",
+  "settings.helpImproveMaps": "Aiuta a migliorare le mappe (anonimo)",
+  "settings.helpImproveMapsDesc": "Quando correggiamo un problema della mappa, l'app può inviare ciò che rileva in quel punto (tipi di oggetti e posizioni). Mai il tuo nome, il tuo account o altri giocatori.",
 
   "settings.infoNote": "Le impostazioni di avvio automatico per ogni gioco possono essere configurate nella pagina del gioco nella barra laterale. Le impostazioni dell'app come i tasti rapidi possono essere configurate nelle finestre overlay o desktop.",
 

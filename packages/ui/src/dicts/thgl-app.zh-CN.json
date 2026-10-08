@@ -39,6 +39,9 @@
   "settings.displayLanguage": "显示语言",
   "settings.languagePlaceholder": "选择语言",
   "settings.languageDesc": "更改伴侣应用界面的显示语言",
+  "settings.privacy": "隐私",
+  "settings.helpImproveMaps": "帮助改进地图（匿名）",
+  "settings.helpImproveMapsDesc": "在我们修复地图问题时，应用可能会发送它在该位置检测到的内容（物体类型和位置）。绝不发送你的名字、账号或其他玩家的信息。",
 
   "settings.infoNote": "每个游戏的自动运行设置可在侧边栏对应游戏页面中配置。快捷键等应用设置可在叠加层或桌面窗口中配置。",
 

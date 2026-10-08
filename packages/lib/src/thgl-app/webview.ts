@@ -139,6 +139,10 @@ export type WEBVIEW_RECEIVE_MESSAGE =
       payload: boolean;
     }
   | {
+      action: "helpImproveMapsChanged";
+      payload: boolean;
+    }
+  | {
       action: "closeActionChanged";
       payload: CloseAction;
     }
@@ -279,6 +283,12 @@ export type WEBVIEW_SEND_MESSAGE =
       action: "setAlwaysRunAsAdmin";
       payload: {
         always: boolean;
+      };
+    }
+  | {
+      action: "setHelpImproveMaps";
+      payload: {
+        enabled: boolean;
       };
     }
   | {

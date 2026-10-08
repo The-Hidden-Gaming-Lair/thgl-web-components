@@ -44,6 +44,8 @@ export const useLiveState = create<{
   setCloseAction: (action: CloseAction) => void;
   alwaysRunAsAdmin: boolean;
   setAlwaysRunAsAdmin: (always: boolean) => void;
+  helpImproveMaps: boolean;
+  setHelpImproveMaps: (enabled: boolean) => void;
   // Windows Compatibility "Run as administrator" flag state at startup:
   // "none" (or an older app), "removed" (the app stripped it — restart to
   // apply), "present" (found but not removable — the user must uncheck it).
@@ -79,6 +81,8 @@ export const useLiveState = create<{
   setCloseAction: (action) => set({ closeAction: action }),
   alwaysRunAsAdmin: false,
   setAlwaysRunAsAdmin: (always) => set({ alwaysRunAsAdmin: always }),
+  helpImproveMaps: true,
+  setHelpImproveMaps: (enabled) => set({ helpImproveMaps: enabled }),
   compatRunAsAdminFlag: "none",
   setCompatRunAsAdminFlag: (state) => set({ compatRunAsAdminFlag: state }),
   locale: "en",

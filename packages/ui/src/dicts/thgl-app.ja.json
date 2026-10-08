@@ -39,6 +39,9 @@
   "settings.displayLanguage": "表示言語",
   "settings.languagePlaceholder": "言語を選択",
   "settings.languageDesc": "コンパニオンアプリのインターフェース言語を変更します",
+  "settings.privacy": "プライバシー",
+  "settings.helpImproveMaps": "マップの改善に協力する（匿名）",
+  "settings.helpImproveMapsDesc": "マップの問題を修正する際、アプリはその場所で検出した内容（オブジェクトの種類と位置）を送信することがあります。名前、アカウント、他のプレイヤーの情報は送信しません。",
 
   "settings.infoNote": "ゲームごとの自動起動設定は、サイドバーの各ゲームページで構成できます。ホットキーなどのアプリ設定は、オーバーレイまたはデスクトップウィンドウで構成できます。",
 

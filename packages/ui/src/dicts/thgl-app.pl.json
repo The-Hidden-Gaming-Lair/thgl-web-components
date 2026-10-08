@@ -39,6 +39,9 @@
   "settings.displayLanguage": "Język wyświetlania",
   "settings.languagePlaceholder": "Wybierz język",
   "settings.languageDesc": "Zmienia język interfejsu aplikacji towarzyszącej",
+  "settings.privacy": "Prywatność",
+  "settings.helpImproveMaps": "Pomóż ulepszać mapy (anonimowo)",
+  "settings.helpImproveMapsDesc": "Gdy naprawiamy problem z mapą, aplikacja może wysłać to, co wykrywa w danym miejscu (typy obiektów i pozycje). Nigdy twojej nazwy, konta ani innych graczy.",
 
   "settings.infoNote": "Ustawienia automatycznego uruchamiania dla poszczególnych gier można skonfigurować na stronie każdej gry w pasku bocznym. Ustawienia aplikacji, takie jak skróty klawiszowe, można skonfigurować w oknach nakładki lub pulpitu.",
 

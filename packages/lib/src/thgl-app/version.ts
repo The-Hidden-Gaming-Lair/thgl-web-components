@@ -26,6 +26,8 @@ export type InitialState = {
   gpuFlag: GpuFlag;
   isRunningAsAdmin: boolean;
   alwaysRunAsAdmin: boolean;
+  // "Help improve maps (anonymous)" - client probes on/off (apps before 21.9.0 omit it).
+  helpImproveMaps?: boolean;
   exclusiveFullscreen?: boolean;
   closeAction: CloseAction;
   locale: string;
@@ -117,6 +119,14 @@ export function setAlwaysRunAsAdmin(always: boolean) {
   return postWebviewMessage({
     action: "setAlwaysRunAsAdmin",
     payload: { always },
+  });
+}
+
+/** "Help improve maps (anonymous)": the app's client probes (THGLApp client_probes.h). */
+export function setHelpImproveMaps(enabled: boolean) {
+  return postWebviewMessage({
+    action: "setHelpImproveMaps",
+    payload: { enabled },
   });
 }
 

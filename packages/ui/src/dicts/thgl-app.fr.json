@@ -39,6 +39,9 @@
   "settings.displayLanguage": "Langue d'affichage",
   "settings.languagePlaceholder": "Sélectionner la langue",
   "settings.languageDesc": "Change la langue de l'interface de l'application compagnon",
+  "settings.privacy": "Confidentialité",
+  "settings.helpImproveMaps": "Aider à améliorer les cartes (anonyme)",
+  "settings.helpImproveMapsDesc": "Quand nous corrigeons un problème de carte, l'app peut envoyer ce qu'elle détecte à cet endroit (types d'objets et positions). Jamais ton nom, ton compte ni d'autres joueurs.",
 
   "settings.infoNote": "Les paramètres d'exécution automatique par jeu peuvent être configurés sur la page de chaque jeu dans la barre latérale. Les paramètres de l'application comme les raccourcis clavier peuvent être configurés dans les fenêtres overlay ou bureau.",
 

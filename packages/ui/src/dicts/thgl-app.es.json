@@ -39,6 +39,9 @@
   "settings.displayLanguage": "Idioma de visualización",
   "settings.languagePlaceholder": "Seleccionar idioma",
   "settings.languageDesc": "Cambia el idioma de la interfaz de la aplicación complementaria",
+  "settings.privacy": "Privacidad",
+  "settings.helpImproveMaps": "Ayudar a mejorar los mapas (anónimo)",
+  "settings.helpImproveMapsDesc": "Cuando corregimos un problema del mapa, la app puede enviar lo que detecta en ese lugar (tipos de objetos y posiciones). Nunca tu nombre, tu cuenta ni otros jugadores.",
 
   "settings.infoNote": "Los ajustes de ejecución automática por juego se pueden configurar en la página de cada juego en la barra lateral. Los ajustes de la aplicación como las teclas de acceso rápido se pueden configurar en las ventanas de superposición o escritorio.",
 

@@ -315,6 +315,52 @@ export default function PrivacyPolicy(): JSX.Element {
         </div>
       </section>
       <hr className="border-border" />
+      {/* Companion App game data Section */}
+      <section id="companion-app-game-data" className="space-y-4">
+        <h2 className="text-2xl font-bold">
+          Companion App: Game Data for the Maps
+        </h2>
+        <div className="space-y-3 text-muted-foreground">
+          <p>
+            While a supported game runs, the companion apps read game data (e.g.
+            your position and nearby objects) to show them on the map. This
+            stays on your PC, except for the following anonymous data, which we
+            use to keep the maps correct:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              <strong>Detection status:</strong> every few minutes, which kinds
+              of objects the app detects and whether reading the game works,
+              together with the app version, the game version and a random id
+              that changes with every game launch. No positions.
+            </li>
+            <li>
+              <strong>Object positions:</strong> for some games, the positions
+              of world objects such as resource nodes or chests, so we can add
+              them to the maps. Never your own position or other players.
+            </li>
+            <li>
+              <strong>Map improvement captures</strong> (setting &quot;Help
+              improve maps&quot;, on by default): when we investigate a specific
+              map problem, the app may send one capture per game session when
+              you are at the affected spot or the problem occurs: the objects it
+              detects there (types and positions), your in-game position at that
+              moment, the game version and technical diagnostics of the game
+              reading. Kept for up to 30 days after the investigation ends. You
+              can turn this off in the Companion App under Dashboard &gt;
+              Settings &gt; Privacy.
+            </li>
+          </ul>
+          <p>
+            None of this contains your name, account, Discord user or
+            information about your PC. Your IP address is only used to deliver
+            the data and to limit request rates; it is not stored with it. Legal
+            basis: Art. 6(1)(f) GDPR (our legitimate interest in accurate,
+            working maps).
+          </p>
+        </div>
+      </section>
+      <hr className="border-border" />
       {/* Data Security Section */}
       <section id="data-security" className="space-y-4">
         <h2 className="text-2xl font-bold">Data Security</h2>

@@ -33,6 +33,7 @@ import {
   useTHGLAppState,
   setGpuFlag,
   setAlwaysRunAsAdmin as setAlwaysRunAsAdminApi,
+  setHelpImproveMaps as setHelpImproveMapsApi,
   relaunchAsAdmin,
   relaunchNormal,
   setCloseAction as setCloseActionApi,
@@ -261,6 +262,8 @@ export default function SettingsPage() {
   const setAlwaysRunAsAdmin = useLiveState(
     (state) => state.setAlwaysRunAsAdmin,
   );
+  const helpImproveMaps = useLiveState((state) => state.helpImproveMaps);
+  const setHelpImproveMaps = useLiveState((state) => state.setHelpImproveMaps);
   const closeAction = useLiveState((state) => state.closeAction);
   const setCloseActionState = useLiveState((state) => state.setCloseAction);
 
@@ -515,6 +518,33 @@ export default function SettingsPage() {
             <p className="text-xs text-muted-foreground">
               {t("settings.languageDesc")}
             </p>
+          </div>
+        </div>
+
+        {/* Privacy: client probes (THGLApp client_probes.h) */}
+        <div className="rounded-lg border bg-card p-4 space-y-4">
+          <h3 className="text-sm font-semibold">{t("settings.privacy")}</h3>
+          <div className="flex items-center justify-between gap-4">
+            <div className="space-y-0.5">
+              <Label
+                htmlFor="help-improve-maps"
+                className="text-sm font-normal cursor-pointer"
+              >
+                {t("settings.helpImproveMaps")}
+              </Label>
+              <p className="text-xs text-muted-foreground">
+                {t("settings.helpImproveMapsDesc")}
+              </p>
+            </div>
+            <Switch
+              id="help-improve-maps"
+              checked={helpImproveMaps}
+              onCheckedChange={(checked) => {
+                setHelpImproveMapsApi(checked)
+                  .then(() => setHelpImproveMaps(checked))
+                  .catch(console.error);
+              }}
+            />
           </div>
         </div>
 
