@@ -20,5 +20,10 @@
   "config.db.typeLabels.inventory": "Objeto",
   "config.db.typeLabels.equipment": "Equipo",
   "config.db.typeLabels.recipes": "Receta",
-  "config.db.typeLabels.enemies": "Enemigo"
+  "config.db.typeLabels.enemies": "Enemigo",
+  "config.internalLinks.sources.title": "Fuentes de botín",
+  "config.internalLinks.sources.description": "Montones de chatarra y cofres de botín: qué puede contener cada uno y dónde encontrarlos en el mapa.",
+  "config.internalLinks.sources.linkText": "Abrir las fuentes de botín",
+  "config.db.sources.description": "Montones de chatarra y cofres de botín con su contenido.",
+  "config.db.typeLabels.sources": "Fuente de botín"
 }

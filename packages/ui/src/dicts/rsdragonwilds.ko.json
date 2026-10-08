@@ -20,5 +20,10 @@
   "config.db.typeLabels.inventory": "아이템",
   "config.db.typeLabels.equipment": "장비",
   "config.db.typeLabels.recipes": "레시피",
-  "config.db.typeLabels.enemies": "적"
+  "config.db.typeLabels.enemies": "적",
+  "config.internalLinks.sources.title": "전리품 출처",
+  "config.internalLinks.sources.description": "잔해 더미와 상자: 각각에 들어 있을 수 있는 것과 지도상의 위치.",
+  "config.internalLinks.sources.linkText": "전리품 출처 열기",
+  "config.db.sources.description": "잔해 더미와 상자, 그리고 그 내용물.",
+  "config.db.typeLabels.sources": "전리품 출처"
 }

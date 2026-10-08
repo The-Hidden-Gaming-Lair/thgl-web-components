@@ -20,5 +20,10 @@
   "config.db.typeLabels.inventory": "Item",
   "config.db.typeLabels.equipment": "Equipment",
   "config.db.typeLabels.recipes": "Recipe",
-  "config.db.typeLabels.enemies": "Enemy"
+  "config.db.typeLabels.enemies": "Enemy",
+  "config.internalLinks.sources.title": "Loot Sources",
+  "config.internalLinks.sources.description": "Salvage piles and loot chests: what each one can contain, and where to find them on the map.",
+  "config.internalLinks.sources.linkText": "Open the Loot Sources",
+  "config.db.sources.description": "Salvage piles and loot chests with their contents.",
+  "config.db.typeLabels.sources": "Loot Source"
 }

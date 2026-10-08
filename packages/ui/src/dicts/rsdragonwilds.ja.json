@@ -20,5 +20,10 @@
   "config.db.typeLabels.inventory": "アイテム",
   "config.db.typeLabels.equipment": "装備",
   "config.db.typeLabels.recipes": "レシピ",
-  "config.db.typeLabels.enemies": "敵"
+  "config.db.typeLabels.enemies": "敵",
+  "config.internalLinks.sources.title": "戦利品の入手元",
+  "config.internalLinks.sources.description": "廃品の山と宝箱：それぞれの中身と、マップ上の場所。",
+  "config.internalLinks.sources.linkText": "戦利品の入手元を開く",
+  "config.db.sources.description": "廃品の山と宝箱、その中身。",
+  "config.db.typeLabels.sources": "戦利品の入手元"
 }

@@ -20,5 +20,10 @@
   "config.db.typeLabels.inventory": "Oggetto",
   "config.db.typeLabels.equipment": "Equipaggiamento",
   "config.db.typeLabels.recipes": "Ricetta",
-  "config.db.typeLabels.enemies": "Nemico"
+  "config.db.typeLabels.enemies": "Nemico",
+  "config.internalLinks.sources.title": "Fonti di bottino",
+  "config.internalLinks.sources.description": "Cumuli di recupero e forzieri: cosa può contenere ciascuno e dove trovarli sulla mappa.",
+  "config.internalLinks.sources.linkText": "Apri le fonti di bottino",
+  "config.db.sources.description": "Cumuli di recupero e forzieri con il loro contenuto.",
+  "config.db.typeLabels.sources": "Fonte di bottino"
 }

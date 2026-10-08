@@ -20,5 +20,10 @@
   "config.db.typeLabels.inventory": "物品",
   "config.db.typeLabels.equipment": "裝備",
   "config.db.typeLabels.recipes": "配方",
-  "config.db.typeLabels.enemies": "敵人"
+  "config.db.typeLabels.enemies": "敵人",
+  "config.internalLinks.sources.title": "戰利品來源",
+  "config.internalLinks.sources.description": "廢料堆和寶箱：每種可能包含的物品，以及它們在地圖上的位置。",
+  "config.internalLinks.sources.linkText": "開啟戰利品來源",
+  "config.db.sources.description": "廢料堆和寶箱及其內容物。",
+  "config.db.typeLabels.sources": "戰利品來源"
 }

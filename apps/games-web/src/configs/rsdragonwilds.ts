@@ -53,6 +53,13 @@ export const rsdragonwilds = resolveAppConfig({
       linkText: "config.internalLinks.enemies.linkText",
     },
     {
+      title: "config.internalLinks.sources.title",
+      description: "config.internalLinks.sources.description",
+      href: "/db/sources",
+      iconName: "Trophy",
+      linkText: "config.internalLinks.sources.linkText",
+    },
+    {
       title: "checklist.navTitle",
       description: "checklist.navDescription",
       href: "/checklist",
@@ -116,12 +123,21 @@ export const rsdragonwilds = resolveAppConfig({
         icon: "💀",
         description: "config.db.enemies.description",
       },
+      {
+        href: "/db/sources",
+        type: "sources",
+        titleKey: "config.internalLinks.sources.title",
+        titleFallback: "Loot Sources",
+        icon: "📦",
+        description: "config.db.sources.description",
+      },
     ],
     typeLabels: {
       inventory: "config.db.typeLabels.inventory",
       equipment: "config.db.typeLabels.equipment",
       recipes: "config.db.typeLabels.recipes",
       enemies: "config.db.typeLabels.enemies",
+      sources: "config.db.typeLabels.sources",
     },
   },
 });
