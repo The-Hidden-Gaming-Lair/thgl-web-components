@@ -820,6 +820,25 @@ Think something crosses the line? Tell us on [Discord](https://th.gl/discord).
     labels: ["General", "Companion App", "Overwolf"],
   },
   {
+    id: "see-friends-on-map",
+    headline: "See your friends on the map with Peer Link",
+    question: "Can I see my friends or teammates on the live map?",
+    answer: `
+Yes, with **Peer Link**. Everyone who wants to be seen shares their **own** position: the app never reads other players from the game.
+
+1. Every friend runs the app with live mode for the same game.
+2. Click the **Peer Link** button (the cast icon next to the map controls).
+3. Enter your **Player Name** so your friends can tell who is who, and pick a marker color if you like.
+4. One of you clicks **Generate** next to **Peer Code** (or types your own code) and sends it to the others.
+5. Everyone enters the **exact same Peer Code** and clicks **Join Peer Mesh**.
+
+Your friends now show up as markers on your map with their names whenever you are on the same map. Anyone without the app can open the same code in a browser (the **Copy Link** button or the QR code) to watch along.
+
+Peer Link is peer-to-peer: positions go straight between your devices, not through our servers. It is allowed in every game, see our [fair-play rules](/faq/fair-play).
+    `.trim(),
+    labels: ["General", "Companion App", "Overwolf"],
+  },
+  {
     id: "companion-app-system-requirements",
     headline: "Companion App system requirements",
     question: "What are the system requirements for the TH.GL Companion App?",
