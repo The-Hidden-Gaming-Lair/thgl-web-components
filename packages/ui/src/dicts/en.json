@@ -127,6 +127,7 @@
   "guide.spawns": "This guide lists {{spawns}} known {{guide}} across {{maps}} maps. Use the map tracker below or highlight coordinates directly.",
   "guide.mixed": "{{guide}} markers can stand for any of the entries below, so the map would mix their spots. Here is where each one is found:",
   "guide.sightings": "The map shows {{spawns}} spots across {{maps}} maps where players caught {{guide}}. These are reported spots, not fixed spawns, so there is no progress to tick off.",
+  "guide.respawning": "The map shows {{spawns}} known {{guide}} spots across {{maps}} maps. They respawn after you gather them, so there is no progress to tick off.",
   "guide.mapProgress.title": "{{map}} Progress Tracker",
   "guide.mapProgress.map": "{{map}} Map",
   "guide.mapProgress.full": "Show Full {{map}} Map",

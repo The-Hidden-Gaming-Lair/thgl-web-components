@@ -102,6 +102,14 @@ export const palia = resolveAppConfig({
   keywords: ["Rummage Pile", "Plushies", "Elderwood"],
   // Fish and bug markers are where players caught or saw one, not fixed spawns.
   sightingFilters: ["cat_fishing", "cat_bugs"],
+  // Only one-time spots get a progress tracker: everything else respawns.
+  trackerFilters: [
+    "treasures",
+    "cat_decor",
+    "bp_questitem_calerilvl3book",
+    "bp_questitem_cookbook_1",
+    "bp_questitem_cookbook_2",
+  ],
   db: {
     heroSubtitle: "config.db.heroSubtitle",
     searchPlaceholder: "config.db.searchPlaceholder",

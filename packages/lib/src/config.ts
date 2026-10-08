@@ -84,6 +84,12 @@ export type AppConfig = {
    */
   sightingFilters?: string[];
   /**
+   * Filter groups, categories or type ids whose spots are gone for the player once
+   * gathered or opened (chests, unlockables): only their guides get the per-spot progress
+   * tracker. Unset = every guide has one. Respawning nodes have nothing to tick off.
+   */
+  trackerFilters?: string[];
+  /**
    * Live market prices in the crafting calculator. `"aodp"` = the Albion
    * Online Data Project's crowd-sourced price API (Albion only).
    */

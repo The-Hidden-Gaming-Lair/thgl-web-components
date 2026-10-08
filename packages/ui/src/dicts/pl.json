@@ -127,6 +127,7 @@
   "guide.spawns": "W tym przewodniku znajduje się {{spawns}} znanych {{guide}} na {{maps}} mapach. Skorzystaj z poniższego trackera lub zaznacz współrzędne bezpośrednio.",
   "guide.mixed": "Znaczniki {{guide}} mogą oznaczać dowolny z poniższych wpisów, więc mapa pomieszałaby ich miejsca. Oto gdzie znajdziesz każdy z nich:",
   "guide.sightings": "Mapa pokazuje {{spawns}} miejsc na {{maps}} mapach, w których gracze złapali {{guide}}. To zgłoszone miejsca, a nie stałe punkty odrodzenia, więc nie ma postępu do odhaczania.",
+  "guide.respawning": "Mapa pokazuje {{spawns}} znanych miejsc {{guide}} na {{maps}} mapach. Odradzają się po zebraniu, więc nie ma postępu do odhaczania.",
   "guide.mapProgress.title": "Śledzenie Postępów – {{map}}",
   "guide.mapProgress.map": "Mapa {{map}}",
   "guide.mapProgress.full": "Pokaż Pełną Mapę {{map}}",

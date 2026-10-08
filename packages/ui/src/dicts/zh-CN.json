@@ -127,6 +127,7 @@
   "guide.spawns": "本指南列出了分布于 {{maps}} 张地图上的 {{spawns}} 个已知 {{guide}}。可使用下方地图追踪器或直接高亮坐标。",
   "guide.mixed": "{{guide}} 标记可能代表下面任意一项，因此地图会把它们的位置混在一起。以下是每一项的获取地点：",
   "guide.sightings": "地图显示了玩家在 {{maps}} 张地图上捕获{{guide}}的 {{spawns}} 个地点。这些是玩家报告的地点，而非固定刷新点，因此无需勾选进度。",
+  "guide.respawning": "地图显示了 {{maps}} 张地图上 {{spawns}} 个已知的{{guide}}地点。采集后会重新刷新，因此没有可勾选的进度。",
   "guide.mapProgress.title": "{{map}} 进度追踪器",
   "guide.mapProgress.map": "{{map}}地图",
   "guide.mapProgress.full": "显示 {{map}} 全图",

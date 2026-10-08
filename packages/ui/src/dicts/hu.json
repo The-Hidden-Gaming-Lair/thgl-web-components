@@ -127,6 +127,7 @@
   "guide.spawns": "Ez az útmutató {{spawns}} ismert {{guide}} elemet tartalmaz {{maps}} térképen. Használd az alábbi térkép-nyomkövetőt, vagy jelöld ki közvetlenül a koordinátákat.",
   "guide.mixed": "A(z) {{guide}} jelölők az alábbi bejegyzések bármelyikét jelenthetik, ezért a térkép összekeverné a helyeiket. Itt látod, hol található mindegyik:",
   "guide.sightings": "A térkép {{spawns}} helyet mutat {{maps}} térképen, ahol a játékosok {{guide}} fogtak. Ezek bejelentett helyek, nem fix megjelenési pontok, így nincs mit kipipálni.",
+  "guide.respawning": "A térkép {{spawns}} ismert {{guide}} helyet mutat {{maps}} térképen. Begyűjtés után újra megjelennek, így nincs mit kipipálni.",
   "guide.mapProgress.title": "{{map}} haladáskövetés",
   "guide.mapProgress.map": "{{map}} térkép",
   "guide.mapProgress.full": "Teljes {{map}} térkép megjelenítése",

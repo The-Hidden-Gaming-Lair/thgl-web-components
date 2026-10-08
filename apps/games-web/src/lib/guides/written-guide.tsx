@@ -16,6 +16,7 @@ import {
   games,
   getIconsUrl,
   getT,
+  hasGuideTracker,
   isSightingGuide,
   localizePath,
 } from "@repo/lib";
@@ -362,7 +363,8 @@ export async function WrittenGuidePage({
                   block.types,
                   filters,
                   appConfig.sightingFilters,
-                )
+                ) &&
+                hasGuideTracker(block.types, filters, appConfig.trackerFilters)
               }
             />
           </div>

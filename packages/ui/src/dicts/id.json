@@ -127,6 +127,7 @@
   "guide.spawns": "Panduan ini mencantumkan {{spawns}} {{guide}} yang diketahui di {{maps}} peta. Gunakan pelacak peta di bawah atau soroti koordinat secara langsung.",
   "guide.mixed": "Penanda {{guide}} bisa berarti entri mana pun di bawah, jadi peta akan mencampur lokasinya. Berikut tempat masing-masing ditemukan:",
   "guide.sightings": "Peta menampilkan {{spawns}} titik di {{maps}} peta tempat pemain menangkap {{guide}}. Ini adalah titik yang dilaporkan, bukan titik spawn tetap, jadi tidak ada progres yang perlu dicentang.",
+  "guide.respawning": "Peta menampilkan {{spawns}} lokasi {{guide}} yang diketahui di {{maps}} peta. Lokasi ini muncul kembali setelah kamu mengumpulkannya, jadi tidak ada progres yang perlu dicentang.",
   "guide.mapProgress.title": "Pelacak Progres {{map}}",
   "guide.mapProgress.map": "Peta {{map}}",
   "guide.mapProgress.full": "Tampilkan Peta {{map}} Penuh",

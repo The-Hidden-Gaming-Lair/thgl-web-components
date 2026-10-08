@@ -127,6 +127,7 @@
   "guide.spawns": "Questa guida elenca {{spawns}} {{guide}} conosciuti su {{maps}} mappe. Usa il tracciatore sottostante o evidenzia direttamente le coordinate.",
   "guide.mixed": "I segnalini {{guide}} possono indicare una qualsiasi delle voci qui sotto, quindi la mappa mescolerebbe i loro punti. Ecco dove si trova ciascuna:",
   "guide.sightings": "La mappa mostra {{spawns}} punti su {{maps}} mappe in cui i giocatori hanno catturato {{guide}}. Sono punti segnalati, non spawn fissi, quindi non c'è alcun progresso da spuntare.",
+  "guide.respawning": "La mappa mostra {{spawns}} punti noti di {{guide}} su {{maps}} mappe. Ricompaiono dopo la raccolta, quindi non ci sono progressi da spuntare.",
   "guide.mapProgress.title": "Tracciamento Progressi di {{map}}",
   "guide.mapProgress.map": "Mappa di {{map}}",
   "guide.mapProgress.full": "Mostra Mappa Completa di {{map}}",

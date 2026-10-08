@@ -127,6 +127,7 @@
   "guide.spawns": "이 가이드는 {{maps}}개의 지도에 걸쳐 알려진 {{spawns}}개의 {{guide}}를 나열합니다. 아래의 지도 추적기를 사용하거나 좌표를 직접 강조할 수 있어요.",
   "guide.mixed": "{{guide}} 마커는 아래 항목 중 어느 것이든 될 수 있어 지도에서는 위치가 섞입니다. 각 항목을 찾을 수 있는 곳은 다음과 같습니다:",
   "guide.sightings": "지도에는 플레이어가 {{guide}}을(를) 잡은 {{maps}}개 지도의 {{spawns}}개 지점이 표시됩니다. 고정된 스폰 지점이 아니라 제보된 지점이므로 체크할 진행 상황이 없습니다.",
+  "guide.respawning": "지도에 {{maps}}개 맵에 걸친 {{guide}}의 알려진 위치 {{spawns}}곳이 표시됩니다. 채집 후 다시 생성되므로 체크할 진행도가 없습니다.",
   "guide.mapProgress.title": "{{map}} 진행 상황 추적기",
   "guide.mapProgress.map": "{{map}} 지도",
   "guide.mapProgress.full": "{{map}} 전체 지도 보기",

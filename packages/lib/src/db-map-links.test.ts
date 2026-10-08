@@ -1,5 +1,9 @@
 import type { FiltersConfig } from "./config";
-import { findMixedDbEntries, isSightingGuide } from "./db-map-links";
+import {
+  findMixedDbEntries,
+  hasGuideTracker,
+  isSightingGuide,
+} from "./db-map-links";
 
 const filters: FiltersConfig = [
   {
@@ -91,5 +95,42 @@ describe("isSightingGuide", () => {
     expect(isSightingGuide(["Fish_Gillyfin"], sightingFilters, undefined)).toBe(
       false,
     );
+  });
+});
+
+describe("hasGuideTracker", () => {
+  const filters: FiltersConfig = [
+    {
+      group: "mining",
+      category: "cat_mining",
+      values: [{ id: "Clay", icon: "x" }],
+    },
+    {
+      group: "treasures",
+      values: [{ id: "Chest", icon: "x" }],
+    },
+    {
+      group: "foraging_special",
+      values: [
+        { id: "QuestItem", icon: "x" },
+        { id: "FlowSpark", icon: "x" },
+      ],
+    },
+  ];
+  const tracked = ["treasures", "QuestItem"];
+
+  test("games without trackerFilters track every guide", () => {
+    expect(hasGuideTracker(["Clay"], filters, undefined)).toBe(true);
+  });
+
+  test("one-time spots keep the tracker, by group or type id", () => {
+    expect(hasGuideTracker(["Chest"], filters, tracked)).toBe(true);
+    expect(hasGuideTracker(["QuestItem"], filters, tracked)).toBe(true);
+  });
+
+  test("respawning nodes have no tracker, also when mixed with one-time spots", () => {
+    expect(hasGuideTracker(["Clay"], filters, tracked)).toBe(false);
+    expect(hasGuideTracker(["FlowSpark"], filters, tracked)).toBe(false);
+    expect(hasGuideTracker(["Chest", "Clay"], filters, tracked)).toBe(false);
   });
 });

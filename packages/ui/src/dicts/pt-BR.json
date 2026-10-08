@@ -127,6 +127,7 @@
   "guide.spawns": "Este guia lista {{spawns}} {{guide}} conhecidos em {{maps}} mapas. Use o rastreador abaixo ou destaque as coordenadas diretamente.",
   "guide.mixed": "Os marcadores de {{guide}} podem ser qualquer uma das entradas abaixo, então o mapa misturaria os locais. Veja onde cada uma é encontrada:",
   "guide.sightings": "O mapa mostra {{spawns}} locais em {{maps}} mapas onde jogadores capturaram {{guide}}. São locais relatados, não pontos de surgimento fixos, então não há progresso para marcar.",
+  "guide.respawning": "O mapa mostra {{spawns}} locais conhecidos de {{guide}} em {{maps}} mapas. Eles reaparecem depois da coleta, então não há progresso para marcar.",
   "guide.mapProgress.title": "Rastreador de Progresso de {{map}}",
   "guide.mapProgress.map": "Mapa de {{map}}",
   "guide.mapProgress.full": "Mostrar Mapa Completo de {{map}}",

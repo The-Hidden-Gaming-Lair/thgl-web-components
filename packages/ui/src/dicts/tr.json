@@ -127,6 +127,7 @@
   "guide.spawns": "Bu rehber {{maps}} haritada {{spawns}} bilinen {{guide}} konumunu listeler. Aşağıdaki harita takipçisini kullanabilir veya koordinatları doğrudan vurgulayabilirsiniz.",
   "guide.mixed": "{{guide}} işaretleri aşağıdaki girişlerden herhangi biri olabilir, bu yüzden harita konumlarını karıştırırdı. Her birinin bulunduğu yer:",
   "guide.sightings": "Harita, oyuncuların {{guide}} yakaladığı {{maps}} haritadaki {{spawns}} noktayı gösterir. Bunlar sabit doğma noktaları değil, bildirilen noktalardır; bu yüzden işaretlenecek bir ilerleme yoktur.",
+  "guide.respawning": "Harita, {{maps}} haritada bilinen {{spawns}} {{guide}} noktasını gösterir. Toplandıktan sonra yeniden doğarlar, bu yüzden işaretlenecek bir ilerleme yoktur.",
   "guide.mapProgress.title": "{{map}} İlerleme Takibi",
   "guide.mapProgress.map": "{{map}} Haritası",
   "guide.mapProgress.full": "Tam {{map}} Haritasını Göster",

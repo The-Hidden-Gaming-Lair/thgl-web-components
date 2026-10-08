@@ -192,16 +192,39 @@ export function isSightingGuide(
   filters: FiltersConfig,
   sightingFilters: string[] | undefined,
 ): boolean {
-  if (!sightingFilters?.length || typeIds.length === 0) return false;
-  const sighting = new Set(sightingFilters);
+  if (!sightingFilters?.length) return false;
+  return allTypesIn(typeIds, filters, sightingFilters);
+}
+
+/**
+ * True when a guide's map gets the per-spot progress tracker. A tenant without
+ * `trackerFilters` (AppConfig) tracks every guide; with it, only guides whose types all
+ * belong to one of those groups, categories or type ids: one-time spots (chests,
+ * unlockables). Respawning nodes have nothing to tick off.
+ */
+export function hasGuideTracker(
+  typeIds: string[],
+  filters: FiltersConfig,
+  trackerFilters: string[] | undefined,
+): boolean {
+  if (!trackerFilters) return true;
+  return allTypesIn(typeIds, filters, trackerFilters);
+}
+
+/** Every type id sits in one of `ids` (a filter group, category or the type id itself). */
+function allTypesIn(
+  typeIds: string[],
+  filters: FiltersConfig,
+  ids: string[],
+): boolean {
+  if (typeIds.length === 0) return false;
+  const set = new Set(ids);
   const wanted = new Set(typeIds);
-  let matched = 0;
   for (const f of filters) {
-    if (!sighting.has(f.group) && !(f.category && sighting.has(f.category)))
-      continue;
-    for (const v of f.values) if (wanted.delete(v.id)) matched++;
+    const whole = set.has(f.group) || (!!f.category && set.has(f.category));
+    for (const v of f.values) if (whole || set.has(v.id)) wanted.delete(v.id);
   }
-  return matched > 0 && wanted.size === 0;
+  return wanted.size === 0;
 }
 
 /**
