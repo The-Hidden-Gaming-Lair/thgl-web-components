@@ -7,5 +7,6 @@
   "config.db.knowledge.description": "Jedes Wissen mit Stufe, Wissenspunkten, Voraussetzungen und den Rezepten, die es freischaltet.",
   "config.db.journeys.description": "Reiseschritte, EP und Belohnungen für die Exiled Lands und die Isle of Siptah.",
   "config.db.perks.description": "Attributs-Perks und die Punkte, die zum Freischalten nötig sind.",
-  "config.db.emotes.description": "Alle Emotes nach Kategorie und wo die Emote-Fundstücke auf der Karte liegen."
+  "config.db.emotes.description": "Alle Emotes nach Kategorie und wo die Emote-Fundstücke auf der Karte liegen.",
+  "config.db.creatures.description": "Kreaturen, NSCs und Leibeigene mit Ernte- und Beute-Drops, Leibeigenen-Berufen und ihren Spawnpunkten auf der Karte."
 }
