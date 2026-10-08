@@ -508,11 +508,34 @@ export function GenericEntityView({
   );
 
   // Arbitrary DbRef props (Monsters / Gatherables / Connects To …): an icon
-  // grid when every ref has an icon, else the standard pills.
-  const renderRefProp = (refs: DbRef[]) =>
-    refs.length >= 3 && refs.every((r) => icons?.[r.id])
-      ? iconGrid(refs)
-      : renderRefs(refs);
+  // grid when every ref has an icon, else the standard pills. Grouped refs
+  // (GK2 alchemy ingredients by runes) get one grid per group sub-heading.
+  const renderRefProp = (refs: DbRef[]) => {
+    if (!(refs.length >= 3 && refs.every((r) => icons?.[r.id])))
+      return renderRefs(refs);
+    if (!refs.some((r) => r.group)) return iconGrid(refs);
+    const groups: { label: string; items: DbRef[] }[] = [];
+    for (const r of refs.map(localizeRef)) {
+      const label = r.group ?? "";
+      let g = groups.find((x) => x.label === label);
+      if (!g) groups.push((g = { label, items: [] }));
+      g.items.push(r);
+    }
+    return (
+      <div className="space-y-3">
+        {groups.map((g) => (
+          <div key={g.label}>
+            {g.label && (
+              <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-amber-500/80">
+                {g.label}
+              </div>
+            )}
+            {iconGrid(g.items)}
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   const refTable = (t: { columns: string[]; list: DbRef[] }) => (
     <div className="border border-slate-800 rounded overflow-x-auto">
