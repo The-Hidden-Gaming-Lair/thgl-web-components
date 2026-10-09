@@ -17,16 +17,21 @@
   "config.internalLinks.bestiary.title": "Bestiarium",
   "config.internalLinks.bestiary.description": "Jeder Gegner – Bosse, wöchentliche Bosse, Elite- und normale Gegner – mit Typ und Lebensraum.",
   "config.internalLinks.bestiary.linkText": "Bestiarium ansehen",
+  "config.internalLinks.items.title": "Gegenstände",
+  "config.internalLinks.items.description": "Alle Gegenstände, Materialien, Zutaten und Café-Gerichte, mit Fundorten, Läden, die sie verkaufen, und Herstellungsrezepten.",
+  "config.internalLinks.items.linkText": "Gegenstände ansehen",
   "config.db.heroSubtitle": "Charaktere, Arkus, Anomalien & mehr",
   "config.db.searchPlaceholder": "Datenbank durchsuchen…",
   "config.db.characters.description": "Spielbare Gutachter – Element, Seltenheit, Basiswerte.",
   "config.db.arcs.description": "Arkus-Waffen nach Seltenheit.",
   "config.db.visions.description": "Visionen/Anomalien nach Kategorie.",
   "config.db.bestiary.description": "Bosse, wöchentliche Bosse, Elite- und normale Gegner.",
+  "config.db.items.description": "Materialien, Zutaten, Essen, Café-Gerichte und mehr.",
   "config.db.typeLabels.characters": "Charakter",
   "config.db.typeLabels.arcs": "Arkus (Waffen)",
   "config.db.typeLabels.cartridges": "Kassette",
   "config.db.typeLabels.vehicles": "Fahrzeug",
   "config.db.typeLabels.visions": "Anomalie-Archiv",
-  "config.db.typeLabels.bestiary": "Bestiarium"
+  "config.db.typeLabels.bestiary": "Bestiarium",
+  "config.db.typeLabels.items": "Gegenstand"
 }

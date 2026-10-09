@@ -17,16 +17,21 @@
   "config.internalLinks.bestiary.title": "Бестиарий",
   "config.internalLinks.bestiary.description": "Все враги — боссы, еженедельные боссы, элитные и обычные противники — с типом и местом обитания.",
   "config.internalLinks.bestiary.linkText": "Смотреть бестиарий",
+  "config.internalLinks.items.title": "Предметы",
+  "config.internalLinks.items.description": "Все предметы, материалы, ингредиенты и блюда кафе: где их получить, в каких магазинах продаются и рецепты.",
+  "config.internalLinks.items.linkText": "Смотреть предметы",
   "config.db.heroSubtitle": "Персонажи, дуги, аномалии и другое",
   "config.db.searchPlaceholder": "Поиск по базе данных…",
   "config.db.characters.description": "Играбельные оценщики — стихия, редкость, базовые характеристики.",
   "config.db.arcs.description": "Оружие-дуги по редкости.",
   "config.db.visions.description": "Видения/аномалии по категориям.",
   "config.db.bestiary.description": "Боссы, еженедельные боссы, элитные и обычные враги.",
+  "config.db.items.description": "Материалы, ингредиенты, еда, блюда кафе и другое.",
   "config.db.typeLabels.characters": "Персонаж",
   "config.db.typeLabels.arcs": "Дуги (оружие)",
   "config.db.typeLabels.cartridges": "Картридж",
   "config.db.typeLabels.vehicles": "Транспорт",
   "config.db.typeLabels.visions": "Архив аномалий",
-  "config.db.typeLabels.bestiary": "Бестиарий"
+  "config.db.typeLabels.bestiary": "Бестиарий",
+  "config.db.typeLabels.items": "Предмет"
 }

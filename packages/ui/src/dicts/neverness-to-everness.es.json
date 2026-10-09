@@ -17,16 +17,21 @@
   "config.internalLinks.bestiary.title": "Bestiario",
   "config.internalLinks.bestiary.description": "Todos los enemigos (jefes, jefes semanales, élites y enemigos normales) con tipo y hábitat.",
   "config.internalLinks.bestiary.linkText": "Ver el Bestiario",
+  "config.internalLinks.items.title": "Objetos",
+  "config.internalLinks.items.description": "Todos los objetos, materiales, ingredientes y platos de la cafetería, con dónde conseguirlos, las tiendas que los venden y su receta.",
+  "config.internalLinks.items.linkText": "Ver objetos",
   "config.db.heroSubtitle": "Personajes, Discos, anomalías y más",
   "config.db.searchPlaceholder": "Buscar en la base de datos…",
   "config.db.characters.description": "Peritos jugables: elemento, rareza, estadísticas base.",
   "config.db.arcs.description": "Armas Disco por rareza.",
   "config.db.visions.description": "Visiones/Anomalías por categoría.",
   "config.db.bestiary.description": "Jefes, jefes semanales, élites y enemigos normales.",
+  "config.db.items.description": "Materiales, ingredientes, comida, platos de la cafetería y más.",
   "config.db.typeLabels.characters": "Personaje",
   "config.db.typeLabels.arcs": "Discos (armas)",
   "config.db.typeLabels.cartridges": "Cartucho",
   "config.db.typeLabels.vehicles": "Vehículo",
   "config.db.typeLabels.visions": "Archivo de anomalías",
-  "config.db.typeLabels.bestiary": "Bestiario"
+  "config.db.typeLabels.bestiary": "Bestiario",
+  "config.db.typeLabels.items": "Objeto"
 }

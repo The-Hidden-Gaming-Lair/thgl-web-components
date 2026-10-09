@@ -49,10 +49,24 @@ export const nevernessToEverness = resolveAppConfig({
       iconName: "Bug",
       linkText: "config.internalLinks.bestiary.linkText",
     },
+    {
+      title: "config.internalLinks.items.title",
+      description: "config.internalLinks.items.description",
+      href: "/db/items",
+      iconName: "Hammer",
+      linkText: "config.internalLinks.items.linkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],
-  keywords: ["Characters", "Arcs", "Cartridges", "Anomaly Archive", "Bestiary"],
+  keywords: [
+    "Characters",
+    "Arcs",
+    "Cartridges",
+    "Anomaly Archive",
+    "Bestiary",
+    "Items",
+  ],
   topFilters: [
     "treasure_box",
     "treasure_gift21",
@@ -112,6 +126,14 @@ export const nevernessToEverness = resolveAppConfig({
         icon: "👹",
         description: "config.db.bestiary.description",
       },
+      {
+        href: "/db/items",
+        type: "items",
+        titleKey: "config.internalLinks.items.title",
+        titleFallback: "Items",
+        icon: "🎒",
+        description: "config.db.items.description",
+      },
     ],
     typeLabels: {
       characters: "config.db.typeLabels.characters",
@@ -120,6 +142,7 @@ export const nevernessToEverness = resolveAppConfig({
       vehicles: "config.db.typeLabels.vehicles",
       visions: "config.db.typeLabels.visions",
       bestiary: "config.db.typeLabels.bestiary",
+      items: "config.db.typeLabels.items",
     },
   },
 });

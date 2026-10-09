@@ -17,16 +17,21 @@
   "config.internalLinks.bestiary.title": "Bestiaire",
   "config.internalLinks.bestiary.description": "Chaque ennemi (boss, boss hebdomadaires, élites et ennemis normaux) avec type et habitat.",
   "config.internalLinks.bestiary.linkText": "Parcourir le Bestiaire",
+  "config.internalLinks.items.title": "Objets",
+  "config.internalLinks.items.description": "Tous les objets, matériaux, ingrédients et plats du café, avec où les obtenir, les boutiques qui les vendent et leur recette.",
+  "config.internalLinks.items.linkText": "Voir les objets",
   "config.db.heroSubtitle": "Personnages, Arcs, anomalies et plus",
   "config.db.searchPlaceholder": "Rechercher dans la base de données…",
   "config.db.characters.description": "Spécialistes jouables : élément, rareté, statistiques de base.",
   "config.db.arcs.description": "Armes Arc par rareté.",
   "config.db.visions.description": "Visions/Anomalies par catégorie.",
   "config.db.bestiary.description": "Boss, boss hebdomadaires, élites et ennemis normaux.",
+  "config.db.items.description": "Matériaux, ingrédients, nourriture, plats du café et plus.",
   "config.db.typeLabels.characters": "Personnage",
   "config.db.typeLabels.arcs": "Arcs (armes)",
   "config.db.typeLabels.cartridges": "Cartouche",
   "config.db.typeLabels.vehicles": "Véhicule",
   "config.db.typeLabels.visions": "Archive des anomalies",
-  "config.db.typeLabels.bestiary": "Bestiaire"
+  "config.db.typeLabels.bestiary": "Bestiaire",
+  "config.db.typeLabels.items": "Objet"
 }
