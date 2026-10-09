@@ -63,6 +63,13 @@ export const nevernessToEverness = resolveAppConfig({
       iconName: "House",
       linkText: "config.internalLinks.properties.linkText",
     },
+    {
+      title: "config.internalLinks.achievements.title",
+      description: "config.internalLinks.achievements.description",
+      href: "/db/achievements",
+      iconName: "Trophy",
+      linkText: "config.internalLinks.achievements.linkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],
@@ -74,6 +81,7 @@ export const nevernessToEverness = resolveAppConfig({
     "Bestiary",
     "Items",
     "Properties",
+    "Achievements",
   ],
   topFilters: [
     "treasure_box",
@@ -150,6 +158,14 @@ export const nevernessToEverness = resolveAppConfig({
         icon: "🏠",
         description: "config.db.properties.description",
       },
+      {
+        href: "/db/achievements",
+        type: "achievements",
+        titleKey: "config.internalLinks.achievements.title",
+        titleFallback: "Achievements",
+        icon: "🏆",
+        description: "config.db.achievements.description",
+      },
     ],
     typeLabels: {
       characters: "config.db.typeLabels.characters",
@@ -160,6 +176,7 @@ export const nevernessToEverness = resolveAppConfig({
       bestiary: "config.db.typeLabels.bestiary",
       items: "config.db.typeLabels.items",
       properties: "config.db.typeLabels.properties",
+      achievements: "config.db.typeLabels.achievements",
     },
   },
 });

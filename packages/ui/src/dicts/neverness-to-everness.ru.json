@@ -23,6 +23,9 @@
   "config.internalLinks.properties.title": "Недвижимость",
   "config.internalLinks.properties.description": "Все дома «Леон Эстейт», которые можно купить: цена, район, адрес, парковочные места и нагрузка мебели, с местом на карте.",
   "config.internalLinks.properties.linkText": "Смотреть недвижимость",
+  "config.internalLinks.achievements.title": "Достижения",
+  "config.internalLinks.achievements.description": "Все 454 достижения по вкладкам: условия получения, скрытые достижения и награды — Аннулиты, титулы и предметы.",
+  "config.internalLinks.achievements.linkText": "Смотреть достижения",
   "config.db.heroSubtitle": "Персонажи, дуги, аномалии и другое",
   "config.db.searchPlaceholder": "Поиск по базе данных…",
   "config.db.characters.description": "Играбельные оценщики — стихия, редкость, базовые характеристики.",
@@ -31,6 +34,7 @@
   "config.db.bestiary.description": "Боссы, еженедельные боссы, элитные и обычные враги.",
   "config.db.items.description": "Материалы, ингредиенты, еда, блюда кафе и другое.",
   "config.db.properties.description": "Квартиры и виллы для покупки, с ценами.",
+  "config.db.achievements.description": "Каждое достижение с условием и наградами.",
   "config.db.typeLabels.characters": "Персонаж",
   "config.db.typeLabels.arcs": "Дуги (оружие)",
   "config.db.typeLabels.cartridges": "Картридж",
@@ -38,5 +42,6 @@
   "config.db.typeLabels.visions": "Архив аномалий",
   "config.db.typeLabels.bestiary": "Бестиарий",
   "config.db.typeLabels.items": "Предмет",
-  "config.db.typeLabels.properties": "Недвижимость"
+  "config.db.typeLabels.properties": "Недвижимость",
+  "config.db.typeLabels.achievements": "Достижение"
 }

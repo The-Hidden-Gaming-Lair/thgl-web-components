@@ -23,6 +23,9 @@
   "config.internalLinks.properties.title": "Propriétés",
   "config.internalLinks.properties.description": "Chaque logement du Groupe immobilier Léon que vous pouvez acheter : prix, quartier, adresse, places de parking et charge de mobilier, avec son emplacement sur la carte.",
   "config.internalLinks.properties.linkText": "Voir les propriétés",
+  "config.internalLinks.achievements.title": "Succès",
+  "config.internalLinks.achievements.description": "Les 454 succès par onglet : ce qu'il faut faire pour chacun, les succès cachés et les Annulith, titres et objets qu'ils rapportent.",
+  "config.internalLinks.achievements.linkText": "Voir les succès",
   "config.db.heroSubtitle": "Personnages, Arcs, anomalies et plus",
   "config.db.searchPlaceholder": "Rechercher dans la base de données…",
   "config.db.characters.description": "Spécialistes jouables : élément, rareté, statistiques de base.",
@@ -31,6 +34,7 @@
   "config.db.bestiary.description": "Boss, boss hebdomadaires, élites et ennemis normaux.",
   "config.db.items.description": "Matériaux, ingrédients, nourriture, plats du café et plus.",
   "config.db.properties.description": "Appartements et villas à acheter, avec leurs prix.",
+  "config.db.achievements.description": "Chaque succès avec sa condition et ses récompenses.",
   "config.db.typeLabels.characters": "Personnage",
   "config.db.typeLabels.arcs": "Arcs (armes)",
   "config.db.typeLabels.cartridges": "Cartouche",
@@ -38,5 +42,6 @@
   "config.db.typeLabels.visions": "Archive des anomalies",
   "config.db.typeLabels.bestiary": "Bestiaire",
   "config.db.typeLabels.items": "Objet",
-  "config.db.typeLabels.properties": "Propriété"
+  "config.db.typeLabels.properties": "Propriété",
+  "config.db.typeLabels.achievements": "Succès"
 }

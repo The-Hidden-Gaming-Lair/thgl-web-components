@@ -23,6 +23,9 @@
   "config.internalLinks.properties.title": "Propiedades",
   "config.internalLinks.properties.description": "Todas las viviendas de Leon Estate Group que puedes comprar: precio, zona, dirección, plazas de aparcamiento y carga de muebles, con su ubicación en el mapa.",
   "config.internalLinks.properties.linkText": "Ver propiedades",
+  "config.internalLinks.achievements.title": "Logros",
+  "config.internalLinks.achievements.description": "Los 454 logros por pestaña: qué hacer para cada uno, los ocultos y las Arolitas, títulos y objetos que otorgan.",
+  "config.internalLinks.achievements.linkText": "Ver logros",
   "config.db.heroSubtitle": "Personajes, Discos, anomalías y más",
   "config.db.searchPlaceholder": "Buscar en la base de datos…",
   "config.db.characters.description": "Peritos jugables: elemento, rareza, estadísticas base.",
@@ -31,6 +34,7 @@
   "config.db.bestiary.description": "Jefes, jefes semanales, élites y enemigos normales.",
   "config.db.items.description": "Materiales, ingredientes, comida, platos de la cafetería y más.",
   "config.db.properties.description": "Apartamentos y villas en venta, con precios.",
+  "config.db.achievements.description": "Cada logro con su condición y recompensas.",
   "config.db.typeLabels.characters": "Personaje",
   "config.db.typeLabels.arcs": "Discos (armas)",
   "config.db.typeLabels.cartridges": "Cartucho",
@@ -38,5 +42,6 @@
   "config.db.typeLabels.visions": "Archivo de anomalías",
   "config.db.typeLabels.bestiary": "Bestiario",
   "config.db.typeLabels.items": "Objeto",
-  "config.db.typeLabels.properties": "Propiedad"
+  "config.db.typeLabels.properties": "Propiedad",
+  "config.db.typeLabels.achievements": "Logro"
 }

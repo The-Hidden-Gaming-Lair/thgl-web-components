@@ -23,6 +23,9 @@
   "config.internalLinks.properties.title": "Properties",
   "config.internalLinks.properties.description": "Every Leon Estate Group home you can buy: price, area, address, parking and furniture load, with its spot on the map.",
   "config.internalLinks.properties.linkText": "Browse Properties",
+  "config.internalLinks.achievements.title": "Achievements",
+  "config.internalLinks.achievements.description": "All 454 achievements by tab: what to do for each one, the hidden ones, and the Annulith, titles and items they reward.",
+  "config.internalLinks.achievements.linkText": "Browse Achievements",
   "config.db.heroSubtitle": "Characters, Arcs, Anomalies & more",
   "config.db.searchPlaceholder": "Search the database…",
   "config.db.characters.description": "Playable Appraisers — element, rarity, base stats.",
@@ -31,6 +34,7 @@
   "config.db.bestiary.description": "Bosses, weekly bosses, elites and normal enemies.",
   "config.db.items.description": "Materials, ingredients, food, café dishes and more.",
   "config.db.properties.description": "Apartments and villas to buy, with prices.",
+  "config.db.achievements.description": "Every achievement with its condition and rewards.",
   "config.db.typeLabels.characters": "Character",
   "config.db.typeLabels.arcs": "Arcs (Weapons)",
   "config.db.typeLabels.cartridges": "Cartridge",
@@ -38,5 +42,6 @@
   "config.db.typeLabels.visions": "Anomaly Archive",
   "config.db.typeLabels.bestiary": "Bestiary",
   "config.db.typeLabels.items": "Item",
-  "config.db.typeLabels.properties": "Property"
+  "config.db.typeLabels.properties": "Property",
+  "config.db.typeLabels.achievements": "Achievement"
 }
