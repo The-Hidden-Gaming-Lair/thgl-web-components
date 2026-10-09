@@ -26,6 +26,9 @@
   "config.internalLinks.achievements.title": "업적",
   "config.internalLinks.achievements.description": "탭별 업적 454개 전체: 각 업적의 달성 조건, 숨겨진 업적, 보상으로 받는 환석·칭호·아이템.",
   "config.internalLinks.achievements.linkText": "업적 보기",
+  "config.internalLinks.quests.title": "임무",
+  "config.internalLinks.quests.description": "1,595개 임무 전체를 탭과 챕터별로: 스토리 텍스트, 모든 목표, 보상, 이전·다음 임무, 각 단계의 지도 위치.",
+  "config.internalLinks.quests.linkText": "임무 보기",
   "config.db.heroSubtitle": "캐릭터, 아크, 이상 현상 등",
   "config.db.searchPlaceholder": "데이터베이스 검색…",
   "config.db.characters.description": "플레이 가능한 감정사 — 속성, 희귀도, 기본 능력치.",
@@ -35,6 +38,7 @@
   "config.db.items.description": "재료, 식재료, 음식, 카페 메뉴 등.",
   "config.db.properties.description": "구매 가능한 아파트와 빌라, 가격 포함.",
   "config.db.achievements.description": "모든 업적의 달성 조건과 보상.",
+  "config.db.quests.description": "모든 임무의 목표, 보상, 지도 위치.",
   "config.db.typeLabels.characters": "캐릭터",
   "config.db.typeLabels.arcs": "아크 (무기)",
   "config.db.typeLabels.cartridges": "카트리지",
@@ -43,5 +47,6 @@
   "config.db.typeLabels.bestiary": "적 도감",
   "config.db.typeLabels.items": "아이템",
   "config.db.typeLabels.properties": "부동산",
-  "config.db.typeLabels.achievements": "업적"
+  "config.db.typeLabels.achievements": "업적",
+  "config.db.typeLabels.quests": "임무"
 }

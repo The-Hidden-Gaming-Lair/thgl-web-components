@@ -26,6 +26,9 @@
   "config.internalLinks.achievements.title": "Succès",
   "config.internalLinks.achievements.description": "Les 454 succès par onglet : ce qu'il faut faire pour chacun, les succès cachés et les Annulith, titres et objets qu'ils rapportent.",
   "config.internalLinks.achievements.linkText": "Voir les succès",
+  "config.internalLinks.quests.title": "Quêtes",
+  "config.internalLinks.quests.description": "Les 1 595 quêtes par onglet et chapitre : le texte de l'histoire, chaque objectif, les récompenses, la quête précédente et la suivante, et où chaque étape t'emmène sur la carte.",
+  "config.internalLinks.quests.linkText": "Voir les quêtes",
   "config.db.heroSubtitle": "Personnages, Arcs, anomalies et plus",
   "config.db.searchPlaceholder": "Rechercher dans la base de données…",
   "config.db.characters.description": "Spécialistes jouables : élément, rareté, statistiques de base.",
@@ -35,6 +38,7 @@
   "config.db.items.description": "Matériaux, ingrédients, nourriture, plats du café et plus.",
   "config.db.properties.description": "Appartements et villas à acheter, avec leurs prix.",
   "config.db.achievements.description": "Chaque succès avec sa condition et ses récompenses.",
+  "config.db.quests.description": "Chaque quête avec ses objectifs, ses récompenses et ses lieux sur la carte.",
   "config.db.typeLabels.characters": "Personnage",
   "config.db.typeLabels.arcs": "Arcs (armes)",
   "config.db.typeLabels.cartridges": "Cartouche",
@@ -43,5 +47,6 @@
   "config.db.typeLabels.bestiary": "Bestiaire",
   "config.db.typeLabels.items": "Objet",
   "config.db.typeLabels.properties": "Propriété",
-  "config.db.typeLabels.achievements": "Succès"
+  "config.db.typeLabels.achievements": "Succès",
+  "config.db.typeLabels.quests": "Quête"
 }

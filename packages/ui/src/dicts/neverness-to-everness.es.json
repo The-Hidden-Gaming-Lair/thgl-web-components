@@ -26,6 +26,9 @@
   "config.internalLinks.achievements.title": "Logros",
   "config.internalLinks.achievements.description": "Los 454 logros por pestaña: qué hacer para cada uno, los ocultos y las Arolitas, títulos y objetos que otorgan.",
   "config.internalLinks.achievements.linkText": "Ver logros",
+  "config.internalLinks.quests.title": "Misiones",
+  "config.internalLinks.quests.description": "Las 1595 misiones por pestaña y capítulo: el texto de la historia, cada objetivo, las recompensas, la misión anterior y la siguiente, y adónde te lleva cada paso en el mapa.",
+  "config.internalLinks.quests.linkText": "Ver misiones",
   "config.db.heroSubtitle": "Personajes, Discos, anomalías y más",
   "config.db.searchPlaceholder": "Buscar en la base de datos…",
   "config.db.characters.description": "Peritos jugables: elemento, rareza, estadísticas base.",
@@ -35,6 +38,7 @@
   "config.db.items.description": "Materiales, ingredientes, comida, platos de la cafetería y más.",
   "config.db.properties.description": "Apartamentos y villas en venta, con precios.",
   "config.db.achievements.description": "Cada logro con su condición y recompensas.",
+  "config.db.quests.description": "Cada misión con sus objetivos, recompensas y lugares en el mapa.",
   "config.db.typeLabels.characters": "Personaje",
   "config.db.typeLabels.arcs": "Discos (armas)",
   "config.db.typeLabels.cartridges": "Cartucho",
@@ -43,5 +47,6 @@
   "config.db.typeLabels.bestiary": "Bestiario",
   "config.db.typeLabels.items": "Objeto",
   "config.db.typeLabels.properties": "Propiedad",
-  "config.db.typeLabels.achievements": "Logro"
+  "config.db.typeLabels.achievements": "Logro",
+  "config.db.typeLabels.quests": "Misión"
 }

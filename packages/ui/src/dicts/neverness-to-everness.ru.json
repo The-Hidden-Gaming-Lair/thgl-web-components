@@ -26,6 +26,9 @@
   "config.internalLinks.achievements.title": "Достижения",
   "config.internalLinks.achievements.description": "Все 454 достижения по вкладкам: условия получения, скрытые достижения и награды — Аннулиты, титулы и предметы.",
   "config.internalLinks.achievements.linkText": "Смотреть достижения",
+  "config.internalLinks.quests.title": "Миссии",
+  "config.internalLinks.quests.description": "Все 1595 миссий по вкладкам и главам: текст истории, каждая цель, награды, предыдущая и следующая миссия и куда ведёт каждый шаг на карте.",
+  "config.internalLinks.quests.linkText": "Смотреть миссии",
   "config.db.heroSubtitle": "Персонажи, дуги, аномалии и другое",
   "config.db.searchPlaceholder": "Поиск по базе данных…",
   "config.db.characters.description": "Играбельные оценщики — стихия, редкость, базовые характеристики.",
@@ -35,6 +38,7 @@
   "config.db.items.description": "Материалы, ингредиенты, еда, блюда кафе и другое.",
   "config.db.properties.description": "Квартиры и виллы для покупки, с ценами.",
   "config.db.achievements.description": "Каждое достижение с условием и наградами.",
+  "config.db.quests.description": "Каждая миссия с целями, наградами и местами на карте.",
   "config.db.typeLabels.characters": "Персонаж",
   "config.db.typeLabels.arcs": "Дуги (оружие)",
   "config.db.typeLabels.cartridges": "Картридж",
@@ -43,5 +47,6 @@
   "config.db.typeLabels.bestiary": "Бестиарий",
   "config.db.typeLabels.items": "Предмет",
   "config.db.typeLabels.properties": "Недвижимость",
-  "config.db.typeLabels.achievements": "Достижение"
+  "config.db.typeLabels.achievements": "Достижение",
+  "config.db.typeLabels.quests": "Миссия"
 }

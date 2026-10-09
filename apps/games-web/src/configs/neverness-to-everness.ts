@@ -71,6 +71,13 @@ export const nevernessToEverness = resolveAppConfig({
       linkText: "config.internalLinks.achievements.linkText",
     },
     {
+      title: "config.internalLinks.quests.title",
+      description: "config.internalLinks.quests.description",
+      href: "/db/quests",
+      iconName: "ScrollText",
+      linkText: "config.internalLinks.quests.linkText",
+    },
+    {
       title: "checklist.navTitle",
       description: "checklist.navDescription",
       href: "/checklist",
@@ -89,6 +96,7 @@ export const nevernessToEverness = resolveAppConfig({
     "Items",
     "Properties",
     "Achievements",
+    "Quests",
   ],
   topFilters: [
     "treasure_box",
@@ -182,6 +190,14 @@ export const nevernessToEverness = resolveAppConfig({
         icon: "🏆",
         description: "config.db.achievements.description",
       },
+      {
+        href: "/db/quests",
+        type: "quests",
+        titleKey: "config.internalLinks.quests.title",
+        titleFallback: "Quests",
+        icon: "📜",
+        description: "config.db.quests.description",
+      },
     ],
     typeLabels: {
       characters: "config.db.typeLabels.characters",
@@ -193,6 +209,7 @@ export const nevernessToEverness = resolveAppConfig({
       items: "config.db.typeLabels.items",
       properties: "config.db.typeLabels.properties",
       achievements: "config.db.typeLabels.achievements",
+      quests: "config.db.typeLabels.quests",
     },
   },
 });

@@ -26,6 +26,9 @@
   "config.internalLinks.achievements.title": "Erfolge",
   "config.internalLinks.achievements.description": "Alle 454 Erfolge nach Kategorie: was du für jeden tun musst, die versteckten Erfolge und die Annulith, Titel und Gegenstände, die sie belohnen.",
   "config.internalLinks.achievements.linkText": "Erfolge ansehen",
+  "config.internalLinks.quests.title": "Missionen",
+  "config.internalLinks.quests.description": "Alle 1.595 Missionen nach Tab und Kapitel: der Story-Text, jedes Ziel, die Belohnungen, die vorige und nächste Mission und wohin dich jeder Schritt auf der Karte führt.",
+  "config.internalLinks.quests.linkText": "Missionen ansehen",
   "config.db.heroSubtitle": "Charaktere, Arkus, Anomalien & mehr",
   "config.db.searchPlaceholder": "Datenbank durchsuchen…",
   "config.db.characters.description": "Spielbare Gutachter – Element, Seltenheit, Basiswerte.",
@@ -35,6 +38,7 @@
   "config.db.items.description": "Materialien, Zutaten, Essen, Café-Gerichte und mehr.",
   "config.db.properties.description": "Apartments und Villen zum Kaufen, mit Preisen.",
   "config.db.achievements.description": "Jeder Erfolg mit Bedingung und Belohnungen.",
+  "config.db.quests.description": "Jede Mission mit Zielen, Belohnungen und Orten auf der Karte.",
   "config.db.typeLabels.characters": "Charakter",
   "config.db.typeLabels.arcs": "Arkus (Waffen)",
   "config.db.typeLabels.cartridges": "Kassette",
@@ -43,5 +47,6 @@
   "config.db.typeLabels.bestiary": "Bestiarium",
   "config.db.typeLabels.items": "Gegenstand",
   "config.db.typeLabels.properties": "Immobilie",
-  "config.db.typeLabels.achievements": "Erfolg"
+  "config.db.typeLabels.achievements": "Erfolg",
+  "config.db.typeLabels.quests": "Mission"
 }

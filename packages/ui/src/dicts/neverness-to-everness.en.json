@@ -26,6 +26,9 @@
   "config.internalLinks.achievements.title": "Achievements",
   "config.internalLinks.achievements.description": "All 454 achievements by tab: what to do for each one, the hidden ones, and the Annulith, titles and items they reward.",
   "config.internalLinks.achievements.linkText": "Browse Achievements",
+  "config.internalLinks.quests.title": "Quests",
+  "config.internalLinks.quests.description": "All 1,595 quests by tab and chapter: the story text, every objective, the rewards, the previous and next quest, and where each step takes you on the map.",
+  "config.internalLinks.quests.linkText": "Browse Quests",
   "config.db.heroSubtitle": "Characters, Arcs, Anomalies & more",
   "config.db.searchPlaceholder": "Search the database…",
   "config.db.characters.description": "Playable Appraisers — element, rarity, base stats.",
@@ -35,6 +38,7 @@
   "config.db.items.description": "Materials, ingredients, food, café dishes and more.",
   "config.db.properties.description": "Apartments and villas to buy, with prices.",
   "config.db.achievements.description": "Every achievement with its condition and rewards.",
+  "config.db.quests.description": "Every quest with its objectives, rewards and map spots.",
   "config.db.typeLabels.characters": "Character",
   "config.db.typeLabels.arcs": "Arcs (Weapons)",
   "config.db.typeLabels.cartridges": "Cartridge",
@@ -43,5 +47,6 @@
   "config.db.typeLabels.bestiary": "Bestiary",
   "config.db.typeLabels.items": "Item",
   "config.db.typeLabels.properties": "Property",
-  "config.db.typeLabels.achievements": "Achievement"
+  "config.db.typeLabels.achievements": "Achievement",
+  "config.db.typeLabels.quests": "Quest"
 }

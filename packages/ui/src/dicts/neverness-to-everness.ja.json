@@ -26,6 +26,9 @@
   "config.internalLinks.achievements.title": "実績",
   "config.internalLinks.achievements.description": "全454件の実績をタブ別に掲載：達成条件、隠し実績、報酬の円石・称号・アイテム。",
   "config.internalLinks.achievements.linkText": "実績を見る",
+  "config.internalLinks.quests.title": "クエスト",
+  "config.internalLinks.quests.description": "全1,595件のクエストをタブ・章別に掲載：ストーリー、すべての目標、報酬、前後のクエスト、各ステップのマップ上の場所。",
+  "config.internalLinks.quests.linkText": "クエストを見る",
   "config.db.heroSubtitle": "キャラクター、弧盤、異象など",
   "config.db.searchPlaceholder": "データベースを検索…",
   "config.db.characters.description": "プレイアブルな鑑定士：属性、レアリティ、基礎ステータス。",
@@ -35,6 +38,7 @@
   "config.db.items.description": "素材、食材、料理、カフェメニューなど。",
   "config.db.properties.description": "購入できるアパートと別荘、価格付き。",
   "config.db.achievements.description": "すべての実績の達成条件と報酬。",
+  "config.db.quests.description": "すべてのクエストの目標、報酬、マップ上の場所。",
   "config.db.typeLabels.characters": "キャラクター",
   "config.db.typeLabels.arcs": "弧盤（武器）",
   "config.db.typeLabels.cartridges": "駆動コア",
@@ -43,5 +47,6 @@
   "config.db.typeLabels.bestiary": "敵図鑑",
   "config.db.typeLabels.items": "アイテム",
   "config.db.typeLabels.properties": "不動産",
-  "config.db.typeLabels.achievements": "実績"
+  "config.db.typeLabels.achievements": "実績",
+  "config.db.typeLabels.quests": "クエスト"
 }
