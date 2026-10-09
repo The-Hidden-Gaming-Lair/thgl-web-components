@@ -59,13 +59,22 @@ export function localizeProps<T extends Record<string, unknown> | undefined>(
  * spawn id, then the type). Re-resolve those keys in the page's dict so marker
  * tooltips and the fallback list follow the locale (node id = `<spawn id or
  * type>@y:x`); a row whose keys the dict lacks keeps its baked label.
+ * `typeLabel` is the type's display name for the tooltip's type chip — the
+ * client only has a sliced dict, so it would print the raw type id.
  */
 export function localizeLocationLabels<
   T extends { node: string; type: string; label: string },
->(list: T[], dict: Record<string, string> | undefined): T[] {
+>(
+  list: T[],
+  dict: Record<string, string> | undefined,
+): (T & { typeLabel?: string })[] {
   if (!dict) return list;
   return list.map((loc) => {
     const key = [loc.node.split("@")[0], loc.type].find((k) => k && dict[k]);
-    return key ? { ...loc, label: resolveDict(dict, key) } : loc;
+    return {
+      ...loc,
+      ...(key && { label: resolveDict(dict, key) }),
+      ...(dict[loc.type] && { typeLabel: resolveDict(dict, loc.type) }),
+    };
   });
 }

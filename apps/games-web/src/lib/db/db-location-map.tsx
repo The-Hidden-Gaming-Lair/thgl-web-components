@@ -36,6 +36,8 @@ type DbLocation = {
   x: number;
   y: number;
   label: string;
+  /** The type's display name in the page's locale (server-resolved). */
+  typeLabel?: string;
   /** The marker's own icon (a character's portrait) when it differs from its type's. */
   icon?: { url: string; x: number; y: number; width: number; height: number };
 };
@@ -84,6 +86,7 @@ export function DbLocationMap({
     // verbatim — otherwise it treats `name` as a dict key, misses, and falls back
     // to the raw type id ("medic", "manual"). Same reason as `db-embedded-map.tsx`.
     label: l.label,
+    typeLabel: l.typeLabel,
     type: l.type,
     icon: l.icon
       ? { name: l.type, ...l.icon }

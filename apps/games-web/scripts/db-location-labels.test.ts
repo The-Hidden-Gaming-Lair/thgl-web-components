@@ -25,6 +25,8 @@ describe("localizeLocationLabels", () => {
     );
     expect(out[0].label).toBe("ホロウジャークキャット");
     expect(out[0].node).toBe(`${type}@2:1`);
+    // Type chip in the page locale too, not the raw id (#957).
+    expect(out[0].typeLabel).toBe("ホロウジャークキャット");
   });
 
   test("a spawn's own id wins over its type", () => {
@@ -33,11 +35,13 @@ describe("localizeLocationLabels", () => {
       { npc_hassian: "Hassian (de)", villager: "Dorfbewohner" },
     );
     expect(out[0].label).toBe("Hassian (de)");
+    expect(out[0].typeLabel).toBe("Dorfbewohner");
   });
 
   test("keys missing from the dict keep the baked label", () => {
     const list = [row("x@2:1", "x", "Baked")];
     expect(localizeLocationLabels(list, {})[0].label).toBe("Baked");
+    expect(localizeLocationLabels(list, {})[0].typeLabel).toBeUndefined();
     expect(localizeLocationLabels(list, undefined)).toBe(list);
   });
 });
