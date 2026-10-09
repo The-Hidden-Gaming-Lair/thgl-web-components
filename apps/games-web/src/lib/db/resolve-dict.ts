@@ -36,7 +36,8 @@ export function resolveDictWithFallback(
  * stores a game's own translation of `props[prop]` of entry `id` in the locale's
  * dict as `<id>.<prop>` (`dbPropKey`). Returns the props with every translated
  * text prop swapped in — the same object when the dict has none (e.g. en).
- * `upgradeTable` is translated whole: its key holds the table as JSON.
+ * The structured props in JSON_PROPS (`upgradeTable`, `_sections`, `areas`) are
+ * translated whole: their key holds the localized prop as JSON.
  */
 export function localizeProps<T extends Record<string, unknown> | undefined>(
   props: T,
@@ -46,12 +47,13 @@ export function localizeProps<T extends Record<string, unknown> | undefined>(
   if (!props || !dict) return props;
   let out: Record<string, unknown> | undefined;
   for (const [key, value] of Object.entries(props)) {
-    if (typeof value !== "string" && key !== "upgradeTable") continue;
+    const json = JSON_PROPS[key];
+    if (typeof value !== "string" && !json) continue;
     const dictKey = `${id}.${key}`;
     if (!dict[dictKey]) continue;
     const text = resolveDict(dict, dictKey);
     const localized =
-      typeof value === "string" ? text : parseLocalizedTable(text);
+      typeof value === "string" ? text : parseLocalizedJson(text, json!);
     if (localized === undefined) continue;
     out ??= { ...props };
     out[key] = localized;
@@ -59,12 +61,28 @@ export function localizeProps<T extends Record<string, unknown> | undefined>(
   return (out ?? props) as T;
 }
 
-/** A per-locale `upgradeTable` dict value (JSON), or undefined when it isn't one. */
-export function parseLocalizedTable(text: string | undefined): unknown {
-  if (!text?.startsWith("{")) return undefined;
+/** Structured props a locale's dict can replace whole (JSON) → shape check. */
+type JsonShape = {
+  columns?: unknown;
+  rows?: unknown;
+  label?: unknown;
+  items?: unknown;
+};
+const JSON_PROPS: Record<string, (v: JsonShape | null) => boolean> = {
+  upgradeTable: (t) => Array.isArray(t?.columns) && Array.isArray(t?.rows),
+  _sections: (s) => Array.isArray(s),
+  areas: (a) => typeof a?.label === "string" && Array.isArray(a?.items),
+};
+
+/** A per-locale JSON prop dict value, or undefined when it isn't a valid one. */
+function parseLocalizedJson(
+  text: string | undefined,
+  valid: (v: JsonShape | null) => boolean,
+): unknown {
+  if (!text || (text[0] !== "{" && text[0] !== "[")) return undefined;
   try {
-    const t = JSON.parse(text) as { columns?: unknown; rows?: unknown };
-    return Array.isArray(t.columns) && Array.isArray(t.rows) ? t : undefined;
+    const v = JSON.parse(text);
+    return valid(v) ? v : undefined;
   } catch {
     return undefined;
   }

@@ -670,7 +670,8 @@ export function GenericEntityView({
                 {dictText(rarity.label)}
               </span>
             )}
-            {groupLabel && (
+            {/* A group named after the rarity (Palia's bug groups) would repeat the pill. */}
+            {groupLabel && groupLabel !== dictText(rarity?.label) && (
               <span className="px-2 py-0.5 rounded bg-slate-800/80 text-slate-300">
                 {groupLabel}
               </span>
