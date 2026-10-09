@@ -18,7 +18,7 @@
     "dev": "next dev -p 3100",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit",
-    "test": "bun test scripts/db-index-routes.test.ts scripts/db-location-labels.test.ts scripts/db-location-noun.test.ts",
+    "test": "bun test scripts/db-index-routes.test.ts scripts/db-location-labels.test.ts scripts/db-location-noun.test.ts scripts/db-singularize.test.ts",
     "test:e2e": "playwright test",
     "start": "next start -p 3100"
   },

@@ -64,6 +64,10 @@ export function getSectionLabels(
   };
 }
 
+// "-oes" plurals whose singular ends in "o"; every other "-oes" only drops "s".
+const O_ES_PLURALS =
+  /(her|ech|potat|tomat|volcan|torped|tornad|mosquit|domin|vet|carg|embarg)oes$/i;
+
 /**
  * Most tenant `typeLabels` are plural ("Resonators", "Status Effects") although
  * titles want what ONE entry is. Conservative English singular of the last
@@ -77,7 +81,10 @@ export function singularize(label: string): string {
   const [, head, word] = m as unknown as [string, string, string];
   let one = word;
   if (/[^aeiou]ies$/i.test(word)) one = word.slice(0, -3) + "y";
-  else if (/(ch|sh|x|o|ss)es$/i.test(word)) one = word.slice(0, -2);
+  else if (/(ch|sh|x|ss)es$/i.test(word) || O_ES_PLURALS.test(word))
+    one = word.slice(0, -2);
+  // "Foes", "Shoes", "Toes": the singular keeps its "e" (#519).
+  else if (/oes$/i.test(word)) one = word.slice(0, -1);
   else if (/(ss|us|is)$/i.test(word)) one = word;
   else if (/s$/.test(word) && word.length > 3) one = word.slice(0, -1);
   return head + one;
