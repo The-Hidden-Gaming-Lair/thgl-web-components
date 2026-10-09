@@ -14,7 +14,7 @@ import {
   localizeProps,
   resolveDict,
 } from "@/lib/db/resolve-dict";
-import { formatBool } from "@/lib/db/seo";
+import { formatBool, locationNoun } from "@/lib/db/seo";
 import {
   FilterableRefs,
   type IconSprite as RefIconSprite,
@@ -867,11 +867,7 @@ export function GenericEntityView({
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
             {L("db.foundAt", "Found at {{count}} {{noun}}", {
               count: String(locations.total),
-              noun:
-                locations.total === 1
-                  ? (dictText(locations.noun) ?? L("db.location", "location"))
-                  : (dictText(locations.nounPlural) ??
-                    L("db.locations", "locations")),
+              noun: locationNoun(dict, locations),
             })}
           </div>
           {tiles ? (

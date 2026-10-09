@@ -97,6 +97,27 @@ export function formatBool(dict: Dict | undefined, v: boolean): string {
   return v ? t(dict ?? {}, "db.yes", "Yes") : t(dict ?? {}, "db.no", "No");
 }
 
+/**
+ * The noun of the "Found at N …" line. data-forge writes it as English text
+ * ("sighting"/"sightings") or as a game dict key (Conan's `label_pickup`); the
+ * game dict wins, then the UI dict's `db.noun.<snake_case>` translation, then
+ * `db.location(s)` when unset (#958).
+ */
+export function locationNoun(
+  dict: Dict | undefined,
+  loc: { total?: number; noun?: string; nounPlural?: string },
+): string {
+  const d = dict ?? {};
+  const one = loc.total === 1;
+  const noun = one ? loc.noun : loc.nounPlural;
+  if (noun && d[noun]) return resolveDict(d, noun);
+  const fallback = one ? "location" : "locations";
+  if (!noun || noun.toLowerCase() === fallback)
+    return t(d, `db.${fallback}`, fallback);
+  const key = `db.noun.${noun.toLowerCase().replace(/\s+/g, "_")}`;
+  return d[key] ?? noun;
+}
+
 type Ref = { id?: string; name?: string; count?: number };
 const refList = (v: unknown): Ref[] => {
   if (Array.isArray(v)) return v.filter((r) => r && typeof r === "object");
@@ -271,14 +292,10 @@ export function buildEntityDescription({
     typeof loc.total === "number" &&
     loc.total > 0
   ) {
-    const noun =
-      loc.total === 1
-        ? (loc.noun ?? t(dict, "db.location", "location"))
-        : (loc.nounPlural ?? t(dict, "db.locations", "locations"));
     parts.push(
       t(dict, "db.meta.foundAt", "Found at {{count}} {{noun}}.", {
         count: loc.total,
-        noun,
+        noun: locationNoun(dict, loc),
       }),
     );
   }
