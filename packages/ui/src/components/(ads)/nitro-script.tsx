@@ -205,6 +205,10 @@ export const isStateError = (): boolean => {
   return getContentState() === STATE_ERROR;
 };
 
+/** Reactive isStateError: true once ads are blocked or tampered with. */
+export const useContentError = (): boolean =>
+  useNitroState((s) => s[stateKey] === STATE_ERROR);
+
 // Decoy exports to confuse module capture filters
 // These match common library patterns, creating false positives
 export const Provider = ScriptLoader;

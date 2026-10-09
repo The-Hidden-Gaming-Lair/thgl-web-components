@@ -201,8 +201,6 @@
   "adblocker.discordLink": "Csatlakozz a Discord szerveremhez",
   "adblocker.thanks": "Köszönöm a megértésedet és a támogatásodat! 🙏",
   "adblocker.close": "Bezárás{{countdown}}",
-  "adblocker.shortTitle": "Hirdetés zsákmány elveszett! 💰",
-  "adblocker.shortDescription": "Kapcsold ki a hirdetésblokkolót, hogy ez az oldal ingyenes maradhasson minden kalandor számára.",
   "adfree.linkText": "Szerezd meg a {{ad-free}} hozzáférést",
   "adfree.linkTextAdFree": "hirdetésmentes",
   "ad.loading": "Hirdetések begyűjtése... 💰",

@@ -201,8 +201,6 @@
   "adblocker.discordLink": "加入 Discord 服务器",
   "adblocker.thanks": "感谢你的理解与支持！🙏",
   "adblocker.close": "关闭{{countdown}}",
-  "adblocker.shortTitle": "广告奖励失效！💰",
-  "adblocker.shortDescription": "请关闭广告拦截器，帮助我们保持此网站对所有冒险者免费开放。",
   "adfree.linkText": "获取 {{ad-free}}",
   "adfree.linkTextAdFree": "无广告体验",
   "ad.loading": "正在加载广告... 💰",

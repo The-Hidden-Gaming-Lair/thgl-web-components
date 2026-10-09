@@ -52,7 +52,6 @@ export function MobileBannerFallback({
       id=""
       phone={PHONE}
       state="blocked"
-      hideBlockedText
       className={className}
     />
   );

@@ -18,6 +18,11 @@ const blankRounds = new Map<string, number>();
 const listeners = new Set<() => void>();
 let round = 0;
 
+/** Next house-ad round, for cards shown without a no-fill (ads blocked). */
+export function nextHouseRound(): number {
+  return ++round;
+}
+
 export function reportAdRender(id: string, blank: boolean): void {
   const next = blank ? ++round : 0;
   if ((blankRounds.get(id) ?? 0) === next) return;

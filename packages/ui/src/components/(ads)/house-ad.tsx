@@ -21,7 +21,8 @@ import {
 import { useT } from "../(providers)";
 import { trackEvent } from "../(header)/plausible-tracker";
 import globalMenu from "../(header)/global-menu.json";
-import { useAdBlankRound } from "./ad-fill";
+import { nextHouseRound, useAdBlankRound } from "./ad-fill";
+import { useContentError } from "./nitro-script";
 
 type HouseCard = {
   key: "companion" | "partner" | "discord" | "adfree";
@@ -37,8 +38,10 @@ const DISCORD_URL = "https://th.gl/discord";
 // Illustrations in the tool-card style, one per card and slot shape:
 // `<key>.webp` (600x500, rectangles), `<key>-8x1.webp` (728x90),
 // `<key>-6x1.webp` (320x50), `<key>-3x1.webp` (320x100), all 2x.
-// Text stays HTML (translated).
-const ART_PATH = "/games/thgl-web/house-ads";
+// Text stays HTML (translated). The folder must not look like an ad path:
+// EasyList blocks `/house-ads/*$image`, and ad-blocker users are exactly
+// who sees these cards.
+const ART_PATH = "/games/thgl-web/spotlight";
 
 /** The current game's gaming.tools page from the game switcher's partner list. */
 function partnerUrl(web: string | undefined): string | null {
@@ -129,11 +132,23 @@ function useHouseCards(): HouseCard[] {
 /**
  * Our own promo, laid over an ad slot while NitroPay has no ad for it
  * (no-fill), and removed as soon as a refresh fills the slot. Each no-fill
- * picks the next card, so stacked slots show different ones.
+ * picks the next card, so stacked slots show different ones. With ads
+ * blocked (ScriptLoader in its error state) the slot keeps a card for good.
  */
 export function HouseAd({ id }: { id: string }): JSX.Element | null {
   const round = useAdBlankRound(id);
-  if (!round) return null;
+  const blocked = useContentError();
+  if (round) return <HouseAdCard round={round} />;
+  if (blocked) return <BlockedHouseAd />;
+  return null;
+}
+
+/**
+ * A house card filling the nearest positioned parent, for slots whose ads
+ * are blocked. Picks its card once, from the same rotation as no-fills.
+ */
+export function BlockedHouseAd(): JSX.Element | null {
+  const [round] = useState(nextHouseRound);
   return <HouseAdCard round={round} />;
 }
 
@@ -149,6 +164,9 @@ function HouseAdCard({ round }: { round: number }): JSX.Element | null {
 
   const card = cards[round % cards.length];
   if (!card) return null;
+  // Slot hidden at this breakpoint (e.g. the rails on phones): no card, so
+  // its art is not downloaded.
+  if (box && (box.w === 0 || box.h === 0)) return null;
 
   // Rectangles and skyscrapers: painting on top, text on a fade below.
   // Banners: a wide painting made for the banner's ratio, subject on the
@@ -252,7 +270,7 @@ function HouseAdCard({ round }: { round: number }): JSX.Element | null {
       style={style}
       onClick={onClick}
     >
-      {content}
+      {box && content}
     </a>
   ) : (
     <div
@@ -266,7 +284,7 @@ function HouseAdCard({ round }: { round: number }): JSX.Element | null {
         if (e.key === "Enter" || e.key === " ") onClick();
       }}
     >
-      {content}
+      {box && content}
     </div>
   );
 }

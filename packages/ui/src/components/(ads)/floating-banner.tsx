@@ -5,7 +5,7 @@ import { useMediaQuery } from "@uidotdev/usehooks";
 import { AdFreeContainer } from "./ad-free-container";
 import { IS_DEMO_MODE } from "./constants";
 import { AdPlaceholder } from "./ad-placeholder";
-import { AdSlot } from "./house-ad";
+import { AdSlot, BlockedHouseAd } from "./house-ad";
 
 const smallMediaQuery = "(min-width: 768px)";
 const bigMediaQuery = "(min-width: 1250px)";
@@ -99,10 +99,28 @@ function FloatingBannerInner({
     }
   }, [id, variant, isLoading, isBlocked]);
 
-  if (isLoading || isBlocked) {
+  if (isBlocked) {
+    // One house card per slot, like the live stack.
+    return (
+      <AdFreeContainer className="fixed bottom-2 right-2">
+        <div className="flex flex-col" style={{ gap: GAP }}>
+          {slots.map((slotId) => (
+            <div
+              key={slotId}
+              className="relative h-[250px] w-[300px] overflow-hidden rounded"
+            >
+              <BlockedHouseAd />
+            </div>
+          ))}
+        </div>
+      </AdFreeContainer>
+    );
+  }
+
+  if (isLoading) {
     return (
       <AdPlaceholder
-        type={isLoading ? "loading" : "blocked"}
+        type="loading"
         width="w-[300px]"
         height=""
         style={{ height }}

@@ -202,19 +202,19 @@ export function THGLMapAds({
     "-" +
     adFormat.variant;
 
+  // The empty slot boxes serve while loading and, with ads blocked, carry
+  // house ads (AdSlot shows one once ScriptLoader is in its error state).
+  const slots = (
+    <NitroPayAdLoading
+      id={id}
+      isOverlay={isOverlay}
+      appConfig={appConfig}
+      adFormat={adFormat}
+    />
+  );
   // Use key to force re-mount when format changes, ensuring clean ad recreation
   return (
-    <ScriptLoader
-      key={adFormat.variant}
-      loading={
-        <NitroPayAdLoading
-          id={id}
-          isOverlay={isOverlay}
-          appConfig={appConfig}
-          adFormat={adFormat}
-        />
-      }
-    >
+    <ScriptLoader key={adFormat.variant} loading={slots} fallback={slots}>
       <NitroPayAd
         id={id}
         isOverlay={isOverlay}

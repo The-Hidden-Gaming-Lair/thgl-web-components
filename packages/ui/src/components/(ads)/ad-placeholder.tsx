@@ -1,8 +1,8 @@
 "use client";
 import { cn } from "@repo/lib";
 import { AdFreeContainer } from "./ad-free-container";
-import { AdBlockMessage } from "./ad-block-message";
 import { AdLoadingMessage } from "./ad-loading-message";
+import { BlockedHouseAd } from "./house-ad";
 
 import type { CSSProperties, JSX } from "react";
 
@@ -13,27 +13,24 @@ interface AdPlaceholderProps {
   width: string;
   height: string;
   className?: string;
-  hideBlockedText?: boolean;
   displayCheck?: boolean;
   /** Inline size for runtime-chosen dimensions (Tailwind can't see dynamic classes) */
   style?: CSSProperties;
 }
 
 /**
- * Reusable ad placeholder component for loading and blocked states
- *
- * Replaces duplicated Loading/Fallback components across all ad types
+ * Reusable ad placeholder component for loading and blocked states. Blocked
+ * slots show one of our house ads (house-ad.tsx) instead of an empty box.
  *
  * @example
  * <AdPlaceholder type="loading" width="w-[320px]" height="h-[50px]" />
- * <AdPlaceholder type="blocked" width="w-[320px]" height="h-[100px]" hideBlockedText />
+ * <AdPlaceholder type="blocked" width="w-[320px]" height="h-[100px]" />
  */
 export function AdPlaceholder({
   type,
   width,
   height,
   className,
-  hideBlockedText = false,
   displayCheck = true,
   style,
 }: AdPlaceholderProps): JSX.Element {
@@ -41,7 +38,7 @@ export function AdPlaceholder({
     <AdFreeContainer className={className} displayCheck={displayCheck}>
       <div
         className={cn(
-          "rounded bg-zinc-800/30 text-gray-500 flex flex-col justify-center",
+          "relative overflow-hidden rounded bg-zinc-800/30 text-gray-500 flex flex-col justify-center",
           width,
           height,
         )}
@@ -51,7 +48,7 @@ export function AdPlaceholder({
         }}
       >
         {type === "loading" && <AdLoadingMessage />}
-        {type === "blocked" && <AdBlockMessage hideText={hideBlockedText} />}
+        {type === "blocked" && <BlockedHouseAd />}
       </div>
     </AdFreeContainer>
   );

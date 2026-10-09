@@ -75,7 +75,6 @@ export function FloatingMobileBanner({
         width="w-[320px]"
         height="h-[50px]"
         className="fixed bottom-0 left-0 z-99999"
-        hideBlockedText
       />
     );
   }

@@ -20,7 +20,5 @@ export function LargeMobileBannerLoading(): JSX.Element {
 }
 
 export function LargeMobileBannerFallback(): JSX.Element {
-  return (
-    <InContentBanner id="" phone={PHONE} state="blocked" hideBlockedText />
-  );
+  return <InContentBanner id="" phone={PHONE} state="blocked" />;
 }

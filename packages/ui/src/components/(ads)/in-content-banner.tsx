@@ -41,7 +41,6 @@ export function InContentBanner({
   phone,
   phoneId,
   state = "ad",
-  hideBlockedText = false,
   className,
 }: {
   id: string;
@@ -50,7 +49,6 @@ export function InContentBanner({
   /** Unit id for the phone size when it differs from `id` (new size = new unit) */
   phoneId?: string;
   state?: "ad" | "loading" | "blocked";
-  hideBlockedText?: boolean;
   className?: string;
 }): JSX.Element {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -76,7 +74,6 @@ export function InContentBanner({
           height=""
           style={size}
           className="w-fit mx-auto"
-          hideBlockedText={hideBlockedText}
         />
       )}
     </div>

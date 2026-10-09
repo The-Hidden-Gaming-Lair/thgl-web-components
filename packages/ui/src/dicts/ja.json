@@ -201,8 +201,6 @@
   "adblocker.discordLink": "Discord サーバーに参加する",
   "adblocker.thanks": "ご理解とご支援に感謝します！🙏",
   "adblocker.close": "閉じる{{countdown}}",
-  "adblocker.shortTitle": "広告収益が失われました！💰",
-  "adblocker.shortDescription": "広告ブロッカーを無効にして、このサイトをすべての冒険者にとって無料で保つ手助けをしてください。",
   "adfree.linkText": "{{ad-free}} を取得",
   "adfree.linkTextAdFree": "広告なし",
   "ad.loading": "広告を読み込み中... 💰",
