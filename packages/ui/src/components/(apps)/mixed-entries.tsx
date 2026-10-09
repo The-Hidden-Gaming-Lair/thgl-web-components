@@ -17,6 +17,22 @@ type EntryTable = {
   rows: (string | number)[][];
 };
 
+/** The table in the page's locale: data-forge stores it as JSON under `<id>.upgradeTable`
+ *  (dbPropKey); English pages and untranslated entries keep the props' table. */
+function localizedTable(
+  dict: Record<string, string>,
+  id: string,
+): EntryTable | undefined {
+  let text = dict[`${id}.upgradeTable`];
+  if (text?.[0] === "@") text = dict[text];
+  if (!text?.startsWith("{")) return undefined;
+  try {
+    return JSON.parse(text) as EntryTable;
+  } catch {
+    return undefined;
+  }
+}
+
 export type MixedEntry = {
   href: string;
   name: string;
@@ -56,8 +72,10 @@ export async function getMixedEntries(
           (await fetchDatabaseType(appConfig.name, cat.type)).items.find(
             (i) => i.id === ref.id,
           );
-        const table = (item?.props as { upgradeTable?: EntryTable } | undefined)
-          ?.upgradeTable;
+        const table =
+          localizedTable(localeDict, ref.id) ??
+          (item?.props as { upgradeTable?: EntryTable } | undefined)
+            ?.upgradeTable;
         return {
           href: localizePath(
             `/db/${ref.section}/${encodeURIComponent(ref.id)}`,

@@ -36,6 +36,7 @@ export function resolveDictWithFallback(
  * stores a game's own translation of `props[prop]` of entry `id` in the locale's
  * dict as `<id>.<prop>` (`dbPropKey`). Returns the props with every translated
  * text prop swapped in — the same object when the dict has none (e.g. en).
+ * `upgradeTable` is translated whole: its key holds the table as JSON.
  */
 export function localizeProps<T extends Record<string, unknown> | undefined>(
   props: T,
@@ -45,13 +46,28 @@ export function localizeProps<T extends Record<string, unknown> | undefined>(
   if (!props || !dict) return props;
   let out: Record<string, unknown> | undefined;
   for (const [key, value] of Object.entries(props)) {
-    if (typeof value !== "string") continue;
+    if (typeof value !== "string" && key !== "upgradeTable") continue;
     const dictKey = `${id}.${key}`;
     if (!dict[dictKey]) continue;
+    const text = resolveDict(dict, dictKey);
+    const localized =
+      typeof value === "string" ? text : parseLocalizedTable(text);
+    if (localized === undefined) continue;
     out ??= { ...props };
-    out[key] = resolveDict(dict, dictKey);
+    out[key] = localized;
   }
   return (out ?? props) as T;
+}
+
+/** A per-locale `upgradeTable` dict value (JSON), or undefined when it isn't one. */
+export function parseLocalizedTable(text: string | undefined): unknown {
+  if (!text?.startsWith("{")) return undefined;
+  try {
+    const t = JSON.parse(text) as { columns?: unknown; rows?: unknown };
+    return Array.isArray(t.columns) && Array.isArray(t.rows) ? t : undefined;
+  } catch {
+    return undefined;
+  }
 }
 
 /**
