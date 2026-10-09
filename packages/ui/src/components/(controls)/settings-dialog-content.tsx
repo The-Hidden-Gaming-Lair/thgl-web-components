@@ -13,6 +13,7 @@ import {
   openFileOrFiles,
   FiltersConfig,
   isApp,
+  isOverwolf,
   setTheme,
   useTheme,
   type Theme,
@@ -654,6 +655,29 @@ export function SettingsDialogContent({
                 {t("settings.worldCodeRequestsHint", {
                   fallback:
                     "Get a prompt when another player wants to join your world, so you can share your join code. Turn off to hide these.",
+                })}
+              </p>
+            </Section>
+          )}
+
+          {isOverwolf && (
+            <Section title={t("settings.privacy", { fallback: "Privacy" })}>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="help-improve-maps">
+                  {t("settings.helpImproveMaps", {
+                    fallback: "Help improve maps (anonymous)",
+                  })}
+                </Label>
+                <Switch
+                  id="help-improve-maps"
+                  checked={profileSettings.helpImproveMaps !== false}
+                  onCheckedChange={settingsStore.setHelpImproveMaps}
+                />
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {t("settings.helpImproveMapsDesc", {
+                  fallback:
+                    "To fix map problems, the app may send what it detects at the affected spot (object types and positions). Never your name, account or other players.",
                 })}
               </p>
             </Section>

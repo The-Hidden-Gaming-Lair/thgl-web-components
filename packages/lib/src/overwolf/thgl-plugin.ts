@@ -45,6 +45,8 @@ function settingsConfig() {
     liveMode: isLiveReadingActive(settings.liveMode),
     actorsPollingRate: settings.actorsPollingRate,
     worldCodeRequestsMuted: Boolean(settings.worldCodeRequestsMuted),
+    // Client probes (plugin Live\ClientProbes.cs); missing in old stored settings = on.
+    helpImproveMaps: settings.helpImproveMaps !== false,
     debug: isDebug(),
   };
 }

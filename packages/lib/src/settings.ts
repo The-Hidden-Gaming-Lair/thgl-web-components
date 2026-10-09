@@ -389,6 +389,9 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   overwolfLocale: "en",
   // Palia: mute the "a player wants to join your world" join-code-request toast.
   worldCodeRequestsMuted: false,
+  // Overwolf apps: client probes on/off ("Help improve maps"; the Companion App keeps its own
+  // app-level setting in THGLApp, Dashboard > Settings > Privacy).
+  helpImproveMaps: true,
   presets: {},
   presetByMap: {},
   tempPrivateNode: null,
@@ -575,6 +578,7 @@ export type ProfileSettings = {
   displayDiscordActivityStatus: boolean;
   overwolfLocale: string;
   worldCodeRequestsMuted: boolean;
+  helpImproveMaps: boolean;
   presets: Record<string, string[] | FilterPreset>;
   /**
    * Per-map preset auto-apply (key = top-level mapName, value = preset name).
@@ -756,6 +760,7 @@ export interface ProfileActions {
   ) => void;
   setOverwolfLocale: (locale: string) => void;
   setWorldCodeRequestsMuted: (muted: boolean) => void;
+  setHelpImproveMaps: (enabled: boolean) => void;
   addPreset: (presetName: string, preset: FilterPreset) => void;
   removePreset: (presetName: string) => void;
   // Rebuild the presets map in the given key order (presets render in
@@ -1966,6 +1971,10 @@ export const useSettingsStore = create(
 
           setWorldCodeRequestsMuted: (muted: boolean) => {
             updateSettings({ worldCodeRequestsMuted: muted });
+          },
+
+          setHelpImproveMaps: (enabled: boolean) => {
+            updateSettings({ helpImproveMaps: enabled });
           },
 
           addPreset: (presetName: string, preset: FilterPreset) => {
