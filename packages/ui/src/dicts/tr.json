@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Discord'a katıl",
   "houseAd.adfree.title": "Reklamsız kullan",
   "houseAd.adfree.body": "Reklamları kaldır ve THGL'nin geliştirilmesini destekle.",
-  "houseAd.adfree.cta": "Reklamları kaldır"
+  "houseAd.adfree.cta": "Reklamları kaldır",
+  "houseAd.allowlist.title": "Reklam ganimeti kayıp!",
+  "houseAd.allowlist.body": "Haritaların ücretsiz kalması için th.gl'de reklamlara izin ver ya da reklamsız ol.",
+  "houseAd.allowlist.cta": "Reklamlara nasıl izin verilir"
 }

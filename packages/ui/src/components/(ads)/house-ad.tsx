@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useId,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -21,11 +22,12 @@ import {
 import { useT } from "../(providers)";
 import { trackEvent } from "../(header)/plausible-tracker";
 import globalMenu from "../(header)/global-menu.json";
-import { nextHouseRound, useAdBlankRound } from "./ad-fill";
+import { houseRoundFor, useAdBlankRound } from "./ad-fill";
 import { useContentError } from "./nitro-script";
+import { openAdBlockerDialog } from "./ad-blocker";
 
 type HouseCard = {
-  key: "companion" | "partner" | "discord" | "adfree";
+  key: "companion" | "partner" | "discord" | "adfree" | "allowlist";
   title: string;
   body: string;
   cta: string;
@@ -54,7 +56,7 @@ function partnerUrl(web: string | undefined): string | null {
   );
 }
 
-function useHouseCards(): HouseCard[] {
+function useHouseCards(blocked: boolean): HouseCard[] {
   const t = useT();
   const setShowUserDialog = useAccountStore((s) => s.setShowUserDialog);
 
@@ -125,8 +127,24 @@ function useHouseCards(): HouseCard[] {
       onClick: () => setShowUserDialog(true),
     });
 
+    // Ads blocked on the website: every second card asks to allow ads, the
+    // first blocked slot included (rounds start at 1). The dialog it opens is
+    // mounted with the blocked fallbacks, not in the app.
+    if (blocked && !inApp) {
+      const allowlist: HouseCard = {
+        key: "allowlist",
+        title: t("houseAd.allowlist.title", { fallback: "Ad loot lost!" }),
+        body: t("houseAd.allowlist.body", {
+          fallback: "Allow ads on th.gl to keep the maps free, or go ad-free.",
+        }),
+        cta: t("houseAd.allowlist.cta", { fallback: "How to allow ads" }),
+        onClick: openAdBlockerDialog,
+      };
+      return cards.flatMap((card) => [card, allowlist]);
+    }
+
     return cards;
-  }, [t, setShowUserDialog]);
+  }, [t, setShowUserDialog, blocked]);
 }
 
 /**
@@ -148,12 +166,19 @@ export function HouseAd({ id }: { id: string }): JSX.Element | null {
  * are blocked. Picks its card once, from the same rotation as no-fills.
  */
 export function BlockedHouseAd(): JSX.Element | null {
-  const [round] = useState(nextHouseRound);
-  return <HouseAdCard round={round} />;
+  const id = useId();
+  const [round] = useState(() => houseRoundFor(id));
+  return <HouseAdCard round={round} blocked />;
 }
 
-function HouseAdCard({ round }: { round: number }): JSX.Element | null {
-  const cards = useHouseCards();
+function HouseAdCard({
+  round,
+  blocked = false,
+}: {
+  round: number;
+  blocked?: boolean;
+}): JSX.Element | null {
+  const cards = useHouseCards(blocked);
   const ref = useRef<HTMLDivElement | null>(null);
   const [box, setBox] = useState<{ w: number; h: number } | null>(null);
   useLayoutEffect(() => {

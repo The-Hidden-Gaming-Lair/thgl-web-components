@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Join Discord",
   "houseAd.adfree.title": "Go ad-free",
   "houseAd.adfree.body": "Remove ads and support the development of THGL.",
-  "houseAd.adfree.cta": "Remove ads"
+  "houseAd.adfree.cta": "Remove ads",
+  "houseAd.allowlist.title": "Ad loot lost!",
+  "houseAd.allowlist.body": "Allow ads on th.gl to keep the maps free, or go ad-free.",
+  "houseAd.allowlist.cta": "How to allow ads"
 }

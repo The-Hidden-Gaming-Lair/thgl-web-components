@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Csatlakozás",
   "houseAd.adfree.title": "Reklámmentesen",
   "houseAd.adfree.body": "Távolítsd el a reklámokat, és támogasd a THGL fejlesztését.",
-  "houseAd.adfree.cta": "Reklámok eltávolítása"
+  "houseAd.adfree.cta": "Reklámok eltávolítása",
+  "houseAd.allowlist.title": "Hirdetés zsákmány elveszett!",
+  "houseAd.allowlist.body": "Engedélyezd a hirdetéseket a th.gl-en, hogy a térképek ingyenesek maradjanak, vagy válts reklámmentesre.",
+  "houseAd.allowlist.cta": "Hirdetések engedélyezése"
 }

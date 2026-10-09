@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Unisciti a Discord",
   "houseAd.adfree.title": "Niente pubblicità",
   "houseAd.adfree.body": "Rimuovi la pubblicità e sostieni lo sviluppo di THGL.",
-  "houseAd.adfree.cta": "Rimuovi pubblicità"
+  "houseAd.adfree.cta": "Rimuovi pubblicità",
+  "houseAd.allowlist.title": "Bottino pubblicitario perso!",
+  "houseAd.allowlist.body": "Consenti gli annunci su th.gl per mantenere le mappe gratuite, oppure passa alla versione senza pubblicità.",
+  "houseAd.allowlist.cta": "Come consentire gli annunci"
 }

@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Rejoindre Discord",
   "houseAd.adfree.title": "Passez sans pub",
   "houseAd.adfree.body": "Supprimez les pubs et soutenez le développement de THGL.",
-  "houseAd.adfree.cta": "Supprimer les pubs"
+  "houseAd.adfree.cta": "Supprimer les pubs",
+  "houseAd.allowlist.title": "Butin pub perdu !",
+  "houseAd.allowlist.body": "Autorise les pubs sur th.gl pour garder les cartes gratuites, ou passe sans pub.",
+  "houseAd.allowlist.cta": "Comment autoriser les pubs"
 }

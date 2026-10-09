@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Discord 참여",
   "houseAd.adfree.title": "광고 없이 이용",
   "houseAd.adfree.body": "광고를 제거하고 THGL 개발을 후원하세요.",
-  "houseAd.adfree.cta": "광고 제거"
+  "houseAd.adfree.cta": "광고 제거",
+  "houseAd.allowlist.title": "광고 보상 손실!",
+  "houseAd.allowlist.body": "th.gl에서 광고를 허용해 지도를 무료로 유지하거나, 광고 없이 이용하세요.",
+  "houseAd.allowlist.cta": "광고 허용 방법"
 }

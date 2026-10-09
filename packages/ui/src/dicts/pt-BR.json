@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Entrar no Discord",
   "houseAd.adfree.title": "Sem anúncios",
   "houseAd.adfree.body": "Remova os anúncios e apoie o desenvolvimento do THGL.",
-  "houseAd.adfree.cta": "Remover anúncios"
+  "houseAd.adfree.cta": "Remover anúncios",
+  "houseAd.allowlist.title": "Recompensa publicitária perdida!",
+  "houseAd.allowlist.body": "Permita anúncios no th.gl para manter os mapas gratuitos, ou remova os anúncios.",
+  "houseAd.allowlist.cta": "Como permitir anúncios"
 }

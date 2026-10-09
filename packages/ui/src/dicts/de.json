@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Discord beitreten",
   "houseAd.adfree.title": "Werbefrei nutzen",
   "houseAd.adfree.body": "Entferne Werbung und unterstütze die Entwicklung von THGL.",
-  "houseAd.adfree.cta": "Werbung entfernen"
+  "houseAd.adfree.cta": "Werbung entfernen",
+  "houseAd.allowlist.title": "Beute durch Werbung verloren!",
+  "houseAd.allowlist.body": "Erlaube Werbung auf th.gl, damit die Karten kostenlos bleiben, oder werde werbefrei.",
+  "houseAd.allowlist.cta": "So erlaubst du Werbung"
 }

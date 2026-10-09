@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Tham gia Discord",
   "houseAd.adfree.title": "Không quảng cáo",
   "houseAd.adfree.body": "Gỡ quảng cáo và ủng hộ việc phát triển THGL.",
-  "houseAd.adfree.cta": "Gỡ quảng cáo"
+  "houseAd.adfree.cta": "Gỡ quảng cáo",
+  "houseAd.allowlist.title": "Mất chiến lợi phẩm quảng cáo!",
+  "houseAd.allowlist.body": "Cho phép quảng cáo trên th.gl để bản đồ luôn miễn phí, hoặc dùng bản không quảng cáo.",
+  "houseAd.allowlist.cta": "Cách cho phép quảng cáo"
 }

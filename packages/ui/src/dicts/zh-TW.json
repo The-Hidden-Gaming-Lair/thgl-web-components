@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "加入 Discord",
   "houseAd.adfree.title": "移除廣告",
   "houseAd.adfree.body": "移除廣告並支持 THGL 的開發。",
-  "houseAd.adfree.cta": "移除廣告"
+  "houseAd.adfree.cta": "移除廣告",
+  "houseAd.allowlist.title": "廣告收益損失！",
+  "houseAd.allowlist.body": "在 th.gl 上允許廣告，讓地圖保持免費，或選擇無廣告。",
+  "houseAd.allowlist.cta": "如何允許廣告"
 }

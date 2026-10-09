@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "เข้าร่วม Discord",
   "houseAd.adfree.title": "ไม่มีโฆษณา",
   "houseAd.adfree.body": "ลบโฆษณาและสนับสนุนการพัฒนา THGL",
-  "houseAd.adfree.cta": "ลบโฆษณา"
+  "houseAd.adfree.cta": "ลบโฆษณา",
+  "houseAd.allowlist.title": "สูญเสียรายได้โฆษณา!",
+  "houseAd.allowlist.body": "อนุญาตโฆษณาบน th.gl เพื่อให้แผนที่ใช้ฟรีต่อไป หรือเลือกแบบไม่มีโฆษณา",
+  "houseAd.allowlist.cta": "วิธีอนุญาตโฆษณา"
 }

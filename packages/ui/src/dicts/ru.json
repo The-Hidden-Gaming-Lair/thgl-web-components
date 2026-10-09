@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Присоединиться",
   "houseAd.adfree.title": "Без рекламы",
   "houseAd.adfree.body": "Отключите рекламу и поддержите разработку THGL.",
-  "houseAd.adfree.cta": "Убрать рекламу"
+  "houseAd.adfree.cta": "Убрать рекламу",
+  "houseAd.allowlist.title": "Потеряна рекламная награда!",
+  "houseAd.allowlist.body": "Разрешите рекламу на th.gl, чтобы карты оставались бесплатными, или отключите рекламу подпиской.",
+  "houseAd.allowlist.cta": "Как разрешить рекламу"
 }

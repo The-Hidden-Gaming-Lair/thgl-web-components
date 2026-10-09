@@ -18,9 +18,20 @@ const blankRounds = new Map<string, number>();
 const listeners = new Set<() => void>();
 let round = 0;
 
-/** Next house-ad round, for cards shown without a no-fill (ads blocked). */
-export function nextHouseRound(): number {
-  return ++round;
+const fixedRounds = new Map<string, number>();
+
+/**
+ * House-ad round for a card shown without a no-fill (ads blocked), fixed per
+ * `key` (a React useId): StrictMode runs state initializers twice, and a bare
+ * counter would then skip every other card.
+ */
+export function houseRoundFor(key: string): number {
+  let fixed = fixedRounds.get(key);
+  if (fixed === undefined) {
+    fixed = ++round;
+    fixedRounds.set(key, fixed);
+  }
+  return fixed;
 }
 
 export function reportAdRender(id: string, blank: boolean): void {

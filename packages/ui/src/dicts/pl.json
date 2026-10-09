@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Dołącz do Discorda",
   "houseAd.adfree.title": "Bez reklam",
   "houseAd.adfree.body": "Usuń reklamy i wesprzyj rozwój THGL.",
-  "houseAd.adfree.cta": "Usuń reklamy"
+  "houseAd.adfree.cta": "Usuń reklamy",
+  "houseAd.allowlist.title": "Utracony łup z reklam!",
+  "houseAd.allowlist.body": "Zezwól na reklamy na th.gl, aby mapy pozostały darmowe, albo przejdź na wersję bez reklam.",
+  "houseAd.allowlist.cta": "Jak zezwolić na reklamy"
 }

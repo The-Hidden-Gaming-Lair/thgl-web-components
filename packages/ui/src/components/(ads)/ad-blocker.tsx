@@ -11,6 +11,7 @@ import {
 } from "../ui/alert-dialog";
 import { useEffect, useRef, useState } from "react";
 import { useSessionStorage } from "@uidotdev/usehooks";
+import { create } from "zustand";
 import { useT } from "../(providers)";
 
 // Obfuscated key generation to prevent easylist blocking
@@ -25,6 +26,14 @@ function getStorageKey() {
   parts.push(y.toString(), m, d);
   return parts.join("");
 }
+
+// Opened on request by the "Ad loot lost!" house card: shows right away, even
+// when dismissed today, and can be closed without the countdown.
+const useDialogRequest = create<{ requested: boolean }>(() => ({
+  requested: false,
+}));
+export const openAdBlockerDialog = () =>
+  useDialogRequest.setState({ requested: true });
 
 const DISMISS_COUNTDOWN = 5;
 const SHOW_DELAY_MS = 30_000; // 30 seconds before showing
@@ -92,10 +101,12 @@ export function AdBlocker() {
     return () => clearTimeout(timeoutId);
   }, [ready, timeLeft]);
 
-  if (dismissed || !ready) return null;
+  const requested = useDialogRequest((s) => s.requested);
+  const locked = !requested && timeLeft > 0;
+  if (!requested && (dismissed || !ready)) return null;
 
   return (
-    <AlertDialog open={open}>
+    <AlertDialog open={requested || open}>
       <AlertDialogContent data-nosnippet>
         <AlertDialogHeader>
           <AlertDialogTitle>{t("adblocker.title")}</AlertDialogTitle>
@@ -160,16 +171,17 @@ export function AdBlocker() {
         <p className="text-secondary-foreground">{t("adblocker.thanks")}</p>
 
         <AlertDialogCancel
-          disabled={timeLeft > 0}
+          disabled={locked}
           onClick={() => {
-            if (timeLeft > 0) return;
+            if (locked) return;
             setDismissed(true);
             setOpen(false);
+            useDialogRequest.setState({ requested: false });
           }}
         >
           {t.rich("adblocker.close", {
             components: {
-              countdown: timeLeft > 0 ? ` (${timeLeft})` : "",
+              countdown: locked ? ` (${timeLeft})` : "",
             },
           })}
         </AlertDialogCancel>

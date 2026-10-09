@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Discordに参加",
   "houseAd.adfree.title": "広告なしで使う",
   "houseAd.adfree.body": "広告を非表示にしてTHGLの開発を応援しよう。",
-  "houseAd.adfree.cta": "広告を消す"
+  "houseAd.adfree.cta": "広告を消す",
+  "houseAd.allowlist.title": "広告収益が失われました！",
+  "houseAd.allowlist.body": "th.gl で広告を許可してマップを無料のまま保つか、広告なしプランをご利用ください。",
+  "houseAd.allowlist.cta": "広告を許可する方法"
 }

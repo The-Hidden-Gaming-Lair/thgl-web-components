@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Připojit se",
   "houseAd.adfree.title": "Bez reklam",
   "houseAd.adfree.body": "Odstraňte reklamy a podpořte vývoj THGL.",
-  "houseAd.adfree.cta": "Odstranit reklamy"
+  "houseAd.adfree.cta": "Odstranit reklamy",
+  "houseAd.allowlist.title": "Reklamní kořist ztracena!",
+  "houseAd.allowlist.body": "Povol reklamy na th.gl, aby mapy zůstaly zdarma, nebo přejdi na verzi bez reklam.",
+  "houseAd.allowlist.cta": "Jak povolit reklamy"
 }

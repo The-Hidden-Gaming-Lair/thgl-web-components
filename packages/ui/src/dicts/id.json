@@ -1037,5 +1037,8 @@
   "houseAd.discord.cta": "Gabung Discord",
   "houseAd.adfree.title": "Bebas iklan",
   "houseAd.adfree.body": "Hapus iklan dan dukung pengembangan THGL.",
-  "houseAd.adfree.cta": "Hapus iklan"
+  "houseAd.adfree.cta": "Hapus iklan",
+  "houseAd.allowlist.title": "Loot iklan hilang!",
+  "houseAd.allowlist.body": "Izinkan iklan di th.gl agar peta tetap gratis, atau beralih ke bebas iklan.",
+  "houseAd.allowlist.cta": "Cara mengizinkan iklan"
 }
