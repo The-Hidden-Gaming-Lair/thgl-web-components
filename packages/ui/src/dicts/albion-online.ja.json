@@ -49,5 +49,12 @@
   "config.db.typeLabels.farming": "農業",
   "config.db.typeLabels.furniture": "家具",
   "config.db.typeLabels.vanity": "外見",
-  "config.db.typeLabels.misc": "アイテム"
+  "config.db.typeLabels.misc": "アイテム",
+  "config.db.vanity.description": "スキン、アバター、アバターリング、乗り物スキン、キルエモート。",
+  "config.db.vanity.title": "外見",
+  "config.db.misc.description": "労働者、トロフィー、宝の地図、クエストアイテム、高級品、ギルドアイテム。",
+  "config.db.misc.title": "その他のアイテム",
+  "config.db.abilities.description": "武器と防具のアクティブ・パッシブスペル。",
+  "config.db.abilities.title": "アビリティ",
+  "config.db.typeLabels.abilities": "アビリティ"
 }

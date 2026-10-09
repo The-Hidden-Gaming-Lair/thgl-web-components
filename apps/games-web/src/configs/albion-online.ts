@@ -181,6 +181,30 @@ export const albionOnline = resolveAppConfig({
         icon: "🪑",
         description: "config.db.furniture.description",
       },
+      {
+        href: "/db/vanity",
+        type: "vanity",
+        titleKey: "config.db.vanity.title",
+        titleFallback: "Vanity",
+        icon: "👑",
+        description: "config.db.vanity.description",
+      },
+      {
+        href: "/db/misc",
+        type: "misc",
+        titleKey: "config.db.misc.title",
+        titleFallback: "Other Items",
+        icon: "📦",
+        description: "config.db.misc.description",
+      },
+      {
+        href: "/db/abilities",
+        type: "abilities",
+        titleKey: "config.db.abilities.title",
+        titleFallback: "Abilities",
+        icon: "✨",
+        description: "config.db.abilities.description",
+      },
     ],
     typeLabels: {
       locations: "config.db.typeLabels.locations",
@@ -198,6 +222,7 @@ export const albionOnline = resolveAppConfig({
       furniture: "config.db.typeLabels.furniture",
       vanity: "config.db.typeLabels.vanity",
       misc: "config.db.typeLabels.misc",
+      abilities: "config.db.typeLabels.abilities",
     },
   },
 });

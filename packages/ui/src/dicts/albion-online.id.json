@@ -49,5 +49,12 @@
   "config.db.typeLabels.farming": "Pertanian",
   "config.db.typeLabels.furniture": "Furnitur",
   "config.db.typeLabels.vanity": "Kosmetik",
-  "config.db.typeLabels.misc": "Item"
+  "config.db.typeLabels.misc": "Item",
+  "config.db.vanity.description": "Skin, avatar, cincin avatar, skin tunggangan, dan emote kill.",
+  "config.db.vanity.title": "Kosmetik",
+  "config.db.misc.description": "Pekerja, trofi, peta harta karun, item misi, barang mewah, dan item guild.",
+  "config.db.misc.title": "Item Lainnya",
+  "config.db.abilities.description": "Mantra aktif dan pasif dari senjata dan armor.",
+  "config.db.abilities.title": "Kemampuan",
+  "config.db.typeLabels.abilities": "Kemampuan"
 }

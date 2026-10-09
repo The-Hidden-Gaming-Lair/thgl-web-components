@@ -49,5 +49,12 @@
   "config.db.typeLabels.farming": "Farming",
   "config.db.typeLabels.furniture": "Furniture",
   "config.db.typeLabels.vanity": "Vanity",
-  "config.db.typeLabels.misc": "Item"
+  "config.db.typeLabels.misc": "Item",
+  "config.db.vanity.description": "Skins, avatars, avatar rings, mount skins and kill emotes.",
+  "config.db.vanity.title": "Vanity",
+  "config.db.misc.description": "Laborers, trophies, treasure maps, quest items, luxury goods and guild items.",
+  "config.db.misc.title": "Other Items",
+  "config.db.abilities.description": "Active and passive spells of weapons and armor.",
+  "config.db.abilities.title": "Abilities",
+  "config.db.typeLabels.abilities": "Ability"
 }

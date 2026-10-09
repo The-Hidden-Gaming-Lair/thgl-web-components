@@ -49,5 +49,12 @@
   "config.db.typeLabels.farming": "Agricoltura",
   "config.db.typeLabels.furniture": "Mobile",
   "config.db.typeLabels.vanity": "Estetica",
-  "config.db.typeLabels.misc": "Oggetto"
+  "config.db.typeLabels.misc": "Oggetto",
+  "config.db.vanity.description": "Skin, avatar, anelli avatar, skin delle cavalcature ed emote di uccisione.",
+  "config.db.vanity.title": "Estetica",
+  "config.db.misc.description": "Lavoratori, trofei, mappe del tesoro, oggetti delle missioni, beni di lusso e oggetti di gilda.",
+  "config.db.misc.title": "Altri oggetti",
+  "config.db.abilities.description": "Incantesimi attivi e passivi di armi e armature.",
+  "config.db.abilities.title": "Abilità",
+  "config.db.typeLabels.abilities": "Abilità"
 }

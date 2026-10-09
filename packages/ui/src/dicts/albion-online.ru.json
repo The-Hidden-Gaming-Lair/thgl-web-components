@@ -49,5 +49,12 @@
   "config.db.typeLabels.farming": "Фермерство",
   "config.db.typeLabels.furniture": "Мебель",
   "config.db.typeLabels.vanity": "Внешний вид",
-  "config.db.typeLabels.misc": "Предмет"
+  "config.db.typeLabels.misc": "Предмет",
+  "config.db.vanity.description": "Облики, аватары, кольца аватара, облики ездовых животных и эмоции убийства.",
+  "config.db.vanity.title": "Внешний вид",
+  "config.db.misc.description": "Работники, трофеи, карты сокровищ, предметы заданий, предметы роскоши и предметы гильдии.",
+  "config.db.misc.title": "Прочие предметы",
+  "config.db.abilities.description": "Активные и пассивные заклинания оружия и брони.",
+  "config.db.abilities.title": "Способности",
+  "config.db.typeLabels.abilities": "Способность"
 }

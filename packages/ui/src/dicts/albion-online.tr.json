@@ -49,5 +49,12 @@
   "config.db.typeLabels.farming": "Çiftçilik",
   "config.db.typeLabels.furniture": "Mobilya",
   "config.db.typeLabels.vanity": "Görünüm",
-  "config.db.typeLabels.misc": "Eşya"
+  "config.db.typeLabels.misc": "Eşya",
+  "config.db.vanity.description": "Görünümler, avatarlar, avatar yüzükleri, binek görünümleri ve öldürme ifadeleri.",
+  "config.db.vanity.title": "Görünüm",
+  "config.db.misc.description": "İşçiler, ganimetler, hazine haritaları, görev eşyaları, lüks mallar ve lonca eşyaları.",
+  "config.db.misc.title": "Diğer Eşyalar",
+  "config.db.abilities.description": "Silah ve zırhların aktif ve pasif büyüleri.",
+  "config.db.abilities.title": "Yetenekler",
+  "config.db.typeLabels.abilities": "Yetenek"
 }

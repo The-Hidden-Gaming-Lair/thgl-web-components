@@ -49,5 +49,12 @@
   "config.db.typeLabels.farming": "Agriculture",
   "config.db.typeLabels.furniture": "Meuble",
   "config.db.typeLabels.vanity": "Apparence",
-  "config.db.typeLabels.misc": "Objet"
+  "config.db.typeLabels.misc": "Objet",
+  "config.db.vanity.description": "Apparences, avatars, anneaux d'avatar, apparences de montures et emotes de victoire.",
+  "config.db.vanity.title": "Apparence",
+  "config.db.misc.description": "Ouvriers, trophées, cartes au trésor, objets de quête, produits de luxe et objets de guilde.",
+  "config.db.misc.title": "Autres objets",
+  "config.db.abilities.description": "Sorts actifs et passifs des armes et armures.",
+  "config.db.abilities.title": "Compétences",
+  "config.db.typeLabels.abilities": "Compétence"
 }

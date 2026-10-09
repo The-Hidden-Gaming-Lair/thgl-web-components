@@ -49,5 +49,12 @@
   "config.db.typeLabels.farming": "Granja",
   "config.db.typeLabels.furniture": "Mueble",
   "config.db.typeLabels.vanity": "Apariencia",
-  "config.db.typeLabels.misc": "Objeto"
+  "config.db.typeLabels.misc": "Objeto",
+  "config.db.vanity.description": "Aspectos, avatares, anillos de avatar, aspectos de monturas y gestos de muerte.",
+  "config.db.vanity.title": "Apariencia",
+  "config.db.misc.description": "Trabajadores, trofeos, mapas del tesoro, objetos de misión, bienes de lujo y objetos de gremio.",
+  "config.db.misc.title": "Otros objetos",
+  "config.db.abilities.description": "Hechizos activos y pasivos de armas y armaduras.",
+  "config.db.abilities.title": "Habilidades",
+  "config.db.typeLabels.abilities": "Habilidad"
 }

@@ -49,5 +49,12 @@
   "config.db.typeLabels.farming": "農業",
   "config.db.typeLabels.furniture": "家具",
   "config.db.typeLabels.vanity": "外觀",
-  "config.db.typeLabels.misc": "物品"
+  "config.db.typeLabels.misc": "物品",
+  "config.db.vanity.description": "造型、頭像、頭像框、坐騎造型和擊殺表情。",
+  "config.db.vanity.title": "外觀",
+  "config.db.misc.description": "勞工、戰利品、藏寶圖、任務物品、奢侈品和公會物品。",
+  "config.db.misc.title": "其他物品",
+  "config.db.abilities.description": "武器和護甲的主動與被動法術。",
+  "config.db.abilities.title": "技能",
+  "config.db.typeLabels.abilities": "技能"
 }

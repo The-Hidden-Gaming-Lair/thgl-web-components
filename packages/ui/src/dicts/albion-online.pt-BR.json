@@ -49,5 +49,12 @@
   "config.db.typeLabels.farming": "Fazenda",
   "config.db.typeLabels.furniture": "Móvel",
   "config.db.typeLabels.vanity": "Visual",
-  "config.db.typeLabels.misc": "Item"
+  "config.db.typeLabels.misc": "Item",
+  "config.db.vanity.description": "Skins, avatares, anéis de avatar, skins de montaria e emotes de abate.",
+  "config.db.vanity.title": "Visual",
+  "config.db.misc.description": "Trabalhadores, troféus, mapas do tesouro, itens de missão, artigos de luxo e itens de guilda.",
+  "config.db.misc.title": "Outros itens",
+  "config.db.abilities.description": "Feitiços ativos e passivos de armas e armaduras.",
+  "config.db.abilities.title": "Habilidades",
+  "config.db.typeLabels.abilities": "Habilidade"
 }

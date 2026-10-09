@@ -49,5 +49,12 @@
   "config.db.typeLabels.farming": "농사",
   "config.db.typeLabels.furniture": "가구",
   "config.db.typeLabels.vanity": "외형",
-  "config.db.typeLabels.misc": "아이템"
+  "config.db.typeLabels.misc": "아이템",
+  "config.db.vanity.description": "스킨, 아바타, 아바타 링, 탈것 스킨, 처치 이모트.",
+  "config.db.vanity.title": "외형",
+  "config.db.misc.description": "노동자, 트로피, 보물 지도, 퀘스트 아이템, 사치품, 길드 아이템.",
+  "config.db.misc.title": "기타 아이템",
+  "config.db.abilities.description": "무기와 방어구의 액티브 및 패시브 주문.",
+  "config.db.abilities.title": "능력",
+  "config.db.typeLabels.abilities": "능력"
 }

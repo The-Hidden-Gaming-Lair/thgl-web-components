@@ -49,5 +49,12 @@
   "config.db.typeLabels.farming": "Rolnictwo",
   "config.db.typeLabels.furniture": "Mebel",
   "config.db.typeLabels.vanity": "Wygląd",
-  "config.db.typeLabels.misc": "Przedmiot"
+  "config.db.typeLabels.misc": "Przedmiot",
+  "config.db.vanity.description": "Skórki, awatary, pierścienie awatara, skórki wierzchowców i emotki zabójstw.",
+  "config.db.vanity.title": "Wygląd",
+  "config.db.misc.description": "Robotnicy, trofea, mapy skarbów, przedmioty zadań, dobra luksusowe i przedmioty gildii.",
+  "config.db.misc.title": "Inne przedmioty",
+  "config.db.abilities.description": "Aktywne i pasywne zaklęcia broni i pancerzy.",
+  "config.db.abilities.title": "Umiejętności",
+  "config.db.typeLabels.abilities": "Umiejętność"
 }

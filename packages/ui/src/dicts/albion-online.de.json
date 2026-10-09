@@ -49,5 +49,12 @@
   "config.db.typeLabels.farming": "Landwirtschaft",
   "config.db.typeLabels.furniture": "Möbel",
   "config.db.typeLabels.vanity": "Kosmetik",
-  "config.db.typeLabels.misc": "Gegenstand"
+  "config.db.typeLabels.misc": "Gegenstand",
+  "config.db.vanity.description": "Skins, Avatare, Avatarringe, Reittier-Skins und Kill-Emotes.",
+  "config.db.vanity.title": "Kosmetik",
+  "config.db.misc.description": "Arbeiter, Trophäen, Schatzkarten, Questgegenstände, Luxusgüter und Gildengegenstände.",
+  "config.db.misc.title": "Weitere Gegenstände",
+  "config.db.abilities.description": "Aktive und passive Zauber von Waffen und Rüstungen.",
+  "config.db.abilities.title": "Fähigkeiten",
+  "config.db.typeLabels.abilities": "Fähigkeit"
 }
