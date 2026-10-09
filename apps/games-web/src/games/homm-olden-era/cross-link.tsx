@@ -3,6 +3,7 @@ import { localizePath } from "@repo/lib";
 import { resolveDict } from "@/lib/db/resolve-dict";
 import { SpriteIcon } from "@/lib/db/sprite-icon";
 import { EntityTooltip } from "@/lib/db/entity-tooltip";
+import { TYPE_SECTION } from "@/games/homm-olden-era/sections";
 
 type IconSprite = {
   url: string;
@@ -24,19 +25,6 @@ type DatabaseEntry = {
   items: DatabaseItem[];
 };
 
-const SECTION_MAP: Record<string, string> = {
-  units: "units",
-  heroes: "heroes",
-  spells: "spells",
-  items: "artifacts",
-  item_sets: "artifacts",
-  skills: "skills",
-  sub_skills: "skills",
-  specializations: "factions",
-  factions: "factions",
-  faction_laws: "factions",
-};
-
 const APP_NAME = "homm-olden-era";
 
 export function findItem(
@@ -51,7 +39,7 @@ export function findItem(
 }
 
 export function getHref(type: string, itemId: string, locale = "en"): string {
-  const section = SECTION_MAP[type] ?? type;
+  const section = TYPE_SECTION[type] ?? type;
   return localizePath(`/db/${section}/${itemId}`, locale);
 }
 
@@ -95,7 +83,14 @@ export function EntityLink({
         prefetch={false}
         className={`inline-flex items-center gap-1.5 text-sm text-amber-400 hover:text-amber-300 transition-colors ${className}`}
       >
-        {showIcon && icon && <SpriteIcon icon={icon} appName={APP_NAME} size={20} iconsHash={iconsHash} />}
+        {showIcon && icon && (
+          <SpriteIcon
+            icon={icon}
+            appName={APP_NAME}
+            size={20}
+            iconsHash={iconsHash}
+          />
+        )}
         <span>{name}</span>
       </Link>
     </EntityTooltip>
@@ -140,13 +135,22 @@ export function EntityLinkCard({
         prefetch={false}
         className="flex items-center gap-2 bg-slate-900/30 border border-slate-800/50 rounded px-3 py-2 hover:border-amber-800/50 hover:bg-slate-900/50 transition-colors group"
       >
-        {icon && <SpriteIcon icon={icon} appName={APP_NAME} size={32} iconsHash={iconsHash} />}
+        {icon && (
+          <SpriteIcon
+            icon={icon}
+            appName={APP_NAME}
+            size={32}
+            iconsHash={iconsHash}
+          />
+        )}
         <div>
           <span className="text-sm font-medium group-hover:text-amber-400 transition-colors">
             {name}
           </span>
           {subtitle && (
-            <span className="block text-xs text-muted-foreground">{subtitle}</span>
+            <span className="block text-xs text-muted-foreground">
+              {subtitle}
+            </span>
           )}
         </div>
       </Link>

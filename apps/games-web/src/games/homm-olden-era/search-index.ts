@@ -5,23 +5,9 @@ import {
   getIconsUrl,
   localizePath,
 } from "@repo/lib";
+import { TYPE_SECTION } from "@/games/homm-olden-era/sections";
 
 const APP_NAME = "homm-olden-era";
-
-const SECTION_MAP: Record<string, string> = {
-  units: "units",
-  heroes: "heroes",
-  spells: "spells",
-  items: "artifacts",
-  item_sets: "artifacts",
-  skills: "skills",
-  sub_skills: "skills",
-  specializations: "factions",
-  factions: "factions",
-  faction_laws: "factions",
-  buildings: "buildings",
-  map_objects: "map-objects",
-};
 
 function resolveDict(dict: Record<string, string>, key: string): string {
   const value = dict[key];
@@ -48,7 +34,7 @@ export async function buildHommSearchIndex(locale: string) {
     .filter((category) => !category.type.startsWith("_"))
     .flatMap((category) =>
       category.items.map((item) => {
-        const section = SECTION_MAP[category.type] ?? category.type;
+        const section = TYPE_SECTION[category.type] ?? category.type;
         const dictKey =
           category.type === "factions" ? `faction_${item.id}` : item.id;
         const icon =

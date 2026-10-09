@@ -7,6 +7,27 @@
  * Sections with bespoke layouts (skills, artifacts, mechanics) live as their
  * own route folders — they aren't listed here.
  */
+/**
+ * Database entry type → /db URL segment, for cross-links and search results.
+ * Covers the bespoke routes too (items + item_sets → /db/artifacts,
+ * sub_skills → /db/skills). db-index-routes.test.ts checks every type of the
+ * database index resolves to a real route.
+ */
+export const TYPE_SECTION: Record<string, string> = {
+  units: "units",
+  heroes: "heroes",
+  spells: "spells",
+  items: "artifacts",
+  item_sets: "artifacts",
+  skills: "skills",
+  sub_skills: "skills",
+  specializations: "factions",
+  factions: "factions",
+  faction_laws: "factions",
+  buildings: "buildings",
+  map_objects: "map-objects",
+};
+
 export type Section = {
   /** URL segment under /db/ */
   section: string;

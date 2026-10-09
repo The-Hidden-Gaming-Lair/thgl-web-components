@@ -3,6 +3,9 @@
   "tasks": {
     "build": {
       "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "test": {
+      "cache": false
     }
   }
 }
