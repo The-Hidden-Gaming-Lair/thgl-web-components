@@ -112,6 +112,7 @@ export function liveMarkers(page: Page) {
         id: i.id as string,
         size: i.size as number,
         key: i.key as string,
+        sheet: i.sheet as string,
       }),
     );
   });

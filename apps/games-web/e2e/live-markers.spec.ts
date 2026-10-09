@@ -57,21 +57,32 @@ test.describe("live markers", () => {
     // A live marker must end up exactly as big as the static marker of the
     // same type. Right after injection it can briefly be the raw-sheet size
     // until the processed sprite is ready (then it is recreated), so poll
-    // until all three settled on the static size.
-    const staticSize = await page.evaluate((key) => {
-      const map = (window as any).__thgl.useMapStore.getState().map;
-      return (map.markerLayer.getInstances().filter(Boolean) as any[]).find(
-        (i) => i.key === key,
-      )?.size as number;
-    }, CLAY.id);
-    expect(staticSize).toBeGreaterThan(0);
+    // until all three settled on the static size. The static marker goes
+    // through the same swap, and both can briefly agree on the raw-sheet
+    // size (23 vs the padded 28.75), so wait for the processed sheet on all
+    // of them and re-read the static size on every poll (flaked 4 of 11
+    // `bump` runs on 2026-10-08, inbox #910).
+    const processed = (sheet: string) => sheet?.startsWith("__processed_icon_");
+    const staticMarker = () =>
+      page.evaluate((key) => {
+        const map = (window as any).__thgl.useMapStore.getState().map;
+        const i = (
+          map.markerLayer.getInstances().filter(Boolean) as any[]
+        ).find((i) => i.key === key);
+        return { size: i?.size as number, sheet: i?.sheet as string };
+      }, CLAY.id);
     await expect
       .poll(async () => {
+        const stat = await staticMarker();
         const live = await liveMarkers(page);
-        return live.length === 3 &&
-          live.every((m) => Math.abs(m.size - staticSize) < 1e-3)
+        return stat.size > 0 &&
+          processed(stat.sheet) &&
+          live.length === 3 &&
+          live.every(
+            (m) => processed(m.sheet) && Math.abs(m.size - stat.size) < 1e-3,
+          )
           ? "settled"
-          : JSON.stringify(live);
+          : JSON.stringify({ static: stat, live });
       })
       .toBe("settled");
     const before = await liveMarkers(page);
