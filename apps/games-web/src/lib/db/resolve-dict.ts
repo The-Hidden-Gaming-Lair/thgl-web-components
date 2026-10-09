@@ -53,3 +53,19 @@ export function localizeProps<T extends Record<string, unknown> | undefined>(
   }
   return (out ?? props) as T;
 }
+
+/**
+ * Data-forge bakes each DB location row's `label` from the ENGLISH dict (the
+ * spawn id, then the type). Re-resolve those keys in the page's dict so marker
+ * tooltips and the fallback list follow the locale (node id = `<spawn id or
+ * type>@y:x`); a row whose keys the dict lacks keeps its baked label.
+ */
+export function localizeLocationLabels<
+  T extends { node: string; type: string; label: string },
+>(list: T[], dict: Record<string, string> | undefined): T[] {
+  if (!dict) return list;
+  return list.map((loc) => {
+    const key = [loc.node.split("@")[0], loc.type].find((k) => k && dict[k]);
+    return key ? { ...loc, label: resolveDict(dict, key) } : loc;
+  });
+}

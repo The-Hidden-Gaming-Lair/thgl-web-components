@@ -9,7 +9,11 @@ import { SpriteIcon } from "@/lib/db/sprite-icon";
 import { EntityTooltip } from "@/lib/db/entity-tooltip";
 import { DbLocationMap } from "@/lib/db/db-location-map";
 import { DbEmbeddedMap, type EmbeddedMapSpawn } from "@/lib/db/db-embedded-map";
-import { localizeProps, resolveDict } from "@/lib/db/resolve-dict";
+import {
+  localizeLocationLabels,
+  localizeProps,
+  resolveDict,
+} from "@/lib/db/resolve-dict";
 import { formatBool } from "@/lib/db/seo";
 import {
   FilterableRefs,
@@ -281,8 +285,12 @@ export function GenericEntityView({
     translate(dict ?? {}, key, { fallback, vars });
   // "Found where on the map" — rendered as its own clickable section, not in
   // the table.
+  // Marker labels in the page's locale (data-forge bakes them in English).
   const locations = isLocationsProp(props?.locations)
-    ? props.locations
+    ? {
+        ...props.locations,
+        list: localizeLocationLabels(props.locations.list, dict),
+      }
     : undefined;
   // A whole-level interactive map embed (a map DB entry's own view).
   const embeddedMap = isEmbeddedMapProp(props?.embeddedMap)
