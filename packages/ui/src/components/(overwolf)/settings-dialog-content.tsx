@@ -8,22 +8,62 @@ import { Channels } from "./channels";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
 import { ReactNode } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { LOCALE_LABELS } from "../(controls)/locale-labels";
 
 export function OverwolfSettingsDialogContent({
   activeApp,
   gameClassId,
   more,
   filters,
+  supportedLocales,
 }: {
   activeApp: string;
   gameClassId: number;
   more?: ReactNode;
   filters: FiltersConfig;
+  supportedLocales?: string[];
 }) {
   const settingsStore = useSettingsStore();
 
   return (
     <SettingsDialogContent activeApp={activeApp} more={more} filters={filters}>
+      {supportedLocales && supportedLocales.length > 1 && (
+        <>
+          <Separator />
+          <div className="flex items-center gap-2 justify-between">
+            <Label htmlFor="overwolf-locale">Language</Label>
+            <Select
+              value={
+                supportedLocales.includes(settingsStore.overwolfLocale)
+                  ? settingsStore.overwolfLocale
+                  : "en"
+              }
+              onValueChange={settingsStore.setOverwolfLocale}
+            >
+              <SelectTrigger
+                id="overwolf-locale"
+                className="w-[180px] h-8 shrink-0"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {supportedLocales.map((locale) => (
+                  <SelectItem key={locale} value={locale}>
+                    {LOCALE_LABELS[locale] ?? locale}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </>
+      )}
       <Separator />
       <Channels />
       <Separator />

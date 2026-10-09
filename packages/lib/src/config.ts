@@ -218,6 +218,9 @@ export type OverwolfAppConfig = {
   appId: string;
   discordApplicationId: string;
   markerOptions: MarkerOptions;
+  /** Languages offered in the settings dialog (same list as the web config).
+   *  Omitted = English only, no language picker. */
+  supportedLocales?: string[];
 };
 
 export type THGLAppConfig = {

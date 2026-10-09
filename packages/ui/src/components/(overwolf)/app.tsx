@@ -45,6 +45,7 @@ import {
 import { MarkersSearch } from "../(controls)/markers-search";
 import { Whiteboard } from "../(peer)";
 import { MapHotkeys } from "./map-hotkeys";
+import { useOverwolfDict } from "./locale";
 import { ResizeBorders } from "./resize-borders";
 import { AdsScript } from "./ads-script";
 import { AdsFallback } from "./ads-fallback";
@@ -106,6 +107,11 @@ export function App({
   // (it tracks player.mapName and feeds the hotkey override).
   const { hidden: overlayMapHidden } = useOverlayMapHidden();
   useApplyTheme();
+  const { dict: localeDict, locale } = useOverwolfDict(
+    appConfig.name,
+    appConfig.supportedLocales,
+    dict,
+  );
 
   return (
     <div
@@ -117,7 +123,7 @@ export function App({
         },
       )}
     >
-      <I18NProvider dict={dict}>
+      <I18NProvider dict={localeDict} locale={locale}>
         <TooltipProvider>
           <CoordinatesProvider
             appName={appConfig.name}
@@ -142,6 +148,7 @@ export function App({
               gameClassId={appConfig.gameClassId}
               moreSettings={moreSettings}
               filters={filters}
+              supportedLocales={appConfig.supportedLocales}
             />
             {!isOverlay && (
               <StatusBanner

@@ -385,6 +385,8 @@ export const DEFAULT_PROFILE_SETTINGS: ProfileSettings = {
   labelTextSize: 1,
   showLabelsHotkey: "l",
   displayDiscordActivityStatus: true,
+  // Overwolf apps: UI + map data language (the web reads it from the URL).
+  overwolfLocale: "en",
   // Palia: mute the "a player wants to join your world" join-code-request toast.
   worldCodeRequestsMuted: false,
   presets: {},
@@ -571,6 +573,7 @@ export type ProfileSettings = {
   labelTextSize: number;
   showLabelsHotkey: string;
   displayDiscordActivityStatus: boolean;
+  overwolfLocale: string;
   worldCodeRequestsMuted: boolean;
   presets: Record<string, string[] | FilterPreset>;
   /**
@@ -751,6 +754,7 @@ export interface ProfileActions {
   setDisplayDiscordActivityStatus: (
     displayDiscordActivityStatus: boolean,
   ) => void;
+  setOverwolfLocale: (locale: string) => void;
   setWorldCodeRequestsMuted: (muted: boolean) => void;
   addPreset: (presetName: string, preset: FilterPreset) => void;
   removePreset: (presetName: string) => void;
@@ -1954,6 +1958,10 @@ export const useSettingsStore = create(
             displayDiscordActivityStatus: boolean,
           ) => {
             updateSettings({ displayDiscordActivityStatus });
+          },
+
+          setOverwolfLocale: (overwolfLocale: string) => {
+            updateSettings({ overwolfLocale });
           },
 
           setWorldCodeRequestsMuted: (muted: boolean) => {

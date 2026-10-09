@@ -47,6 +47,7 @@ export function AppHeader({
   gameClassId,
   moreSettings,
   filters,
+  supportedLocales,
 }: {
   app: string;
   /** Canonical game id (games.ts `name`, e.g. "palia"). `app` is the display
@@ -57,6 +58,7 @@ export function AppHeader({
   gameClassId: number;
   moreSettings?: ReactNode;
   filters: FiltersConfig;
+  supportedLocales?: string[];
 }): JSX.Element {
   const windowInfo = useOverwolfState((state) => state.windowInfo);
   const isOverlay = useOverwolfState((state) => state.isOverlay);
@@ -101,6 +103,7 @@ export function AppHeader({
       gameClassId={gameClassId}
       more={moreSettings}
       filters={filters}
+      supportedLocales={supportedLocales}
     />
   );
 

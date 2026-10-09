@@ -11,30 +11,7 @@ import { Button } from "../ui/button";
 import { Globe } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@repo/lib";
-
-const LOCALE_LABELS: Record<string, string> = {
-  en: "English",
-  cs: "Čeština",
-  de: "Deutsch",
-  es: "Español",
-  "es-MX": "Español (México)",
-  fr: "Français",
-  hu: "Magyar",
-  id: "Bahasa Indonesia",
-  it: "Italiano",
-  ja: "日本語",
-  ko: "한국어",
-  pl: "Polski",
-  pt: "Português",
-  "pt-BR": "Português (Brasil)",
-  ru: "Русский",
-  th: "ไทย",
-  tr: "Türkçe",
-  uk: "Українська",
-  vi: "Tiếng Việt",
-  "zh-CN": "简体中文",
-  "zh-TW": "繁體中文",
-};
+import { LOCALE_LABELS } from "./locale-labels";
 
 export function LocaleSwitcher({
   locales,

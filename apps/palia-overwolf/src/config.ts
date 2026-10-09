@@ -8,4 +8,17 @@ export const APP_CONFIG = resolveOverwolfConfig({
   gameClassId: 23186,
   appId: "fgbodfoepckgplklpccjedophlahnjemfdknhfce",
   discordApplicationId: "1181323945866178560",
+  // Same list as the web config (apps\games-web\src\configs\palia.ts).
+  supportedLocales: [
+    "en",
+    "de",
+    "es",
+    "fr",
+    "it",
+    "ja",
+    "ko",
+    "pt-BR",
+    "zh-CN",
+    "zh-TW",
+  ],
 });

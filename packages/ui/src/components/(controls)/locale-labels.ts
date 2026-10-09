@@ -1,0 +1,25 @@
+// Native names of the UI locales. Plain module (no next/*) so the Overwolf
+// apps can use it too.
+export const LOCALE_LABELS: Record<string, string> = {
+  en: "English",
+  cs: "Čeština",
+  de: "Deutsch",
+  es: "Español",
+  "es-MX": "Español (México)",
+  fr: "Français",
+  hu: "Magyar",
+  id: "Bahasa Indonesia",
+  it: "Italiano",
+  ja: "日本語",
+  ko: "한국어",
+  pl: "Polski",
+  pt: "Português",
+  "pt-BR": "Português (Brasil)",
+  ru: "Русский",
+  th: "ไทย",
+  tr: "Türkçe",
+  uk: "Українська",
+  vi: "Tiếng Việt",
+  "zh-CN": "简体中文",
+  "zh-TW": "繁體中文",
+};
