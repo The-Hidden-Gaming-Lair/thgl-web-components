@@ -70,6 +70,13 @@ export const nevernessToEverness = resolveAppConfig({
       iconName: "Trophy",
       linkText: "config.internalLinks.achievements.linkText",
     },
+    {
+      title: "checklist.navTitle",
+      description: "checklist.navDescription",
+      href: "/checklist",
+      iconName: "SquareCheckBig",
+      linkText: "checklist.navLinkText",
+    },
   ],
   promoLinks: [],
   externalLinks: [],
@@ -90,6 +97,15 @@ export const nevernessToEverness = resolveAppConfig({
     "vision_soul",
   ],
   db: {
+    // Achievement tracker: every achievement with its in-game tab, the
+    // condition text and the Annulith it pays out (earned / all).
+    checklists: [
+      {
+        section: "achievements",
+        descriptions: true,
+        rewardTotals: ["item_Annulith"],
+      },
+    ],
     heroSubtitle: "config.db.heroSubtitle",
     searchPlaceholder: "config.db.searchPlaceholder",
     sectionsInNav: true,

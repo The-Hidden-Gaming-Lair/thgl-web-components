@@ -17,16 +17,22 @@ import {
   mergeChecklistProgress,
   parseChecklistJson,
   setChecklistEntries,
+  sumChecklistRewards,
   toggleChecklistEntry,
   translate,
 } from "@repo/lib";
 import { SpriteIcon } from "@/lib/db/sprite-icon";
-import type { ChecklistEntry, ChecklistGroup } from "./data";
+import type {
+  ChecklistEntry,
+  ChecklistGroup,
+  ChecklistRewardItem,
+} from "./data";
 import { useChecklistProgress } from "./use-checklist-progress";
 
 type Labels = Record<string, string>;
 
 const PAGE_SIZE = 150;
+const NO_REWARDS: ChecklistRewardItem[] = [];
 
 function useL(labels: Labels) {
   return useCallback(
@@ -86,6 +92,7 @@ type RowProps = {
   section: string;
   locale: string;
   fallbackMapHref: (entry: ChecklistEntry) => string | null;
+  rewardItems: ChecklistRewardItem[];
   L: ReturnType<typeof useL>;
 };
 
@@ -99,6 +106,7 @@ const Row = memo(function Row({
   section,
   locale,
   fallbackMapHref,
+  rewardItems,
   L,
 }: RowProps) {
   const mapHref = entry.mapHref ?? fallbackMapHref(entry);
@@ -160,6 +168,27 @@ const Row = memo(function Row({
             </span>
           )}
         </span>
+        {rewardItems.map((r) =>
+          entry.rewards?.[r.id] ? (
+            <span
+              key={r.id}
+              title={r.name}
+              className={`ml-auto inline-flex shrink-0 items-center gap-0.5 text-xs tabular-nums ${
+                checked ? "text-muted-foreground" : "text-slate-300"
+              }`}
+            >
+              {r.icon && (
+                <SpriteIcon
+                  icon={r.icon}
+                  appName={appName}
+                  size={16}
+                  iconsHash={iconsHash}
+                />
+              )}
+              {entry.rewards[r.id].toLocaleString(locale)}
+            </span>
+          ) : null,
+        )}
       </button>
       {mapHref && (
         <a
@@ -204,6 +233,7 @@ export function ChecklistView({
   sectionLabel,
   entries,
   groups,
+  rewardItems = NO_REWARDS,
   labels,
   iconsHash,
   locale,
@@ -214,6 +244,8 @@ export function ChecklistView({
   sectionLabel: string;
   entries: ChecklistEntry[];
   groups: ChecklistGroup[];
+  /** Rewards totalled as "earned / all" (`db.checklists[].rewardTotals`). */
+  rewardItems?: ChecklistRewardItem[];
   labels: Labels;
   iconsHash?: string;
   locale: string;
@@ -258,6 +290,15 @@ export function ChecklistView({
   const groupCounts = useMemo(
     () => countChecklistGroups(entries, checked),
     [entries, checked],
+  );
+  const rewardSums = useMemo(
+    () =>
+      sumChecklistRewards(
+        entries,
+        checked,
+        rewardItems.map((r) => r.id),
+      ),
+    [entries, checked, rewardItems],
   );
   const filtered = useMemo(
     () =>
@@ -431,6 +472,32 @@ export function ChecklistView({
           </span>
         </div>
         <ProgressBar {...count} label={progressLabel} />
+        {rewardItems.map((r, i) => {
+          const sum = rewardSums[i];
+          return (
+            <div
+              key={r.id}
+              className="flex items-center gap-1.5 text-sm"
+              data-testid="checklist-reward-total"
+            >
+              {r.icon && (
+                <SpriteIcon
+                  icon={r.icon}
+                  appName={appName}
+                  size={20}
+                  iconsHash={iconsHash}
+                />
+              )}
+              <span>
+                {L("rewardTotal", "{{name}} earned: {{earned}} of {{total}}", {
+                  name: r.name,
+                  earned: (loaded ? sum.earned : 0).toLocaleString(locale),
+                  total: sum.total.toLocaleString(locale),
+                })}
+              </span>
+            </div>
+          );
+        })}
         <p className="text-xs text-muted-foreground">
           {storageOk
             ? L("storageNote", "Progress is saved in this browser only.")
@@ -598,6 +665,7 @@ export function ChecklistView({
               section={section}
               locale={locale}
               fallbackMapHref={fallbackMapHref}
+              rewardItems={rewardItems}
               L={L}
             />
           ))}

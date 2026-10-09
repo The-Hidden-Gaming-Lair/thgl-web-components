@@ -33,6 +33,8 @@ export type ChecklistSectionInfo = {
   /** URL slug, same as `/db/<section>`. */
   section: string;
   descriptions: boolean;
+  /** Reward codex ids to total up (`db.checklists[].rewardTotals`). */
+  rewardTotals: string[];
   home: HomeSection;
 };
 
@@ -49,6 +51,7 @@ export function getChecklistSections(
     out.push({
       section: c.section,
       descriptions: Boolean(c.descriptions),
+      rewardTotals: c.rewardTotals ?? [],
       home,
     });
   }
@@ -89,9 +92,20 @@ export type ChecklistEntry = {
    * `?types=` param); the client asks the search API which map holds them.
    */
   types?: string[];
+  /** Amount per `rewardTotals` id this entry pays out. */
+  rewards?: Record<string, number>;
 };
 
 export type ChecklistGroup = { id: string; label: string };
+
+/** A reward totalled over the checklist (name + codex icon). */
+export type ChecklistRewardItem = {
+  id: string;
+  name: string;
+  icon?: IconSprite;
+};
+
+type Reward = { id?: string; count?: number };
 
 type Locations = {
   list?: { map: string; type: string; node: string }[];
@@ -119,18 +133,34 @@ export async function buildChecklistEntries({
   dict: Record<string, string>;
   version: Version;
   locale: string;
-}): Promise<{ entries: ChecklistEntry[]; groups: ChecklistGroup[] }> {
+}): Promise<{
+  entries: ChecklistEntry[];
+  groups: ChecklistGroup[];
+  rewardItems: ChecklistRewardItem[];
+}> {
   const cats = checklistCategories(index, info.home);
   const [fullCats, enDbDict] = await Promise.all([
     Promise.all(cats.map((cat) => fetchFullPropsCategory(appConfig.name, cat))),
     fetchDbDict(appConfig.name, "en").catch(() => ({})),
   ]);
   const locationsById = new Map<string, Locations>();
+  const rewardsById = new Map<string, Record<string, number>>();
+  const rewardIds = new Set(info.rewardTotals);
   for (const cat of fullCats) {
     for (const item of cat.items) {
-      const loc = (item.props as { locations?: Locations } | undefined)
-        ?.locations;
+      const props = item.props as
+        | { locations?: Locations; rewards?: Reward[] }
+        | undefined;
+      const loc = props?.locations;
       if (loc?.list?.length) locationsById.set(item.id, loc);
+      if (rewardIds.size && Array.isArray(props?.rewards)) {
+        const sums: Record<string, number> = {};
+        for (const r of props.rewards) {
+          if (!r?.id || !rewardIds.has(r.id)) continue;
+          sums[r.id] = (sums[r.id] ?? 0) + (Number(r.count) || 1);
+        }
+        if (Object.keys(sums).length) rewardsById.set(item.id, sums);
+      }
     }
   }
 
@@ -162,6 +192,8 @@ export async function buildChecklistEntries({
       if (item.icon && typeof item.icon === "object") {
         entry.icon = item.icon as IconSprite;
       }
+      const rewards = rewardsById.get(item.id);
+      if (rewards) entry.rewards = rewards;
       if (info.descriptions) {
         const raw = resolveDict(dict, `${item.id}_desc`);
         if (raw && raw !== `${item.id}_desc` && raw !== item.id) {
@@ -187,7 +219,18 @@ export async function buildChecklistEntries({
       entries.push(entry);
     }
   }
-  return { entries, groups: [...groups.values()] };
+  const rewardItems = info.rewardTotals.map((id) => {
+    const reward: ChecklistRewardItem = {
+      id,
+      name: resolveDict(dict, id) || id,
+    };
+    const icon = index
+      .flatMap((cat) => cat.items)
+      .find((item) => item.id === id)?.icon;
+    if (icon && typeof icon === "object") reward.icon = icon as IconSprite;
+    return reward;
+  });
+  return { entries, groups: [...groups.values()], rewardItems };
 }
 
 /** Map name → localized `/maps/<title>` path segment, in tile order. */

@@ -161,6 +161,12 @@ export type DbAppConfig = {
     section: string;
     /** Show each entry's `<id>_desc` under its name (achievements, titles). */
     descriptions?: boolean;
+    /**
+     * Codex ids of rewards (`props.rewards[].id`) to total up: "earned / all"
+     * over the ticked entries plus each entry's amount (e.g. the currency
+     * every achievement pays out).
+     */
+    rewardTotals?: string[];
   }>;
   /** Full-width links rendered below the section grid (e.g. Game Mechanics). */
   homeExtraLinks?: Array<{

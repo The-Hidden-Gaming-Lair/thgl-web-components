@@ -671,6 +671,7 @@
   "checklist.storageNote": "Der Fortschritt wird nur in diesem Browser gespeichert.",
   "checklist.storageBlocked": "Dein Browser blockiert den Website-Speicher, deshalb gehen deine Haken verloren, wenn du die Seite verlässt. Nutze Datei exportieren, um sie zu behalten.",
   "checklist.showMore": "Mehr anzeigen (noch {{count}})",
+  "checklist.rewardTotal": "{{name}} erhalten: {{earned}} von {{total}}",
   "xp.navTitle": "XP-Planer",
   "xp.navDescription": "Wähle einen Skill und dein Level: Du siehst die XP bis zu deinem Ziellevel und wie viele Aktionen jede Trainingsmethode braucht, mit Materialkosten.",
   "xp.navLinkText": "XP-Planer öffnen",

@@ -12,6 +12,7 @@ import {
   parseChecklistProgress,
   serializeChecklistProgress,
   setChecklistEntries,
+  sumChecklistRewards,
   toggleChecklistEntry,
 } from "./checklist";
 import {
@@ -81,6 +82,23 @@ describe("checklist counting", () => {
     expect([...groups.entries()]).toEqual([
       ["neutral", { done: 1, total: 3 }],
       ["fire", { done: 1, total: 2 }],
+    ]);
+  });
+
+  it("sums a reward over ticked and all entries", () => {
+    const rewarded: { id: string; rewards?: Record<string, number> }[] = [
+      { id: "a", rewards: { coin: 10, gem: 1 } },
+      { id: "b", rewards: { coin: 20 } },
+      { id: "c" },
+    ];
+    expect(
+      sumChecklistRewards(rewarded, new Set(["b", "c", "gone"]), [
+        "coin",
+        "gem",
+      ]),
+    ).toEqual([
+      { id: "coin", earned: 20, total: 30 },
+      { id: "gem", earned: 0, total: 1 },
     ]);
   });
 });

@@ -671,6 +671,7 @@
   "checklist.storageNote": "O progresso é salvo apenas neste navegador.",
   "checklist.storageBlocked": "Seu navegador bloqueia o armazenamento do site, então suas marcações serão perdidas quando você sair. Use Exportar arquivo para mantê-las.",
   "checklist.showMore": "Mostrar mais (restam {{count}})",
+  "checklist.rewardTotal": "{{name}} obtido: {{earned}} de {{total}}",
   "xp.navTitle": "Planejador de XP",
   "xp.navDescription": "Escolha uma habilidade e seu nível: veja o XP até o nível desejado e quantas ações cada método de treino exige, com custos de materiais.",
   "xp.navLinkText": "Abrir o planejador de XP",

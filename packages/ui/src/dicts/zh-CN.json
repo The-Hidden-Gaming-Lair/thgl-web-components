@@ -671,6 +671,7 @@
   "checklist.storageNote": "进度仅保存在此浏览器中。",
   "checklist.storageBlocked": "你的浏览器阻止了网站存储，离开页面后勾选状态将会丢失。请使用“导出文件”进行保存。",
   "checklist.showMore": "显示更多（剩余 {{count}} 项）",
+  "checklist.rewardTotal": "已获得{{name}}：{{earned}} / {{total}}",
   "xp.navTitle": "XP 规划器",
   "xp.navDescription": "选择技能和等级：查看升到目标等级所需的 XP、每种训练方法需要的次数以及材料消耗。",
   "xp.navLinkText": "打开 XP 规划器",

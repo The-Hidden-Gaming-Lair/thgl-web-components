@@ -671,6 +671,7 @@
   "checklist.storageNote": "Postup se ukládá pouze v tomto prohlížeči.",
   "checklist.storageBlocked": "Váš prohlížeč blokuje úložiště webu, takže o zaškrtnutí po odchodu přijdete. Uchováte je pomocí „Exportovat soubor“.",
   "checklist.showMore": "Zobrazit další (zbývá: {{count}})",
+  "checklist.rewardTotal": "Získáno {{name}}: {{earned}} z {{total}}",
   "xp.navTitle": "Plánovač XP",
   "xp.navDescription": "Vyber dovednost a svou úroveň: uvidíš XP do cílové úrovně a kolik akcí vyžaduje každá tréninková metoda, včetně nákladů na materiály.",
   "xp.navLinkText": "Otevřít plánovač XP",

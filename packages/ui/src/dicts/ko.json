@@ -671,6 +671,7 @@
   "checklist.storageNote": "진행 상황은 이 브라우저에만 저장됩니다.",
   "checklist.storageBlocked": "브라우저가 사이트 저장소를 차단하고 있어 페이지를 떠나면 체크 상태가 사라집니다. 보존하려면 파일 내보내기를 사용하세요.",
   "checklist.showMore": "더 보기 ({{count}}개 남음)",
+  "checklist.rewardTotal": "획득한 {{name}}: {{earned}} / {{total}}",
   "xp.navTitle": "XP 플래너",
   "xp.navDescription": "스킬과 레벨을 고르면 목표 레벨까지 필요한 XP와 각 훈련 방법에 필요한 횟수, 재료 비용을 알려줍니다.",
   "xp.navLinkText": "XP 플래너 열기",

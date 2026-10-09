@@ -117,6 +117,28 @@ export function countChecklistGroups(
   return out;
 }
 
+/**
+ * Earned / total amount per reward id (e.g. a currency every achievement
+ * pays out) over the current entry list, in `rewardIds` order. Entries
+ * without that reward count 0.
+ */
+export function sumChecklistRewards(
+  entries: readonly { id: string; rewards?: Record<string, number> }[],
+  checked: ReadonlySet<string>,
+  rewardIds: readonly string[],
+): { id: string; earned: number; total: number }[] {
+  return rewardIds.map((rewardId) => {
+    let earned = 0;
+    let total = 0;
+    for (const e of entries) {
+      const n = e.rewards?.[rewardId] ?? 0;
+      total += n;
+      if (checked.has(e.id)) earned += n;
+    }
+    return { id: rewardId, earned, total };
+  });
+}
+
 export function normalizeChecklistQuery(text: string): string {
   return text
     .normalize("NFKD")

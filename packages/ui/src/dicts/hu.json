@@ -671,6 +671,7 @@
   "checklist.storageNote": "A haladás csak ebben a böngészőben mentődik.",
   "checklist.storageBlocked": "A böngésződ letiltja a webhely tárhelyét, így a pipáid elvesznek, amikor elhagyod az oldalt. A megőrzésükhöz használd a „Fájl exportálása” funkciót.",
   "checklist.showMore": "Továbbiak megjelenítése (még {{count}})",
+  "checklist.rewardTotal": "Megszerzett {{name}}: {{earned}} / {{total}}",
   "xp.navTitle": "XP-tervező",
   "xp.navDescription": "Válassz képességet és szintet: megkapod a célszintig hiányzó XP-t és azt, hány művelet kell az egyes edzési módszerekkel, az anyagköltségekkel együtt.",
   "xp.navLinkText": "XP-tervező megnyitása",

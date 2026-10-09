@@ -671,6 +671,7 @@
   "checklist.storageNote": "İlerleme yalnızca bu tarayıcıda kaydedilir.",
   "checklist.storageBlocked": "Tarayıcınız site depolamasını engelliyor, bu yüzden ayrıldığınızda işaretleriniz kaybolacak. Saklamak için Dosyayı dışa aktar seçeneğini kullanın.",
   "checklist.showMore": "Daha fazla göster ({{count}} kaldı)",
+  "checklist.rewardTotal": "Kazanılan {{name}}: {{earned}} / {{total}}",
   "xp.navTitle": "XP Planlayıcı",
   "xp.navDescription": "Bir beceri ve seviyeni seç: hedef seviyene kadar gereken XP'yi ve her antrenman yönteminin kaç eylem gerektirdiğini malzeme maliyetleriyle gör.",
   "xp.navLinkText": "XP Planlayıcı'yı aç",

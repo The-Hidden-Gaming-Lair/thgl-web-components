@@ -671,6 +671,7 @@
   "checklist.storageNote": "Tiến trình chỉ được lưu trong trình duyệt này.",
   "checklist.storageBlocked": "Trình duyệt của bạn chặn bộ nhớ trang web, nên các dấu tích sẽ bị mất khi bạn rời đi. Dùng Xuất tệp để giữ lại.",
   "checklist.showMore": "Xem thêm (còn {{count}})",
+  "checklist.rewardTotal": "Đã nhận {{name}}: {{earned}} / {{total}}",
   "xp.navTitle": "Lập kế hoạch XP",
   "xp.navDescription": "Chọn kỹ năng và cấp của bạn: xem XP cần để đạt cấp mục tiêu và số lần thực hiện của mỗi cách luyện, kèm chi phí nguyên liệu.",
   "xp.navLinkText": "Mở Lập kế hoạch XP",

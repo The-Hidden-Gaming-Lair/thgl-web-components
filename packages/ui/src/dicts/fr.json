@@ -671,6 +671,7 @@
   "checklist.storageNote": "La progression est enregistrée uniquement dans ce navigateur.",
   "checklist.storageBlocked": "Votre navigateur bloque le stockage du site, vos cases cochées seront donc perdues lorsque vous quitterez la page. Utilisez Exporter le fichier pour les conserver.",
   "checklist.showMore": "Afficher plus ({{count}} restants)",
+  "checklist.rewardTotal": "{{name}} obtenu : {{earned}} sur {{total}}",
   "xp.navTitle": "Planificateur d'XP",
   "xp.navDescription": "Choisissez une compétence et votre niveau : voyez l'XP jusqu'à votre niveau cible et le nombre d'actions que demande chaque méthode d'entraînement, avec le coût en matériaux.",
   "xp.navLinkText": "Ouvrir le planificateur d'XP",

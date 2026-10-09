@@ -671,6 +671,7 @@
   "checklist.storageNote": "Progres hanya disimpan di browser ini.",
   "checklist.storageBlocked": "Browser-mu memblokir penyimpanan situs, jadi centangmu akan hilang saat kamu pergi. Gunakan Ekspor file untuk menyimpannya.",
   "checklist.showMore": "Tampilkan lebih banyak ({{count}} lagi)",
+  "checklist.rewardTotal": "{{name}} didapat: {{earned}} dari {{total}}",
   "xp.navTitle": "Perencana XP",
   "xp.navDescription": "Pilih skill dan levelmu: lihat XP menuju level target dan berapa aksi yang dibutuhkan setiap metode latihan, lengkap dengan biaya bahan.",
   "xp.navLinkText": "Buka Perencana XP",

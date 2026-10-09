@@ -671,6 +671,7 @@
   "checklist.storageNote": "Progress is saved in this browser only.",
   "checklist.storageBlocked": "Your browser blocks site storage, so your ticks will be lost when you leave. Use Export file to keep them.",
   "checklist.showMore": "Show more ({{count}} left)",
+  "checklist.rewardTotal": "{{name}} earned: {{earned}} of {{total}}",
   "xp.navTitle": "XP Planner",
   "xp.navDescription": "Pick a skill and your level: see the XP to your target level and how many actions every training method takes, with material costs.",
   "xp.navLinkText": "Open the XP Planner",

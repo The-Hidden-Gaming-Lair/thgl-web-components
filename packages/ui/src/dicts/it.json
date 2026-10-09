@@ -671,6 +671,7 @@
   "checklist.storageNote": "I progressi vengono salvati solo in questo browser.",
   "checklist.storageBlocked": "Il tuo browser blocca l'archiviazione del sito, quindi le tue spunte andranno perse quando esci. Usa Esporta file per conservarle.",
   "checklist.showMore": "Mostra altro (ne restano {{count}})",
+  "checklist.rewardTotal": "{{name}} ottenuto: {{earned}} su {{total}}",
   "xp.navTitle": "Pianificatore di XP",
   "xp.navDescription": "Scegli un'abilità e il tuo livello: vedi gli XP fino al livello obiettivo e quante azioni richiede ogni metodo di allenamento, con i costi dei materiali.",
   "xp.navLinkText": "Apri il pianificatore di XP",

@@ -92,7 +92,7 @@ export default async function Page({ params }: PageProps) {
     section,
   );
   const version = await fetchVersion(appConfig.name);
-  const { entries, groups } = await buildChecklistEntries({
+  const { entries, groups, rewardItems } = await buildChecklistEntries({
     appConfig,
     info,
     index,
@@ -153,6 +153,7 @@ export default async function Page({ params }: PageProps) {
               sectionLabel={label}
               entries={entries}
               groups={groups}
+              rewardItems={rewardItems}
               labels={checklistLabels(dict)}
               iconsHash={version.more.icons}
               locale={locale}

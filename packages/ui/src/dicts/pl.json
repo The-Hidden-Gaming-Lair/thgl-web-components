@@ -671,6 +671,7 @@
   "checklist.storageNote": "Postępy są zapisywane tylko w tej przeglądarce.",
   "checklist.storageBlocked": "Twoja przeglądarka blokuje pamięć witryny, więc Twoje zaznaczenia zostaną utracone po wyjściu. Użyj opcji „Eksportuj plik”, aby je zachować.",
   "checklist.showMore": "Pokaż więcej (pozostało: {{count}})",
+  "checklist.rewardTotal": "Zdobyte {{name}}: {{earned}} z {{total}}",
   "xp.navTitle": "Planer XP",
   "xp.navDescription": "Wybierz umiejętność i swój poziom: zobacz XP do poziomu docelowego i ile akcji wymaga każda metoda treningu, wraz z kosztem materiałów.",
   "xp.navLinkText": "Otwórz planer XP",

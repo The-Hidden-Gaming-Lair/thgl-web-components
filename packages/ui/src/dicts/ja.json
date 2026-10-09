@@ -671,6 +671,7 @@
   "checklist.storageNote": "進行状況はこのブラウザにのみ保存されます。",
   "checklist.storageBlocked": "お使いのブラウザがサイトのストレージをブロックしているため、ページを離れるとチェックが失われます。保持するには「ファイルをエクスポート」を使用してください。",
   "checklist.showMore": "さらに表示（残り{{count}}件）",
+  "checklist.rewardTotal": "獲得した{{name}}：{{earned}} / {{total}}",
   "xp.navTitle": "XPプランナー",
   "xp.navDescription": "スキルとレベルを選ぶだけで、目標レベルまでの必要XPと、各トレーニング方法の必要回数・素材コストがわかります。",
   "xp.navLinkText": "XPプランナーを開く",
