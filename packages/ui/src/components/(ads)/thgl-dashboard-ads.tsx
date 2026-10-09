@@ -3,7 +3,8 @@ import { useEffect, useRef, useState, type JSX } from "react";
 import { getNitroAds } from "./nitro-pay";
 import { ScriptLoader } from "./nitro-script";
 import { AdFreeContainer } from "./ad-free-container";
-import { IS_DEMO_MODE } from "./constants";
+import { isOverwolf, useAccountStore } from "@repo/lib";
+import { IS_DEMO_MODE, SHOW_DEMO_ADS } from "./constants";
 import { AdSlot } from "./house-ad";
 
 // The dashboard column stacks independent rectangle slots (each its own
@@ -47,7 +48,23 @@ export function THGLDashboardAds({
   className,
 }: {
   className?: string;
-}): JSX.Element {
+}): JSX.Element | null {
+  // Same "no ads" rule as ScriptLoader. Without ads the column (and its fixed
+  // width) goes away, so the dashboard content gets the full window width.
+  const accountHasHydrated = useAccountStore((state) => state._hasHydrated);
+  const adRemoval = useAccountStore(
+    (state) => state.perks.adRemoval && state.userId !== null,
+  );
+  if (
+    accountHasHydrated &&
+    (adRemoval || isOverwolf || (IS_DEMO_MODE && !SHOW_DEMO_ADS))
+  ) {
+    return null;
+  }
+  return <DashboardColumn className={className} />;
+}
+
+function DashboardColumn({ className }: { className?: string }): JSX.Element {
   const ref = useRef<HTMLDivElement | null>(null);
   const count = useSlotCount(ref);
   const ids = SLOT_IDS.slice(0, count);
