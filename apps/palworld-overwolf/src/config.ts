@@ -8,4 +8,23 @@ export const APP_CONFIG = resolveOverwolfConfig({
   gameClassId: 23944,
   appId: "ebafpjfhleenmkcmdhlbdchpdalblhiellgfmmbb",
   discordApplicationId: "1199636411821854730",
+  // Same list as the web config (apps\games-web\src\configs\palworld.ts).
+  supportedLocales: [
+    "en",
+    "de",
+    "es",
+    "es-MX",
+    "fr",
+    "id",
+    "it",
+    "ko",
+    "pl",
+    "pt",
+    "ru",
+    "th",
+    "tr",
+    "vi",
+    "zh-CN",
+    "zh-TW",
+  ],
 });
