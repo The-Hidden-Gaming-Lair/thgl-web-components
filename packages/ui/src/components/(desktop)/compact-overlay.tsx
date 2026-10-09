@@ -228,10 +228,13 @@ function PaliaGridCell() {
 }
 
 function PaliaTimeWidget({ locked }: WidgetProps) {
+  const t = useT();
   const time = usePaliaTime();
   return (
     <div className="flex items-center justify-between gap-3 px-3 py-1">
-      <span className="text-muted-foreground">Palia Time</span>
+      <span className="text-muted-foreground">
+        {t("paliaSidebar.paliaTime", { fallback: "Palia Time" })}
+      </span>
       <PaliaClock disabled={locked} className="mx-0 font-medium">
         {time}
       </PaliaClock>

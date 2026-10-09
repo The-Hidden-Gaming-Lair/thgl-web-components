@@ -3,6 +3,7 @@
 import { isOverwolf, isThglApp, useGameState, useHasMounted } from "@repo/lib";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "../(controls)";
+import { useT } from "../(providers)";
 import { Copy, Server, Clock } from "lucide-react";
 import {
   Sheet,
@@ -44,12 +45,24 @@ function worldName(serverId: string): { zone: string; id: string } {
   return { zone: ZONE_NAMES[m[1]] ?? m[1], id: m[2] };
 }
 
-function formatAge(startedAt: number | null, now: number) {
-  if (!startedAt) return "New";
+function formatAge(
+  startedAt: number | null,
+  now: number,
+  t: ReturnType<typeof useT>,
+) {
+  if (!startedAt) return t("paliaSidebar.worldNew", { fallback: "New" });
   const totalMinutes = Math.max(0, Math.floor((now - startedAt) / 60_000));
   const h = Math.floor(totalMinutes / 60);
   const m = totalMinutes % 60;
-  return h > 0 ? `${h}h ${m}m old` : `${m}m old`;
+  return h > 0
+    ? t("paliaSidebar.worldAgeHours", {
+        fallback: "{{hours}}h {{minutes}}m old",
+        vars: { hours: String(h), minutes: String(m) },
+      })
+    : t("paliaSidebar.worldAgeMinutes", {
+        fallback: "{{minutes}}m old",
+        vars: { minutes: String(m) },
+      });
 }
 
 // Sidebar entry. Browsing all active worlds lives on the /worlds PAGE now, so on
@@ -57,6 +70,7 @@ function formatAge(startedAt: number | null, now: number) {
 // where there's no page navigation, it becomes a focused "Your World" panel:
 // your current world + join code for quick sharing, plus a link to the tracker.
 export function PaliaActiveWorlds() {
+  const t = useT();
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState<WorldsResponse | null>(null);
   const [now, setNow] = useState(() => Date.now());
@@ -107,7 +121,9 @@ export function PaliaActiveWorlds() {
     return (
       <div className="flex w-full items-center px-3 py-1.5 text-sm text-gray-300">
         <Clock className="mr-2 h-4 w-4 shrink-0" />
-        <span className="grow truncate text-left">Palia Time</span>
+        <span className="grow truncate text-left">
+          {t("paliaSidebar.paliaTime", { fallback: "Palia Time" })}
+        </span>
         <PaliaClock>{paliaTime}</PaliaClock>
       </div>
     );
@@ -119,10 +135,10 @@ export function PaliaActiveWorlds() {
       type="button"
       onClick={() => copy(code)}
       className="inline-flex items-center gap-1 font-mono text-gray-100 hover:text-white"
-      title="Copy join code"
+      title={t("paliaSidebar.copyJoinCode", { fallback: "Copy join code" })}
     >
       <Copy className="h-3 w-3" />
-      {copied ? "Copied!" : code}
+      {copied ? t("paliaSidebar.copied", { fallback: "Copied!" }) : code}
     </button>
   );
 
@@ -136,7 +152,9 @@ export function PaliaActiveWorlds() {
         <SheetTrigger asChild>
           <Button size="sm" variant="ghost" className="grow justify-start">
             <Server className="mr-2 h-4 w-4 shrink-0" />
-            <span className="grow truncate text-left">Your World</span>
+            <span className="grow truncate text-left">
+              {t("paliaSidebar.yourWorld", { fallback: "Your World" })}
+            </span>
           </Button>
         </SheetTrigger>
         <PaliaClock>{paliaTime}</PaliaClock>
@@ -157,17 +175,23 @@ export function PaliaActiveWorlds() {
           {myWorld?.joinCode ? (
             codeCopy(myWorld.joinCode)
           ) : (
-            <span className="text-gray-500">no code shared</span>
+            <span className="text-gray-500">
+              {t("paliaSidebar.noCodeShared", { fallback: "no code shared" })}
+            </span>
           )}
         </div>
       )}
 
       <SheetContent side="left" className="flex flex-col gap-4">
         <SheetHeader>
-          <SheetTitle>Your World</SheetTitle>
+          <SheetTitle>
+            {t("paliaSidebar.yourWorld", { fallback: "Your World" })}
+          </SheetTitle>
           <SheetDescription>
-            Share your world so friends — or players on the Active Worlds
-            tracker — can join you.
+            {t("paliaSidebar.yourWorldDescription", {
+              fallback:
+                "Share your world so friends — or players on the Active Worlds tracker — can join you.",
+            })}
           </SheetDescription>
         </SheetHeader>
 
@@ -189,48 +213,73 @@ export function PaliaActiveWorlds() {
               </div>
               {myWorld?.startedAt && (
                 <p className="mt-0.5 text-xs text-gray-500">
-                  {formatAge(myWorld.startedAt, now)}
+                  {formatAge(myWorld.startedAt, now, t)}
                 </p>
               )}
             </div>
 
             {myWorld?.joinCode ? (
               <div className="rounded-md border border-border/50 bg-card/60 p-3">
-                <p className="text-xs text-gray-400">Your join code</p>
+                <p className="text-xs text-gray-400">
+                  {t("paliaSidebar.yourJoinCode", {
+                    fallback: "Your join code",
+                  })}
+                </p>
                 <div className="mt-1 text-lg font-semibold">
                   {codeCopy(myWorld.joinCode)}
                 </div>
                 <p className="mt-1 text-xs text-gray-500">
-                  Send it to a friend, or it's listed on the tracker for players
-                  who requested it.
+                  {t("paliaSidebar.joinCodeHint", {
+                    fallback:
+                      "Send it to a friend, or it's listed on the tracker for players who requested it.",
+                  })}
                 </p>
               </div>
             ) : (
               <div className="rounded-md border border-border/50 bg-card/60 p-3">
                 {myWorld?.codeRequested && (
                   <p className="mb-1 text-xs font-medium text-amber-400">
-                    A player wants to join your world.
+                    {t("paliaSidebar.joinRequested", {
+                      fallback: "A player wants to join your world.",
+                    })}
                   </p>
                 )}
                 <p className="text-xs text-gray-400">
-                  Open the game menu (<b>Esc → World Code</b>) to share your
-                  join code
-                  {myWorld?.codeRequested
-                    ? " with them"
-                    : " so others can join"}
-                  . The app posts it to the tracker automatically.
+                  {t.rich(
+                    myWorld?.codeRequested
+                      ? "paliaSidebar.shareCodeRequested"
+                      : "paliaSidebar.shareCode",
+                    {
+                      fallback: myWorld?.codeRequested
+                        ? "Open the game menu ({{path}}) to share your join code with them. The app posts it to the tracker automatically."
+                        : "Open the game menu ({{path}}) to share your join code so others can join. The app posts it to the tracker automatically.",
+                      components: {
+                        path: (
+                          <b>
+                            {t("paliaSidebar.worldCodePath", {
+                              fallback: "Esc → World Code",
+                            })}
+                          </b>
+                        ),
+                      },
+                    },
+                  )}
                 </p>
               </div>
             )}
 
             <p className="text-xs text-gray-500">
-              You'll get a prompt when someone wants to join. Turn it off in
-              Settings → Palia.
+              {t("paliaSidebar.joinPromptHint", {
+                fallback:
+                  "You'll get a prompt when someone wants to join. Turn it off in Settings → Palia.",
+              })}
             </p>
           </div>
         ) : (
           <p className="text-sm text-gray-400">
-            Join a Palia world to see it here.
+            {t("paliaSidebar.joinWorldHint", {
+              fallback: "Join a Palia world to see it here.",
+            })}
           </p>
         )}
 
@@ -241,7 +290,9 @@ export function PaliaActiveWorlds() {
           className="mt-auto inline-flex items-center gap-1 text-sm text-primary hover:underline"
         >
           <Server className="h-3.5 w-3.5" />
-          Browse all active worlds →
+          {t("paliaSidebar.browseWorlds", {
+            fallback: "Browse all active worlds →",
+          })}
         </a>
       </SheetContent>
     </Sheet>

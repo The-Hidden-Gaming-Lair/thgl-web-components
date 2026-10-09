@@ -2,6 +2,7 @@
 import { cn, useSettingsStore } from "@repo/lib";
 import { Clock } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useT } from "../(providers)";
 import { PaliaClock } from "./palia-clock";
 
 // Live in-game clock (1 real hour = 1 Palia day), formatted "h:mm AM/PM".
@@ -54,6 +55,7 @@ export function PaliaClockButton() {
 }
 
 export function PaliaTime() {
+  const t = useT();
   const timeFormated = usePaliaTime();
   const lockedWindow = useSettingsStore((state) => state.lockedWindow);
   const overlayMode = useSettingsStore((state) => state.overlayMode);
@@ -67,7 +69,7 @@ export function PaliaTime() {
         )}
       >
         <div className={cn("w-full text-left flex gap-2 justify-between")}>
-          <span>Palia Time</span>
+          <span>{t("paliaSidebar.paliaTime", { fallback: "Palia Time" })}</span>
           {/* Locked window: plain readout, nothing to hover or click. */}
           <PaliaClock disabled>{timeFormated}</PaliaClock>
         </div>
@@ -79,7 +81,7 @@ export function PaliaTime() {
     <div
       className={cn("w-full text-left flex gap-2 justify-between py-2 px-4")}
     >
-      <span>Palia Time</span>
+      <span>{t("paliaSidebar.paliaTime", { fallback: "Palia Time" })}</span>
       <PaliaClock>{timeFormated}</PaliaClock>
     </div>
   );

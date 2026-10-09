@@ -1,9 +1,11 @@
 "use client";
 import { useSettingsStore } from "@repo/lib";
 import { Label, Switch } from "../(controls)";
+import { useT } from "../(providers)";
 import { Slider } from "../ui/slider";
 
 export function PaliaGridToggle() {
+  const t = useT();
   const showGrid = useSettingsStore((state) => state.showGrid);
   const toggleShowGrid = useSettingsStore((state) => state.toggleShowGrid);
   const gridLabelSize = useSettingsStore((state) => state.gridLabelSize);
@@ -13,7 +15,7 @@ export function PaliaGridToggle() {
     <div className="py-2 px-4">
       <div className="flex items-center justify-between space-x-2">
         <Label htmlFor="show-grid" className="grow">
-          Show Grid
+          {t("paliaSidebar.showGrid", { fallback: "Show Grid" })}
         </Label>
         <Switch
           id="show-grid"
@@ -24,7 +26,7 @@ export function PaliaGridToggle() {
       {showGrid && (
         <div className="mt-2 flex items-center gap-2">
           <Label htmlFor="grid-label-size" className="shrink-0">
-            Label Size
+            {t("paliaSidebar.labelSize", { fallback: "Label Size" })}
           </Label>
           <Slider
             id="grid-label-size"

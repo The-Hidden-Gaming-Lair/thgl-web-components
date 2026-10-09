@@ -25,6 +25,7 @@ export const itemIcons = _itemIcons;
 const WEEKLY_WANTS_REFRESH_MS = 15 * 60 * 1000;
 
 export function PaliaWeeklyWants() {
+  const t = useT();
   const [targetPopover, setTargetPopover] = useState<null | string>(null);
   const character = useGameState(
     (state) => state.character as ValeriaCharacter | null,
@@ -101,29 +102,43 @@ export function PaliaWeeklyWants() {
       <SheetTrigger asChild>
         <Button size="sm" variant="ghost" className="w-full">
           <Gift className="mr-2 h-4 w-4" />
-          <span className="grow text-left">Weekly Wants</span>
-          {totalGifted} of {totalGifts}
+          <span className="grow text-left">
+            {t("paliaSidebar.weeklyWants", { fallback: "Weekly Wants" })}
+          </span>
+          {t("paliaSidebar.weeklyWantsProgress", {
+            fallback: "{{gifted}} of {{total}}",
+            vars: { gifted: String(totalGifted), total: String(totalGifts) },
+          })}
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="flex flex-col">
         <SheetHeader>
-          <SheetTitle>Villager's Weekly Wants</SheetTitle>
+          <SheetTitle>
+            {t("paliaSidebar.weeklyWantsTitle", {
+              fallback: "Villager's Weekly Wants",
+            })}
+          </SheetTitle>
           <SheetDescription>
-            The progress of the weekly wants is tracked automatically when you
-            are in-game.
+            {t("paliaSidebar.weeklyWantsDescription", {
+              fallback:
+                "The progress of the weekly wants is tracked automatically when you are in-game.",
+            })}
           </SheetDescription>
         </SheetHeader>
         <ScrollArea>
           {data ? (
             <VillagersWeeklyWants data={data} character={character} />
           ) : (
-            <div>Loading...</div>
+            <div>{t("paliaSidebar.loading", { fallback: "Loading..." })}</div>
           )}
         </ScrollArea>
-        <SheetDescription>
-          <p className="text-gray-300 text-sm">
-            Last Update: {data && new Date(data.timestamp).toLocaleDateString()}
-          </p>
+        <SheetDescription className="text-gray-300 text-sm">
+          {t("paliaSidebar.lastUpdate", {
+            fallback: "Last Update: {{date}}",
+            vars: {
+              date: data ? new Date(data.timestamp).toLocaleDateString() : "",
+            },
+          })}
         </SheetDescription>
       </SheetContent>
     </Sheet>
@@ -207,7 +222,10 @@ export function VillagersWeeklyWants({
                   </Badge>
                 </TooltipTrigger>
                 <TooltipContent>
-                  Total number of how many times you gifted this villager
+                  {t("paliaSidebar.giftCount", {
+                    fallback:
+                      "Total number of how many times you gifted this villager",
+                  })}
                 </TooltipContent>
               </Tooltip>
             )}
