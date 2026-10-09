@@ -25,7 +25,7 @@ export default async function QuestsLayout({
   }
 
   const { locale = DEFAULT_LOCALE } = await params;
-  const { groups } = await loadQuests();
+  const { groups } = await loadQuests(locale);
 
   const sidebarGroups = groups
     .filter((g) => g.quests.length > 0)

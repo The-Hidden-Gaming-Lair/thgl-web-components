@@ -1,9 +1,6 @@
 import Link from "next/link";
-import { localizePath } from "@repo/lib";
-import {
-  QUEST_CATEGORY_ACCENT,
-  type Quest,
-} from "./quests";
+import { localizePath, type Dict } from "@repo/lib";
+import { QUEST_CATEGORY_ACCENT, questLabel, type Quest } from "./quests";
 
 /**
  * Grouped grid of quest cards, one section per category. Each card
@@ -13,10 +10,12 @@ import {
 export function QuestList({
   groups,
   chains,
+  dict,
   locale = "en",
 }: {
   groups: Array<{ type: Quest["type"]; label: string; quests: Quest[] }>;
   chains: Map<string, Quest[]>;
+  dict: Dict;
   locale?: string;
 }) {
   return (
@@ -56,7 +55,10 @@ export function QuestList({
                         <span
                           className={`text-[10px] px-1.5 py-0.5 rounded border shrink-0 tabular-nums ${QUEST_CATEGORY_ACCENT[group.type]}`}
                         >
-                          Part {partOf.index}/{partOf.total}
+                          {questLabel(dict, "partShort", {
+                            part: String(partOf.index),
+                            total: String(partOf.total),
+                          })}
                         </span>
                       )}
                     </div>
@@ -71,7 +73,9 @@ export function QuestList({
                     )}
                     {quest.props.questNpcName && (
                       <p className="text-[11px] text-slate-500 pt-1 mt-auto">
-                        NPC: {quest.props.questNpcName}
+                        {questLabel(dict, "npcShort", {
+                          name: quest.props.questNpcName,
+                        })}
                       </p>
                     )}
                   </Link>

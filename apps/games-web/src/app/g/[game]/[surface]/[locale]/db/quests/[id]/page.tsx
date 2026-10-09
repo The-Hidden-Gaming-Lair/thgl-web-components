@@ -4,7 +4,7 @@ import { DEFAULT_LOCALE } from "@repo/lib";
 import { JSONLDScript } from "@repo/ui/apps";
 import { entityPageJsonLd } from "@/lib/db/json-ld";
 import { getAppConfig } from "@/lib/get-app-config";
-import { findQuest } from "@/games/duet-night-abyss/quests";
+import { findQuest, questLabel } from "@/games/duet-night-abyss/quests";
 import { QuestDetail } from "@/games/duet-night-abyss/quest-detail";
 import { questDetailMetadata } from "@/games/duet-night-abyss/metadata";
 import { duetNightAbyss } from "@/configs/duet-night-abyss";
@@ -33,9 +33,9 @@ export async function generateMetadata({
     });
   }
   const { id, locale = DEFAULT_LOCALE } = await params;
-  const found = await findQuest(id);
+  const found = await findQuest(id, locale);
   if (!found) return {};
-  return questDetailMetadata(id, found.quest.props.name, locale);
+  return questDetailMetadata(id, found.quest.props.name, locale, found.dict);
 }
 
 export default async function Page({ params }: { params: Params }) {
@@ -47,7 +47,7 @@ export default async function Page({ params }: { params: Params }) {
   }
 
   const { id, locale = DEFAULT_LOCALE } = await params;
-  const found = await findQuest(id);
+  const found = await findQuest(id, locale);
   if (!found) notFound();
 
   return (
@@ -56,10 +56,14 @@ export default async function Page({ params }: { params: Params }) {
         json={entityPageJsonLd({
           appConfig: duetNightAbyss,
           section: "/db/quests",
-          sectionLabel: "Quests",
+          sectionLabel: questLabel(found.dict, "title"),
           entityId: id,
           entityName: found.quest.props.name,
-          description: `Walkthrough and rewards for ${found.quest.props.name}.`,
+          description:
+            found.quest.desc ??
+            questLabel(found.dict, "detailMetaDescription", {
+              name: found.quest.props.name,
+            }),
           locale,
         })}
       />
@@ -67,6 +71,10 @@ export default async function Page({ params }: { params: Params }) {
         quest={found.quest}
         chain={found.chain}
         byId={found.byId}
+        dict={found.dict}
+        categoryLabel={found.label}
+        icons={found.icons}
+        iconsHash={found.iconsHash}
         locale={locale}
       />
     </>

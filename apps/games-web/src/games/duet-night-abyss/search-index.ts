@@ -7,7 +7,7 @@ import { loadQuests } from "./quests";
  * which has its own search affordances.
  */
 export async function buildDnaSearchIndex(locale: string) {
-  const { groups } = await loadQuests();
+  const { groups } = await loadQuests(locale);
   const entries = groups.flatMap((g) =>
     g.quests.map((q) => ({
       id: q.id,

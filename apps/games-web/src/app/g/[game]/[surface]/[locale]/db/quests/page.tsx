@@ -3,7 +3,7 @@ import { DEFAULT_LOCALE } from "@repo/lib";
 import { JSONLDScript } from "@repo/ui/apps";
 import { collectionPageJsonLd } from "@/lib/db/json-ld";
 import { getAppConfig } from "@/lib/get-app-config";
-import { loadQuests } from "@/games/duet-night-abyss/quests";
+import { loadQuests, questLabel } from "@/games/duet-night-abyss/quests";
 import { QuestList } from "@/games/duet-night-abyss/quest-list";
 import { questsIndexMetadata } from "@/games/duet-night-abyss/metadata";
 import { duetNightAbyss } from "@/configs/duet-night-abyss";
@@ -33,7 +33,8 @@ export async function generateMetadata({
     });
   }
   const { locale = DEFAULT_LOCALE } = await params;
-  return questsIndexMetadata(locale);
+  const { dict } = await loadQuests(locale);
+  return questsIndexMetadata(locale, dict);
 }
 
 export default async function Page({ params }: PageProps) {
@@ -45,7 +46,7 @@ export default async function Page({ params }: PageProps) {
   }
 
   const { locale = DEFAULT_LOCALE } = await params;
-  const { groups, chains } = await loadQuests();
+  const { groups, chains, dict } = await loadQuests(locale);
   const totalCount = groups.reduce((s, g) => s + g.quests.length, 0);
 
   return (
@@ -54,8 +55,8 @@ export default async function Page({ params }: PageProps) {
         json={collectionPageJsonLd({
           appConfig: duetNightAbyss,
           section: "/db/quests",
-          sectionLabel: "Quests",
-          description: "Quest compendium for Duet Night Abyss.",
+          sectionLabel: questLabel(dict, "title"),
+          description: questLabel(dict, "metaDescription"),
           items: groups.flatMap((g) =>
             g.quests.map((q) => ({ id: q.id, name: q.props.name })),
           ),
@@ -63,13 +64,14 @@ export default async function Page({ params }: PageProps) {
         })}
       />
       <header className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Quests</h1>
+        <h1 className="text-3xl font-bold tracking-tight">
+          {questLabel(dict, "title")}
+        </h1>
         <p className="text-sm text-muted-foreground">
-          {totalCount} quests across main, character, story, and world arcs.
-          Follow quest chains, see prerequisites, and check rewards.
+          {questLabel(dict, "intro", { count: String(totalCount) })}
         </p>
       </header>
-      <QuestList groups={groups} chains={chains} locale={locale} />
+      <QuestList groups={groups} chains={chains} dict={dict} locale={locale} />
     </div>
   );
 }

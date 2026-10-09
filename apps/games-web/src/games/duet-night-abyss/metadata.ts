@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { getMetadataAlternates } from "@repo/lib";
+import { getMetadataAlternates, type Dict } from "@repo/lib";
 import { duetNightAbyss } from "@/configs/duet-night-abyss";
+import { questLabel } from "./quests";
 
 const APP = duetNightAbyss;
 const GAME_TITLE = APP.title;
@@ -38,13 +39,12 @@ function buildMeta({
   };
 }
 
-export function questsIndexMetadata(locale: string): Metadata {
+export function questsIndexMetadata(locale: string, dict: Dict): Metadata {
   return buildMeta({
     locale,
     path: "/db/quests",
-    title: `Quests Database – ${GAME_TITLE}`,
-    description:
-      "Browse every main, character, story, and world quest in Duet Night Abyss. Follow quest chains, see prerequisites, and check rewards.",
+    title: questLabel(dict, "metaTitle", { game: GAME_TITLE }),
+    description: questLabel(dict, "metaDescription"),
     keywords: [...APP.keywords, "Quests", "Quest Chain", "Walkthrough"],
   });
 }
@@ -53,12 +53,13 @@ export function questDetailMetadata(
   id: string,
   questName: string,
   locale: string,
+  dict: Dict,
 ): Metadata {
   return buildMeta({
     locale,
     path: `/db/quests/${id}`,
-    title: `${questName} – Quests – ${GAME_TITLE}`,
-    description: `Walkthrough, prerequisites, and rewards for ${questName} in Duet Night Abyss.`,
+    title: `${questName} – ${questLabel(dict, "title")} – ${GAME_TITLE}`,
+    description: questLabel(dict, "detailMetaDescription", { name: questName }),
     keywords: [...APP.keywords, "Quests", questName],
   });
 }
