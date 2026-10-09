@@ -10,12 +10,14 @@ import { handleRunningGames } from "./games";
 import { useLiveState, useTHGLAppState } from "./states";
 import {
   CurrentVersion,
+  getInitialStateFromWebview,
   getVersionFromWebview,
   triggerUpdate,
 } from "./version";
 import { onWebviewMessage } from "./webview";
 import { games, isCompanionAccessible } from "../games";
 import { useAccountStore } from "../account";
+import { localizePath } from "../i18n";
 
 let initialized = false;
 let activeGames: string[] = []; // Track running games for update check logic
@@ -46,6 +48,18 @@ function waitForHydration(): Promise<void> {
 // Wait for window mode to be loaded from C++
 function waitForWindowMode(): Promise<void> {
   return windowModeReady;
+}
+
+// The app's language setting lives in C++ (AppSettings locale). The controller
+// page itself is not localized, so read it fresh for every auto-open.
+async function getAppLocale(): Promise<string> {
+  try {
+    const response = await getInitialStateFromWebview();
+    return response.data.locale || "en";
+  } catch (e) {
+    console.error("Failed to get app locale, using en:", e);
+    return "en";
+  }
 }
 
 // Minimum required app version - force update if below this version
@@ -165,6 +179,7 @@ export async function initController(currentVersion: CurrentVersion) {
             // Invite-only companions auto-open only for invited accounts (the
             // account store is persisted, so this is the last verified list).
             const invites = useAccountStore.getState().invites;
+            const locale = await getAppLocale();
             games.forEach((game) => {
               const companion = game.companion;
               // Skip `inDevelopment` companions (e.g. Enshrouded) — they must not
@@ -199,13 +214,19 @@ export async function initController(currentVersion: CurrentVersion) {
                     currentWindowMode === "overlay" ||
                     currentWindowMode === "both"
                   ) {
-                    openOverlayWebView(companion.overlayURL, `${game.title}`);
+                    openOverlayWebView(
+                      localizePath(companion.overlayURL, locale),
+                      `${game.title}`,
+                    );
                   }
                   if (
                     currentWindowMode === "desktop" ||
                     currentWindowMode === "both"
                   ) {
-                    openDesktopWebView(companion.desktopURL, `${game.title}`);
+                    openDesktopWebView(
+                      localizePath(companion.desktopURL, locale),
+                      `${game.title}`,
+                    );
                   }
                 }
               }
