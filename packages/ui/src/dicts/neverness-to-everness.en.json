@@ -20,6 +20,9 @@
   "config.internalLinks.items.title": "Items",
   "config.internalLinks.items.description": "Every item, material, ingredient and café dish, with where to get it, the shops that sell it and its crafting recipe.",
   "config.internalLinks.items.linkText": "Browse Items",
+  "config.internalLinks.properties.title": "Properties",
+  "config.internalLinks.properties.description": "Every Leon Estate Group home you can buy: price, area, address, parking and furniture load, with its spot on the map.",
+  "config.internalLinks.properties.linkText": "Browse Properties",
   "config.db.heroSubtitle": "Characters, Arcs, Anomalies & more",
   "config.db.searchPlaceholder": "Search the database…",
   "config.db.characters.description": "Playable Appraisers — element, rarity, base stats.",
@@ -27,11 +30,13 @@
   "config.db.visions.description": "Visions/Anomalies by category.",
   "config.db.bestiary.description": "Bosses, weekly bosses, elites and normal enemies.",
   "config.db.items.description": "Materials, ingredients, food, café dishes and more.",
+  "config.db.properties.description": "Apartments and villas to buy, with prices.",
   "config.db.typeLabels.characters": "Character",
   "config.db.typeLabels.arcs": "Arcs (Weapons)",
   "config.db.typeLabels.cartridges": "Cartridge",
   "config.db.typeLabels.vehicles": "Vehicle",
   "config.db.typeLabels.visions": "Anomaly Archive",
   "config.db.typeLabels.bestiary": "Bestiary",
-  "config.db.typeLabels.items": "Item"
+  "config.db.typeLabels.items": "Item",
+  "config.db.typeLabels.properties": "Property"
 }

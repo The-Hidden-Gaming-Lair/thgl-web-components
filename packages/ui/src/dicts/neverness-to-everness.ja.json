@@ -20,6 +20,9 @@
   "config.internalLinks.items.title": "アイテム",
   "config.internalLinks.items.description": "すべてのアイテム、素材、食材、カフェメニューの入手方法、販売ショップ、合成レシピ。",
   "config.internalLinks.items.linkText": "アイテムを見る",
+  "config.internalLinks.properties.title": "不動産",
+  "config.internalLinks.properties.description": "購入できるレオンホームズの全物件：価格、エリア、住所、駐車スペース、家具の負荷、マップ上の位置。",
+  "config.internalLinks.properties.linkText": "不動産を見る",
   "config.db.heroSubtitle": "キャラクター、弧盤、異象など",
   "config.db.searchPlaceholder": "データベースを検索…",
   "config.db.characters.description": "プレイアブルな鑑定士：属性、レアリティ、基礎ステータス。",
@@ -27,11 +30,13 @@
   "config.db.visions.description": "カテゴリ別の異象。",
   "config.db.bestiary.description": "ボス、週ボス、精鋭、通常の敵。",
   "config.db.items.description": "素材、食材、料理、カフェメニューなど。",
+  "config.db.properties.description": "購入できるアパートと別荘、価格付き。",
   "config.db.typeLabels.characters": "キャラクター",
   "config.db.typeLabels.arcs": "弧盤（武器）",
   "config.db.typeLabels.cartridges": "駆動コア",
   "config.db.typeLabels.vehicles": "車両",
   "config.db.typeLabels.visions": "異象アーカイブ",
   "config.db.typeLabels.bestiary": "敵図鑑",
-  "config.db.typeLabels.items": "アイテム"
+  "config.db.typeLabels.items": "アイテム",
+  "config.db.typeLabels.properties": "不動産"
 }

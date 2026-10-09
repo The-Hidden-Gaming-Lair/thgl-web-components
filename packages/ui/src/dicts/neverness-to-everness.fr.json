@@ -20,6 +20,9 @@
   "config.internalLinks.items.title": "Objets",
   "config.internalLinks.items.description": "Tous les objets, matériaux, ingrédients et plats du café, avec où les obtenir, les boutiques qui les vendent et leur recette.",
   "config.internalLinks.items.linkText": "Voir les objets",
+  "config.internalLinks.properties.title": "Propriétés",
+  "config.internalLinks.properties.description": "Chaque logement du Groupe immobilier Léon que vous pouvez acheter : prix, quartier, adresse, places de parking et charge de mobilier, avec son emplacement sur la carte.",
+  "config.internalLinks.properties.linkText": "Voir les propriétés",
   "config.db.heroSubtitle": "Personnages, Arcs, anomalies et plus",
   "config.db.searchPlaceholder": "Rechercher dans la base de données…",
   "config.db.characters.description": "Spécialistes jouables : élément, rareté, statistiques de base.",
@@ -27,11 +30,13 @@
   "config.db.visions.description": "Visions/Anomalies par catégorie.",
   "config.db.bestiary.description": "Boss, boss hebdomadaires, élites et ennemis normaux.",
   "config.db.items.description": "Matériaux, ingrédients, nourriture, plats du café et plus.",
+  "config.db.properties.description": "Appartements et villas à acheter, avec leurs prix.",
   "config.db.typeLabels.characters": "Personnage",
   "config.db.typeLabels.arcs": "Arcs (armes)",
   "config.db.typeLabels.cartridges": "Cartouche",
   "config.db.typeLabels.vehicles": "Véhicule",
   "config.db.typeLabels.visions": "Archive des anomalies",
   "config.db.typeLabels.bestiary": "Bestiaire",
-  "config.db.typeLabels.items": "Objet"
+  "config.db.typeLabels.items": "Objet",
+  "config.db.typeLabels.properties": "Propriété"
 }

@@ -20,6 +20,9 @@
   "config.internalLinks.items.title": "Gegenstände",
   "config.internalLinks.items.description": "Alle Gegenstände, Materialien, Zutaten und Café-Gerichte, mit Fundorten, Läden, die sie verkaufen, und Herstellungsrezepten.",
   "config.internalLinks.items.linkText": "Gegenstände ansehen",
+  "config.internalLinks.properties.title": "Immobilien",
+  "config.internalLinks.properties.description": "Jede kaufbare Immobilie der Leon Estate Group: Preis, Bezirk, Adresse, Parkplätze und Möbellast, mit Standort auf der Karte.",
+  "config.internalLinks.properties.linkText": "Immobilien ansehen",
   "config.db.heroSubtitle": "Charaktere, Arkus, Anomalien & mehr",
   "config.db.searchPlaceholder": "Datenbank durchsuchen…",
   "config.db.characters.description": "Spielbare Gutachter – Element, Seltenheit, Basiswerte.",
@@ -27,11 +30,13 @@
   "config.db.visions.description": "Visionen/Anomalien nach Kategorie.",
   "config.db.bestiary.description": "Bosse, wöchentliche Bosse, Elite- und normale Gegner.",
   "config.db.items.description": "Materialien, Zutaten, Essen, Café-Gerichte und mehr.",
+  "config.db.properties.description": "Apartments und Villen zum Kaufen, mit Preisen.",
   "config.db.typeLabels.characters": "Charakter",
   "config.db.typeLabels.arcs": "Arkus (Waffen)",
   "config.db.typeLabels.cartridges": "Kassette",
   "config.db.typeLabels.vehicles": "Fahrzeug",
   "config.db.typeLabels.visions": "Anomalie-Archiv",
   "config.db.typeLabels.bestiary": "Bestiarium",
-  "config.db.typeLabels.items": "Gegenstand"
+  "config.db.typeLabels.items": "Gegenstand",
+  "config.db.typeLabels.properties": "Immobilie"
 }
