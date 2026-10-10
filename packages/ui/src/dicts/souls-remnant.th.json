@@ -29,6 +29,8 @@
   "config.db.quests.title": "เควส",
   "config.db.game-modes.description": "โหมดท้าทาย Ironman — self-found, ฮาร์ดคอร์ตายถาวร และแบบกลุ่ม",
   "config.db.game-modes.title": "โหมดเกม",
+  "config.db.alternate-recipes.description": "วิธีอื่นในการสร้างไอเท็ม: สีย้อมจากสมุนไพรชนิดอื่น เอสเซนส์ที่รวมจากระดับต่ำกว่าหรือแยกจากระดับสูงกว่า และอื่น ๆ",
+  "config.db.alternate-recipes.title": "สูตรทางเลือก",
   "config.db.typeLabels.items": "ไอเทม",
   "config.db.typeLabels.equipment": "อุปกรณ์",
   "config.db.typeLabels.monsters": "มอนสเตอร์",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "NPC",
   "config.db.typeLabels.dungeons": "ดันเจี้ยน",
   "config.db.typeLabels.quests": "เควส",
-  "config.db.typeLabels.game-modes": "โหมดเกม"
+  "config.db.typeLabels.game-modes": "โหมดเกม",
+  "config.db.typeLabels.alternate-recipes": "สูตรทางเลือก"
 }

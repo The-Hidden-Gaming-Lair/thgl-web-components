@@ -29,6 +29,8 @@
   "config.db.quests.title": "Quêtes",
   "config.db.game-modes.description": "Les modes de défi Ironman — autonome, hardcore à mort permanente et leurs variantes de groupe.",
   "config.db.game-modes.title": "Modes de jeu",
+  "config.db.alternate-recipes.description": "D'autres façons de fabriquer un objet : teinture à partir d'autres herbes, essences combinées depuis un rang inférieur ou décomposées depuis un rang supérieur, et plus encore.",
+  "config.db.alternate-recipes.title": "Recettes alternatives",
   "config.db.typeLabels.items": "Objet",
   "config.db.typeLabels.equipment": "Équipement",
   "config.db.typeLabels.monsters": "Monstre",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "PNJ",
   "config.db.typeLabels.dungeons": "Donjon",
   "config.db.typeLabels.quests": "Quête",
-  "config.db.typeLabels.game-modes": "Mode de jeu"
+  "config.db.typeLabels.game-modes": "Mode de jeu",
+  "config.db.typeLabels.alternate-recipes": "Recette alternative"
 }

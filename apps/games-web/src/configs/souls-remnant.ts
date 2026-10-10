@@ -143,6 +143,14 @@ export const soulsRemnant = resolveAppConfig({
         icon: "🎮",
         description: "config.db.game-modes.description",
       },
+      {
+        href: "/db/alternate-recipes",
+        type: "alternate-recipes",
+        titleKey: "config.db.alternate-recipes.title",
+        titleFallback: "Alternate Recipes",
+        icon: "🔀",
+        description: "config.db.alternate-recipes.description",
+      },
     ],
     typeLabels: {
       items: "config.db.typeLabels.items",
@@ -155,6 +163,7 @@ export const soulsRemnant = resolveAppConfig({
       dungeons: "config.db.typeLabels.dungeons",
       quests: "config.db.typeLabels.quests",
       "game-modes": "config.db.typeLabels.game-modes",
+      "alternate-recipes": "config.db.typeLabels.alternate-recipes",
     },
   },
 });

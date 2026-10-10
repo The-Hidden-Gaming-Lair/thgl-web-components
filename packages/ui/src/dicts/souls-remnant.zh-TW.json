@@ -29,6 +29,8 @@
   "config.db.quests.title": "任務",
   "config.db.game-modes.description": "鐵人挑戰模式——自給自足、永久死亡的硬核模式及其組隊版本。",
   "config.db.game-modes.title": "遊戲模式",
+  "config.db.alternate-recipes.description": "製作物品的其他方式：用其他草藥製作染料、由低階合成或由高階分解的精華等。",
+  "config.db.alternate-recipes.title": "替代配方",
   "config.db.typeLabels.items": "物品",
   "config.db.typeLabels.equipment": "裝備",
   "config.db.typeLabels.monsters": "怪物",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "NPC",
   "config.db.typeLabels.dungeons": "地下城",
   "config.db.typeLabels.quests": "任務",
-  "config.db.typeLabels.game-modes": "遊戲模式"
+  "config.db.typeLabels.game-modes": "遊戲模式",
+  "config.db.typeLabels.alternate-recipes": "替代配方"
 }

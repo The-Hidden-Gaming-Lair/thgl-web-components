@@ -29,6 +29,8 @@
   "config.db.quests.title": "Nhiệm vụ",
   "config.db.game-modes.description": "Các chế độ thử thách Ironman — self-found, hardcore chết vĩnh viễn và biến thể nhóm của chúng.",
   "config.db.game-modes.title": "Chế độ chơi",
+  "config.db.alternate-recipes.description": "Những cách khác để chế tạo vật phẩm: thuốc nhuộm từ các loại thảo mộc khác, tinh chất ghép từ cấp thấp hơn hoặc phân tách từ cấp cao hơn, và nhiều hơn nữa.",
+  "config.db.alternate-recipes.title": "Công thức thay thế",
   "config.db.typeLabels.items": "Vật phẩm",
   "config.db.typeLabels.equipment": "Trang bị",
   "config.db.typeLabels.monsters": "Quái vật",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "NPC",
   "config.db.typeLabels.dungeons": "Hầm ngục",
   "config.db.typeLabels.quests": "Nhiệm vụ",
-  "config.db.typeLabels.game-modes": "Chế độ chơi"
+  "config.db.typeLabels.game-modes": "Chế độ chơi",
+  "config.db.typeLabels.alternate-recipes": "Công thức thay thế"
 }

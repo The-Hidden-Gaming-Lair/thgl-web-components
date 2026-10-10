@@ -29,6 +29,8 @@
   "config.db.quests.title": "Quests",
   "config.db.game-modes.description": "Die Ironman-Herausforderungen — Self-Found, Hardcore mit permanentem Tod und ihre Gruppenvarianten.",
   "config.db.game-modes.title": "Spielmodi",
+  "config.db.alternate-recipes.description": "Weitere Wege, einen Gegenstand herzustellen: Farbe aus anderen Kräutern, Essenzen aus einer niedrigeren Stufe kombiniert oder aus einer höheren zerlegt, und mehr.",
+  "config.db.alternate-recipes.title": "Alternative Rezepte",
   "config.db.typeLabels.items": "Gegenstand",
   "config.db.typeLabels.equipment": "Ausrüstung",
   "config.db.typeLabels.monsters": "Monster",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "NPC",
   "config.db.typeLabels.dungeons": "Dungeon",
   "config.db.typeLabels.quests": "Quest",
-  "config.db.typeLabels.game-modes": "Spielmodus"
+  "config.db.typeLabels.game-modes": "Spielmodus",
+  "config.db.typeLabels.alternate-recipes": "Alternatives Rezept"
 }

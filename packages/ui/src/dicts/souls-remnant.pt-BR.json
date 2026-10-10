@@ -29,6 +29,8 @@
   "config.db.quests.title": "Missões",
   "config.db.game-modes.description": "Os modos de desafio Ironman — self-found, hardcore com morte permanente e suas variantes em grupo.",
   "config.db.game-modes.title": "Modos de jogo",
+  "config.db.alternate-recipes.description": "Outras formas de fabricar um item: corante de outras ervas, essências combinadas de um nível inferior ou decompostas de um superior, e mais.",
+  "config.db.alternate-recipes.title": "Receitas alternativas",
   "config.db.typeLabels.items": "Item",
   "config.db.typeLabels.equipment": "Equipamento",
   "config.db.typeLabels.monsters": "Monstro",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "NPC",
   "config.db.typeLabels.dungeons": "Masmorra",
   "config.db.typeLabels.quests": "Missão",
-  "config.db.typeLabels.game-modes": "Modo de jogo"
+  "config.db.typeLabels.game-modes": "Modo de jogo",
+  "config.db.typeLabels.alternate-recipes": "Receita alternativa"
 }

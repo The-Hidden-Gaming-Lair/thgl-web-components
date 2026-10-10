@@ -29,6 +29,8 @@
   "config.db.quests.title": "Görevler",
   "config.db.game-modes.description": "Ironman meydan okuma modları — self-found, kalıcı ölümlü hardcore ve grup varyantları.",
   "config.db.game-modes.title": "Oyun Modları",
+  "config.db.alternate-recipes.description": "Bir eşyayı üretmenin diğer yolları: başka otlardan boya, alt seviyeden birleştirilen veya üst seviyeden ayrıştırılan özler ve daha fazlası.",
+  "config.db.alternate-recipes.title": "Alternatif Tarifler",
   "config.db.typeLabels.items": "Eşya",
   "config.db.typeLabels.equipment": "Ekipman",
   "config.db.typeLabels.monsters": "Canavar",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "NPC",
   "config.db.typeLabels.dungeons": "Zindan",
   "config.db.typeLabels.quests": "Görev",
-  "config.db.typeLabels.game-modes": "Oyun Modu"
+  "config.db.typeLabels.game-modes": "Oyun Modu",
+  "config.db.typeLabels.alternate-recipes": "Alternatif Tarif"
 }

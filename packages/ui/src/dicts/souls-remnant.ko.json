@@ -29,6 +29,8 @@
   "config.db.quests.title": "퀘스트",
   "config.db.game-modes.description": "아이언맨 도전 모드 — 셀프 파운드, 영구 사망 하드코어, 그리고 그룹 버전.",
   "config.db.game-modes.title": "게임 모드",
+  "config.db.alternate-recipes.description": "아이템을 만드는 다른 방법: 다른 약초로 만드는 염료, 하위 등급에서 합성하거나 상위 등급에서 분해하는 정수 등.",
+  "config.db.alternate-recipes.title": "대체 제작법",
   "config.db.typeLabels.items": "아이템",
   "config.db.typeLabels.equipment": "장비",
   "config.db.typeLabels.monsters": "몬스터",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "NPC",
   "config.db.typeLabels.dungeons": "던전",
   "config.db.typeLabels.quests": "퀘스트",
-  "config.db.typeLabels.game-modes": "게임 모드"
+  "config.db.typeLabels.game-modes": "게임 모드",
+  "config.db.typeLabels.alternate-recipes": "대체 제작법"
 }

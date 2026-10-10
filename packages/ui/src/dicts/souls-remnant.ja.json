@@ -29,6 +29,8 @@
   "config.db.quests.title": "クエスト",
   "config.db.game-modes.description": "アイアンマンチャレンジモード — セルフファウンド、永久死のハードコア、そのグループ版。",
   "config.db.game-modes.title": "ゲームモード",
+  "config.db.alternate-recipes.description": "アイテムの別の作り方：他のハーブから作る染料、下位ランクから合成または上位ランクから分解するエッセンスなど。",
+  "config.db.alternate-recipes.title": "代替レシピ",
   "config.db.typeLabels.items": "アイテム",
   "config.db.typeLabels.equipment": "装備",
   "config.db.typeLabels.monsters": "モンスター",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "NPC",
   "config.db.typeLabels.dungeons": "ダンジョン",
   "config.db.typeLabels.quests": "クエスト",
-  "config.db.typeLabels.game-modes": "ゲームモード"
+  "config.db.typeLabels.game-modes": "ゲームモード",
+  "config.db.typeLabels.alternate-recipes": "代替レシピ"
 }

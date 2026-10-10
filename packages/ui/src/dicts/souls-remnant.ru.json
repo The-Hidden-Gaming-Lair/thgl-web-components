@@ -29,6 +29,8 @@
   "config.db.quests.title": "Задания",
   "config.db.game-modes.description": "Режимы испытаний Ironman — self-found, хардкор с перманентной смертью и их групповые варианты.",
   "config.db.game-modes.title": "Режимы игры",
+  "config.db.alternate-recipes.description": "Другие способы создать предмет: краска из других трав, эссенции, объединённые из низшего уровня или разложенные из высшего, и не только.",
+  "config.db.alternate-recipes.title": "Альтернативные рецепты",
   "config.db.typeLabels.items": "Предмет",
   "config.db.typeLabels.equipment": "Снаряжение",
   "config.db.typeLabels.monsters": "Монстр",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "NPC",
   "config.db.typeLabels.dungeons": "Подземелье",
   "config.db.typeLabels.quests": "Задание",
-  "config.db.typeLabels.game-modes": "Режим игры"
+  "config.db.typeLabels.game-modes": "Режим игры",
+  "config.db.typeLabels.alternate-recipes": "Альтернативный рецепт"
 }

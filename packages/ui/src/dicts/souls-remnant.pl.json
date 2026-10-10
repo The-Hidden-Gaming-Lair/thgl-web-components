@@ -29,6 +29,8 @@
   "config.db.quests.title": "Zadania",
   "config.db.game-modes.description": "Tryby wyzwań Ironman — self-found, hardcore z permanentną śmiercią i ich warianty grupowe.",
   "config.db.game-modes.title": "Tryby gry",
+  "config.db.alternate-recipes.description": "Inne sposoby wytworzenia przedmiotu: barwnik z innych ziół, esencje łączone z niższego poziomu lub rozkładane z wyższego i nie tylko.",
+  "config.db.alternate-recipes.title": "Alternatywne receptury",
   "config.db.typeLabels.items": "Przedmiot",
   "config.db.typeLabels.equipment": "Ekwipunek",
   "config.db.typeLabels.monsters": "Potwór",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "NPC",
   "config.db.typeLabels.dungeons": "Loch",
   "config.db.typeLabels.quests": "Zadanie",
-  "config.db.typeLabels.game-modes": "Tryb gry"
+  "config.db.typeLabels.game-modes": "Tryb gry",
+  "config.db.typeLabels.alternate-recipes": "Alternatywna receptura"
 }

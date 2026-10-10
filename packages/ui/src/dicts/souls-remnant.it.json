@@ -29,6 +29,8 @@
   "config.db.quests.title": "Missioni",
   "config.db.game-modes.description": "Le modalità sfida Ironman — self-found, hardcore con morte permanente e le loro varianti di gruppo.",
   "config.db.game-modes.title": "Modalità di gioco",
+  "config.db.alternate-recipes.description": "Altri modi per creare un oggetto: tintura da altre erbe, essenze combinate da un livello inferiore o scomposte da uno superiore, e altro.",
+  "config.db.alternate-recipes.title": "Ricette alternative",
   "config.db.typeLabels.items": "Oggetto",
   "config.db.typeLabels.equipment": "Equipaggiamento",
   "config.db.typeLabels.monsters": "Mostro",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "PNG",
   "config.db.typeLabels.dungeons": "Dungeon",
   "config.db.typeLabels.quests": "Missione",
-  "config.db.typeLabels.game-modes": "Modalità di gioco"
+  "config.db.typeLabels.game-modes": "Modalità di gioco",
+  "config.db.typeLabels.alternate-recipes": "Ricetta alternativa"
 }

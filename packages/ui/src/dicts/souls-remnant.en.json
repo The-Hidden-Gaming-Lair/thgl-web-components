@@ -29,6 +29,8 @@
   "config.db.quests.title": "Quests",
   "config.db.game-modes.description": "The Ironman challenge modes — self-found, hardcore permadeath and their group variants.",
   "config.db.game-modes.title": "Game Modes",
+  "config.db.alternate-recipes.description": "Other ways to craft an item: Dye from other herbs, essences combined from a lower tier or broken down from a higher one, and more.",
+  "config.db.alternate-recipes.title": "Alternate Recipes",
   "config.db.typeLabels.items": "Item",
   "config.db.typeLabels.equipment": "Equipment",
   "config.db.typeLabels.monsters": "Monster",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "NPC",
   "config.db.typeLabels.dungeons": "Dungeon",
   "config.db.typeLabels.quests": "Quest",
-  "config.db.typeLabels.game-modes": "Game Mode"
+  "config.db.typeLabels.game-modes": "Game Mode",
+  "config.db.typeLabels.alternate-recipes": "Alternate Recipe"
 }

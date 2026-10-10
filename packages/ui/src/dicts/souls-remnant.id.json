@@ -29,6 +29,8 @@
   "config.db.quests.title": "Quest",
   "config.db.game-modes.description": "Mode tantangan Ironman — self-found, hardcore dengan kematian permanen, dan varian grupnya.",
   "config.db.game-modes.title": "Mode Permainan",
+  "config.db.alternate-recipes.description": "Cara lain membuat sebuah item: pewarna dari herba lain, esensi yang digabung dari tingkat lebih rendah atau diurai dari tingkat lebih tinggi, dan lainnya.",
+  "config.db.alternate-recipes.title": "Resep Alternatif",
   "config.db.typeLabels.items": "Item",
   "config.db.typeLabels.equipment": "Perlengkapan",
   "config.db.typeLabels.monsters": "Monster",
@@ -38,5 +40,6 @@
   "config.db.typeLabels.npcs": "NPC",
   "config.db.typeLabels.dungeons": "Dungeon",
   "config.db.typeLabels.quests": "Quest",
-  "config.db.typeLabels.game-modes": "Mode Permainan"
+  "config.db.typeLabels.game-modes": "Mode Permainan",
+  "config.db.typeLabels.alternate-recipes": "Resep Alternatif"
 }
