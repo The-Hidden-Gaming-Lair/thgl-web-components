@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "obsługiwane",
   "filters.tooltip.notSupported": "nieobsługiwane",
   "filters.tooltip.inGameOnly": "Śledzenie na żywo wymaga aplikacji w grze",
+  "filters.tooltip.hiddenInLive": "Widok na żywo pokazuje tylko miejsca wykryte w pobliżu. Przełącz na Przewidywane, aby zobaczyć wszystkie.",
   "filters.tooltip.spawnType": "Typ Pojawiania:",
   "filters.tooltip.static": "Stały",
   "filters.tooltip.dynamic": "Śledzony na żywo",

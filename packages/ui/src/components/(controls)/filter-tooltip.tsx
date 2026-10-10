@@ -10,13 +10,22 @@ import { Badge } from "../ui/badge";
 
 export function FilterTooltip({ id }: { id: string }) {
   const t = useT();
-  const { nodes, typesIdMap, liveCapable, filters } = useCoordinates();
+  const { nodes, searchableNodes, typesIdMap, liveCapable, filters } =
+    useCoordinates();
   const discoveredNodes = useSettingsStore((state) => state.discoveredNodes);
   const isDiscoveredNode = useSettingsStore((state) => state.isDiscoveredNode);
 
+  // Count every known spot of the map, not just the plotted ones: in Live view
+  // the predicted spots are not plotted, and "Total 0" read as "data missing"
+  // (#1090).
   const filterNode = useMemo(
-    () => nodes.find((node) => node.type === id),
-    [nodes, id],
+    () => searchableNodes.find((node) => node.type === id),
+    [searchableNodes, id],
+  );
+  const hiddenInLive = useMemo(
+    () =>
+      !!filterNode?.spawns.length && !nodes.some((node) => node.type === id),
+    [filterNode, nodes, id],
   );
   const discoveredSpawns = useMemo(
     () =>
@@ -63,6 +72,15 @@ export function FilterTooltip({ id }: { id: string }) {
           {discoveredSpawns.length}
         </span>
       </p>
+
+      {hiddenInLive && (
+        <p className="text-[11px] text-orange-500">
+          {t("filters.tooltip.hiddenInLive", {
+            fallback:
+              "Live view only shows spots detected near you. Switch to Predicted to see them all.",
+          })}
+        </p>
+      )}
 
       {/* Live-mode support + spawn behavior as one status row. The two facts
           overlap (a non-trackable filter is always "Fixed"), so the spawn-type

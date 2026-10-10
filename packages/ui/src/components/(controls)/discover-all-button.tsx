@@ -35,7 +35,8 @@ import {
  */
 export function DiscoverAllButton({ filterIds }: { filterIds: string[] }) {
   const t = useT();
-  const { nodes } = useCoordinates();
+  // Every known spot of the map, also the ones Live view doesn't plot (#1090).
+  const { searchableNodes: nodes } = useCoordinates();
   // Subscribe so label + badge update reactively (mirrors ClusterTooltip).
   const discoveredNodes = useSettingsStore((s) => s.discoveredNodes);
   const isDiscoveredNode = useSettingsStore((s) => s.isDiscoveredNode);

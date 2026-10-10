@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "已支持",
   "filters.tooltip.notSupported": "不支持",
   "filters.tooltip.inGameOnly": "实时追踪需要游戏内应用",
+  "filters.tooltip.hiddenInLive": "实时视图只显示在你附近检测到的地点。切换到“预测”即可查看全部。",
   "filters.tooltip.spawnType": "刷新类型：",
   "filters.tooltip.static": "固定",
   "filters.tooltip.dynamic": "实时追踪",

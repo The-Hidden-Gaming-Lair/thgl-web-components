@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "supportato",
   "filters.tooltip.notSupported": "non supportato",
   "filters.tooltip.inGameOnly": "Il tracciamento dal vivo richiede l'app in-game",
+  "filters.tooltip.hiddenInLive": "La vista Live mostra solo i punti rilevati vicino a te. Passa a Previsto per vederli tutti.",
   "filters.tooltip.spawnType": "Tipo di Spawn:",
   "filters.tooltip.static": "Fisso",
   "filters.tooltip.dynamic": "Tracciato in tempo reale",

@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "támogatott",
   "filters.tooltip.notSupported": "nem támogatott",
   "filters.tooltip.inGameOnly": "Az élő követéshez a játékon belüli alkalmazás szükséges",
+  "filters.tooltip.hiddenInLive": "Az Élő nézet csak a közeledben észlelt helyeket mutatja. Válts Megjósolt nézetre, hogy mindet lásd.",
   "filters.tooltip.spawnType": "Spawn típus:",
   "filters.tooltip.static": "Rögzített",
   "filters.tooltip.dynamic": "Élőben követett",

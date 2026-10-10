@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "Didukung",
   "filters.tooltip.notSupported": "Tidak didukung",
   "filters.tooltip.inGameOnly": "Pelacakan langsung memerlukan Aplikasi Dalam Game",
+  "filters.tooltip.hiddenInLive": "Tampilan langsung hanya menampilkan lokasi yang terdeteksi di dekatmu. Beralih ke Diprediksi untuk melihat semuanya.",
   "filters.tooltip.spawnType": "Tipe Spawn:",
   "filters.tooltip.static": "Tetap",
   "filters.tooltip.dynamic": "Dilacak langsung",

@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "suportado",
   "filters.tooltip.notSupported": "não suportado",
   "filters.tooltip.inGameOnly": "O rastreamento ao vivo requer o app in-game",
+  "filters.tooltip.hiddenInLive": "A visão ao vivo mostra apenas os locais detectados perto de você. Mude para Previsto para ver todos.",
   "filters.tooltip.spawnType": "Tipo de Surgimento:",
   "filters.tooltip.static": "Fixo",
   "filters.tooltip.dynamic": "Rastreado ao vivo",

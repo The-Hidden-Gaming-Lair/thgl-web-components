@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "підтримується",
   "filters.tooltip.notSupported": "не підтримується",
   "filters.tooltip.inGameOnly": "Відстеження наживо потребує ігрового застосунку",
+  "filters.tooltip.hiddenInLive": "Режим «Наживо» показує лише місця, виявлені поруч із вами. Перемкніться на «Прогнозовані», щоб побачити всі.",
   "filters.tooltip.spawnType": "Тип появи:",
   "filters.tooltip.static": "Фіксований",
   "filters.tooltip.dynamic": "Відстежується наживо",

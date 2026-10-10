@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "unterstützt",
   "filters.tooltip.notSupported": "nicht unterstützt",
   "filters.tooltip.inGameOnly": "Live-Tracking erfordert die In-Game-App",
+  "filters.tooltip.hiddenInLive": "Die Live-Ansicht zeigt nur Fundorte, die in deiner Nähe erkannt werden. Wechsle zu Vorhergesagt, um alle zu sehen.",
   "filters.tooltip.spawnType": "Spawn-Typ:",
   "filters.tooltip.static": "Fest",
   "filters.tooltip.dynamic": "Live-verfolgt",

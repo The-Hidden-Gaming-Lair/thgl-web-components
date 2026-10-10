@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "destekleniyor",
   "filters.tooltip.notSupported": "desteklenmiyor",
   "filters.tooltip.inGameOnly": "Canlı izleme, oyun içi uygulamayı gerektirir",
+  "filters.tooltip.hiddenInLive": "Canlı görünüm yalnızca yakınında tespit edilen noktaları gösterir. Hepsini görmek için Tahmin moduna geç.",
   "filters.tooltip.spawnType": "Çıkma Türü:",
   "filters.tooltip.static": "Sabit",
   "filters.tooltip.dynamic": "Canlı izlenen",

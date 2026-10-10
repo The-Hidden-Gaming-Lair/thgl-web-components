@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "pris en charge",
   "filters.tooltip.notSupported": "non pris en charge",
   "filters.tooltip.inGameOnly": "Le suivi en direct nécessite l'application en jeu",
+  "filters.tooltip.hiddenInLive": "La vue en direct n'affiche que les emplacements détectés près de vous. Passez en Prédit pour tous les voir.",
   "filters.tooltip.spawnType": "Type d'Apparition :",
   "filters.tooltip.static": "Fixe",
   "filters.tooltip.dynamic": "Suivi en direct",

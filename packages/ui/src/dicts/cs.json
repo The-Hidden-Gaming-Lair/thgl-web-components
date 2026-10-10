@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "podporováno",
   "filters.tooltip.notSupported": "nepodporováno",
   "filters.tooltip.inGameOnly": "Sledování naživo vyžaduje herní aplikaci",
+  "filters.tooltip.hiddenInLive": "Režim Živě ukazuje jen místa zjištěná ve tvé blízkosti. Přepni na Předpovězené a uvidíš všechna.",
   "filters.tooltip.spawnType": "Typ výskytu:",
   "filters.tooltip.static": "Pevný",
   "filters.tooltip.dynamic": "Sledováno naživo",

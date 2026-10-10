@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "รองรับ",
   "filters.tooltip.notSupported": "ไม่รองรับ",
   "filters.tooltip.inGameOnly": "การติดตามสดต้องใช้แอปในเกม",
+  "filters.tooltip.hiddenInLive": "มุมมองสดจะแสดงเฉพาะจุดที่ตรวจพบใกล้คุณ สลับเป็นแบบคาดการณ์เพื่อดูทั้งหมด",
   "filters.tooltip.spawnType": "ประเภทการเกิด:",
   "filters.tooltip.static": "คงที่",
   "filters.tooltip.dynamic": "ติดตามแบบสด",

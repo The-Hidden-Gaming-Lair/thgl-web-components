@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "Supported",
   "filters.tooltip.notSupported": "Not supported",
   "filters.tooltip.inGameOnly": "Live tracking needs the In-Game App",
+  "filters.tooltip.hiddenInLive": "Live view only shows spots detected near you. Switch to Predicted to see them all.",
   "filters.tooltip.spawnType": "Spawn Type:",
   "filters.tooltip.static": "Fixed",
   "filters.tooltip.dynamic": "Live-tracked",

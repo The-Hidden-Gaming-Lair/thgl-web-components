@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "Được hỗ trợ",
   "filters.tooltip.notSupported": "Không được hỗ trợ",
   "filters.tooltip.inGameOnly": "Theo dõi trực tiếp cần Ứng dụng trong game",
+  "filters.tooltip.hiddenInLive": "Chế độ Trực tiếp chỉ hiển thị các điểm được phát hiện gần bạn. Chuyển sang Dự đoán để xem tất cả.",
   "filters.tooltip.spawnType": "Loại xuất hiện:",
   "filters.tooltip.static": "Cố định",
   "filters.tooltip.dynamic": "Theo dõi trực tiếp",

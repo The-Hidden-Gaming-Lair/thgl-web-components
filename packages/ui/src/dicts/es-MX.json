@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "compatible",
   "filters.tooltip.notSupported": "no compatible",
   "filters.tooltip.inGameOnly": "El rastreo en vivo requiere la aplicación in-game",
+  "filters.tooltip.hiddenInLive": "La vista en vivo solo muestra los lugares detectados cerca de ti. Cambia a Predicho para verlos todos.",
   "filters.tooltip.spawnType": "Tipo de Aparición:",
   "filters.tooltip.static": "Fijo",
   "filters.tooltip.dynamic": "Rastreado en vivo",

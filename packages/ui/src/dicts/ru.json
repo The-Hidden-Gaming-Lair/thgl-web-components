@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "поддерживается",
   "filters.tooltip.notSupported": "не поддерживается",
   "filters.tooltip.inGameOnly": "Отслеживание вживую требует игрового приложения",
+  "filters.tooltip.hiddenInLive": "В режиме «Вживую» видны только точки, обнаруженные рядом с вами. Переключитесь на «Предсказанные», чтобы увидеть все.",
   "filters.tooltip.spawnType": "Тип появления:",
   "filters.tooltip.static": "Фиксированный",
   "filters.tooltip.dynamic": "Отслеживается вживую",

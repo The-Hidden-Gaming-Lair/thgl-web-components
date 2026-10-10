@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "対応済み",
   "filters.tooltip.notSupported": "未対応",
   "filters.tooltip.inGameOnly": "ライブ追跡にはアプリが必要です",
+  "filters.tooltip.hiddenInLive": "ライブ表示では近くで検出された地点のみ表示されます。すべて見るには「予測」に切り替えてください。",
   "filters.tooltip.spawnType": "出現タイプ：",
   "filters.tooltip.static": "固定",
   "filters.tooltip.dynamic": "ライブ追跡",

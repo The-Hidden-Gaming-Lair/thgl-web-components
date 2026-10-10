@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "지원됨",
   "filters.tooltip.notSupported": "미지원",
   "filters.tooltip.inGameOnly": "실시간 추적에는 인게임 앱이 필요합니다",
+  "filters.tooltip.hiddenInLive": "라이브 보기는 근처에서 감지된 위치만 표시합니다. 모두 보려면 예측으로 전환하세요.",
   "filters.tooltip.spawnType": "스폰 유형:",
   "filters.tooltip.static": "고정",
   "filters.tooltip.dynamic": "실시간 추적",

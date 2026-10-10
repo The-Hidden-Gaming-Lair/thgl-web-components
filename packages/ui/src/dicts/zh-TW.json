@@ -164,6 +164,7 @@
   "filters.tooltip.supported": "支援",
   "filters.tooltip.notSupported": "不支援",
   "filters.tooltip.inGameOnly": "即時追蹤需要遊戲內應用程式",
+  "filters.tooltip.hiddenInLive": "即時檢視只顯示在你附近偵測到的地點。切換到「預測」即可查看全部。",
   "filters.tooltip.spawnType": "出現類型：",
   "filters.tooltip.static": "固定",
   "filters.tooltip.dynamic": "即時追蹤",
