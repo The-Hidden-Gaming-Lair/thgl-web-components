@@ -5,6 +5,7 @@ import { useCoordinates, useT } from "../(providers)";
 import { useEffect, useMemo, useState, type JSX } from "react";
 import { ChevronDown, ChevronUp, RadioTower } from "lucide-react";
 import { SearchResultRow, useSearchResultJump } from "./search-result-row";
+import { useLiveNames } from "../(interactive-map)/use-live-names";
 
 type LiveActors = ReturnType<typeof useGameState.getState>["actors"];
 
@@ -45,10 +46,15 @@ function useLiveActorsSnapshot(enabled: boolean): LiveActors {
   return actors;
 }
 
-/** A matching display type with its actors bucketed by map. */
+/**
+ * A matching display type with its actors bucketed by map. `label` = the
+ * actors' own live name (`liveNames` types, e.g. Palia My Plot Items): one
+ * group per name instead of one per type.
+ */
 export type LiveSearchGroup = readonly [
   displayType: string,
   byMap: Map<string, LiveActors>,
+  label?: string,
 ];
 
 /**
@@ -57,41 +63,49 @@ export type LiveSearchGroup = readonly [
  * actor list a second time (it can hold tens of thousands of static actors).
  * Call it ONCE, in MarkersSearch, and pass the result down.
  *
- * Only actors whose resolved filter-type name (or raw type id) matches the
- * query, independent of the active filters — searching should find live
+ * Only actors whose resolved filter-type name (or raw type id), or their own
+ * live name, matches the query, independent of the active filters — searching should find live
  * entities you have not enabled yet. Actors without a mapName belong to the
  * current map (same convention as the live marker pipeline in markers.tsx).
  */
 export function useLiveSearchGroups(
   query: string,
   enabled: boolean,
+  appName: string,
 ): LiveSearchGroup[] {
   const { typesIdMap } = useCoordinates();
   const t = useT();
   const mapName = useUserStore((state) => state.mapName);
   const actors = useLiveActorsSnapshot(enabled);
+  const liveNames = useLiveNames(appName, enabled);
 
   return useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!enabled || !q || !typesIdMap) return [];
-    const reduced = new Map<string, Map<string, LiveActors>>();
+    const reduced = new Map<
+      string,
+      { displayType: string; label?: string; byMap: Map<string, LiveActors> }
+    >();
     for (const actor of actors) {
       if (actor.hidden) continue;
       const displayType =
         typesIdMap[actor.type] ?? typesIdMap[actor.type.split("_Variant.")[0]];
       if (!displayType) continue;
+      const label = liveNames?.[actor.type];
       const name = t(displayType, { fallback: displayType });
       if (
+        !label?.toLowerCase().includes(q) &&
         !name.toLowerCase().includes(q) &&
         !displayType.toLowerCase().includes(q)
       ) {
         continue;
       }
       const actorMapName = actor.mapName ?? mapName;
-      let byMap = reduced.get(displayType);
+      const key = label ? `${displayType}\u0000${label}` : displayType;
+      let byMap = reduced.get(key)?.byMap;
       if (!byMap) {
         byMap = new Map();
-        reduced.set(displayType, byMap);
+        reduced.set(key, { displayType, label, byMap });
       }
       const members = byMap.get(actorMapName);
       if (members) {
@@ -100,8 +114,11 @@ export function useLiveSearchGroups(
         byMap.set(actorMapName, [actor]);
       }
     }
-    return Array.from(reduced.entries());
-  }, [actors, typesIdMap, query, mapName, t, enabled]);
+    return Array.from(
+      reduced.values(),
+      ({ displayType, label, byMap }) => [displayType, byMap, label] as const,
+    );
+  }, [actors, typesIdMap, query, mapName, t, enabled, liveNames]);
 }
 
 /** How many rows those groups render — one per (display type, map). */
@@ -141,10 +158,10 @@ export function MarkersSearchLiveResults({
 
   const rows = useMemo(
     () =>
-      groups.flatMap(([displayType, byMap]) =>
+      groups.flatMap(([displayType, byMap, label]) =>
         Array.from(byMap.entries()).map(
           ([groupedMapName, members]) =>
-            [displayType, groupedMapName, members] as const,
+            [displayType, groupedMapName, members, label] as const,
         ),
       ),
     [groups],
@@ -171,8 +188,8 @@ export function MarkersSearchLiveResults({
 
   return (
     <>
-      {visibleRows.map(([displayType, groupedMapName, members]) => {
-        const name = t(displayType, { fallback: displayType });
+      {visibleRows.map(([displayType, groupedMapName, members, label]) => {
+        const name = label ?? t(displayType, { fallback: displayType });
         // Live rows are identified by their type id — processActors renders
         // the selected type's actors even when its filter is off.
         const isSelected =
@@ -180,7 +197,7 @@ export function MarkersSearchLiveResults({
           selectedResult.mapName === groupedMapName;
         return (
           <SearchResultRow
-            key={`${displayType}-${groupedMapName}`}
+            key={`${displayType}-${label ?? ""}-${groupedMapName}`}
             appName={appName}
             iconsPath={iconsPath}
             icon={icons.get(displayType)}

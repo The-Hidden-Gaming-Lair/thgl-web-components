@@ -50,6 +50,7 @@ import {
   DEFAULT_CIRCLE_SHEET,
 } from "@repo/lib/web-map";
 import { SpatialGrid } from "./spatial-grid";
+import { useLiveNames } from "./use-live-names";
 import { MarkerTooltip, TooltipItems } from "./marker-tooltip";
 import { alertToast } from "../(controls)/alert-toast";
 import { AdditionalTooltipType } from "../(content)";
@@ -746,6 +747,10 @@ function MarkersContent({
     }
     return byType;
   }, [filters]);
+  // Per-actor names of `liveNames` types (Palia My Plot Items), read by the live pass.
+  const liveNames = useLiveNames(appName);
+  const liveNamesRef = useRef(liveNames);
+  liveNamesRef.current = liveNames;
   // Footprint outlines (`spawn.shape`, e.g. Baldur's Gate EE containers/traps), one layer
   // for the static markers and one for the live ones, created lazily like the range rings.
   const staticShapeLayerRef = useRef<DrawingLayer | null>(null);
@@ -2879,8 +2884,13 @@ function MarkersContent({
           address: a.address,
           source: "live",
           ...(a.spawnId ? liveTwinRef.current(a.spawnId) : undefined),
-          // The game's own name for it (a named character), when it has no static twin.
-          ...(a.name && !a.spawnId ? { name: a.name } : undefined),
+          // The game's own name for it (a named character), when it has no static twin;
+          // else its live name (`liveNames` types: one filter, a name per actor class).
+          ...(a.name && !a.spawnId
+            ? { name: a.name }
+            : liveNamesRef.current?.[a.type]
+              ? { name: liveNamesRef.current[a.type] }
+              : undefined),
         });
         const spawn: Spawn = {
           ...toSpawn(rep),

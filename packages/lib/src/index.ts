@@ -7,6 +7,7 @@ export * from "./config";
 export * from "./coordinates";
 export * from "./crafting";
 export * from "./crafting-data";
+export * from "./live-names";
 export * from "./crafting-lists";
 export * from "./xp-planner";
 export * from "./xp-planner-data";

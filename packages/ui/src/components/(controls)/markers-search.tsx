@@ -107,6 +107,7 @@ export function MarkersSearch({
   const liveGroups = useLiveSearchGroups(
     internalSearch,
     liveScopeActive && queryReady,
+    appName,
   );
   const liveRowCount = countLiveSearchRows(liveGroups);
 
