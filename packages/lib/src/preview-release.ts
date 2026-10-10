@@ -63,20 +63,20 @@ export const PREVIEW_FEATURES: Readonly<Record<string, PreviewFeature>> = {
   // 2026-10-05..2026-10-10; it is public now.
   // "live-mode:combined" was an Elite preview; it is public now.
   // "filter:palworld:lucky_pal" (Lucky Pals) was an Elite preview 2026-10-06..2026-10-10.
-  // Palia My Plot Items: everything placed on your own housing plot, live (THGLApp
-  // re-types own-plot items "<class>_PLOT"). Three filters, one preview.
+  // Palia Plot Items: everything placed on the housing plot you are on, live (THGLApp
+  // re-types placed items "<class>_PLOT"). Three filters, one preview.
   "filter:palia:plot_item": {
-    title: "My Plot Items",
+    title: "Plot Items",
     since: "2026-10-10",
     inboxItem: 154,
   },
   "filter:palia:plot_storage": {
-    title: "My Plot Items",
+    title: "Plot Items",
     since: "2026-10-10",
     inboxItem: 154,
   },
   "filter:palia:plot_crafter": {
-    title: "My Plot Items",
+    title: "Plot Items",
     since: "2026-10-10",
     inboxItem: 154,
   },

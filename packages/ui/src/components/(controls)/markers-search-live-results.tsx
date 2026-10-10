@@ -48,7 +48,7 @@ function useLiveActorsSnapshot(enabled: boolean): LiveActors {
 
 /**
  * A matching display type with its actors bucketed by map. `label` = the
- * actors' own live name (`liveNames` types, e.g. Palia My Plot Items): one
+ * actors' own live name (`liveNames` types, e.g. Palia Plot Items): one
  * group per name instead of one per type.
  */
 export type LiveSearchGroup = readonly [

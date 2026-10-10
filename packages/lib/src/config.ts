@@ -1433,7 +1433,7 @@ export type FiltersConfig = {
     // Hex colour (#RRGGBB) of the footprint outlines (`spawn.shape`) of this type's markers.
     shapeColor?: string;
     // Live actors of this type carry their own names (`fetchLiveNames`, keyed by the raw
-    // actor type): Palia "My Plot Items" is one filter with a name per placed item.
+    // actor type): Palia "Plot Items" is one filter with a name per placed item.
     liveNames?: boolean;
     // Codex entries this ONE marker type stands for when the game can't tell them apart and
     // each is found somewhere else (Palia: Recipe: Fish Stew = Bahari ocean, Recipe: Sashimi

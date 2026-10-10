@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useCoordinates, useLocale, useUserStore } from "../(providers)";
 
 /**
- * Names of live actors whose filter value is `liveNames` (Palia "My Plot Items":
+ * Names of live actors whose filter value is `liveNames` (Palia "Plot Items":
  * one filter, a name per placed item), keyed by the raw actor type. Fetched
  * only while one of those filters is on (or `force`, e.g. a live search);
  * null until then.

@@ -2,7 +2,7 @@ import { DATA_FORGE_CDN_URL, fetchVersion } from "./config";
 
 /**
  * Per-actor names for live types whose filter value stands for many different
- * things (filter value `liveNames: true`, e.g. Palia "My Plot Items": one
+ * things (filter value `liveNames: true`, e.g. Palia "Plot Items": one
  * `plot_item` filter, a name per placed decor class). data-forge writes them to
  * `config/live-names/<locale>.json`, keyed by the RAW actor type the app reports
  * (`BP_Decor_Couch_C_PLOT`). Kept out of the map dict, which ships whole to every

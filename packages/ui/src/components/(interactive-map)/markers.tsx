@@ -747,7 +747,7 @@ function MarkersContent({
     }
     return byType;
   }, [filters]);
-  // Per-actor names of `liveNames` types (Palia My Plot Items), read by the live pass.
+  // Per-actor names of `liveNames` types (Palia Plot Items), read by the live pass.
   const liveNames = useLiveNames(appName);
   const liveNamesRef = useRef(liveNames);
   liveNamesRef.current = liveNames;
