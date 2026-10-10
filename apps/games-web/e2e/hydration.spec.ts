@@ -16,6 +16,10 @@ const PAGES = [
   { name: "home", url: `${BASE_URL}/` },
   { name: "map", url: mapUrl(MAPS.kilima.title) },
   { name: "www home", url: "http://www-dev.localhost:3100/" },
+  // Subpages: prerendered at the internal /www/* route, so the nav's active
+  // tab must ignore that folder (Links routeFolder). Only a prod build
+  // (E2E_BASE_URL on a `next start` server) reproduces the prerender case.
+  { name: "www subpage", url: "http://www-dev.localhost:3100/partner-program" },
 ];
 
 for (const timezoneId of TIME_ZONES) {

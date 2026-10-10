@@ -47,6 +47,7 @@ export function Header() {
           hasMap={false}
           hasGuides={false}
           inlineLinks={4}
+          routeFolder="www"
         />
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <GlobalSearch blogMeta={blogSearchMeta} faqMeta={faqSearchMeta} />

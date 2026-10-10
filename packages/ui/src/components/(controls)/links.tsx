@@ -74,8 +74,9 @@ export type NavGroup = {
 
 const isExternalHref = (href: string) => /^https?:\/\//.test(href);
 
-function stripLocale(pathname: string, locale: string): string {
-  const prefix = `/${locale}`;
+/** Strips a leading `/<segment>` (a locale, or an internal mount folder). */
+function stripSegment(pathname: string, segment: string): string {
+  const prefix = `/${segment}`;
   if (pathname === prefix) return "/";
   if (pathname.startsWith(`${prefix}/`)) return pathname.slice(prefix.length);
   return pathname;
@@ -260,10 +261,19 @@ export function Links({
   hasGuides = true,
   inlineLinks,
   guideLinks,
+  routeFolder,
   children,
   childrenDropdown,
 }: {
   appConfig: AppConfig;
+  /**
+   * App folder the proxy rewrites this site into (www → "www"). Statically
+   * prerendered pages report that internal route (/www/faq) from
+   * usePathname() on the server while the browser reports /faq; stripping it
+   * keeps the active tab and mobile menu label identical on both sides
+   * (otherwise: React hydration error #418).
+   */
+  routeFolder?: string;
   /** Whether the game has any maps (derived from version.data.tiles in the layout). */
   hasMap: boolean;
   /**
@@ -359,10 +369,15 @@ export function Links({
     return items;
   }, [appConfig.externalLinks, appConfig.appUrl, t]);
 
-  const path = safeDecode(stripLocale(pathname, locale));
+  const path = safeDecode(
+    stripSegment(
+      routeFolder ? stripSegment(pathname, routeFolder) : pathname,
+      locale,
+    ),
+  );
   const isLinkActive = (link: NavLink) => {
     if (link.external) return false;
-    const href = safeDecode(stripLocale(link.href, locale));
+    const href = safeDecode(stripSegment(link.href, locale));
     if (link.exact || href === "/") return path === href;
     return path === href || path.startsWith(`${href}/`);
   };
