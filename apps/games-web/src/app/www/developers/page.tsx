@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { PageShell } from "@/games/thgl-web/components/page-shell";
 import { PageHeader } from "@/games/thgl-web/components/page-header";
-import { CopyBox, EmbedFromLink, TooltipsDemoLoader } from "./developer-tools";
+import {
+  CopyBox,
+  CreatorKit,
+  EmbedFromLink,
+  TooltipsDemoLoader,
+} from "./developer-tools";
 
 const TITLE = "Embeds & Tooltips for Developers – TH.GL";
 const DESCRIPTION =
@@ -118,7 +123,7 @@ export default function DevelopersPage() {
       />
       <PageHeader
         title="Embeds & Tooltips"
-        description="Put our interactive maps and item tooltips on your website, guide or blog. Free, no sign-up, no API key."
+        description="Put our interactive maps and item tooltips on your website, guide, blog, video or stream. Free, no sign-up, no API key."
       />
       <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground">
         <ol className="flex items-center gap-1">
@@ -194,6 +199,17 @@ export default function DevelopersPage() {
           every map writes them for you. Keep the link under the map: it is how
           readers find the full map, and the only thing we ask in return.
         </p>
+      </Section>
+
+      <Section id="creators" title="Creator kit for YouTube and Twitch">
+        <p className="text-neutral-300">
+          Making videos or streams about a game we cover? Paste the map you
+          show, add your channel name, and copy the blocks: description links, a
+          chat command, an embed for your website and an OBS browser source to
+          put the map on stream. Every link carries your own{" "}
+          <code className="text-amber-400">?ref=</code> tag.
+        </p>
+        <CreatorKit example="https://palia.th.gl/maps/Kilima%20Village" />
       </Section>
 
       <Section id="tooltips" title="Tooltips for item and codex links">
