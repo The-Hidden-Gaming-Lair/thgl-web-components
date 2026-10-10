@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "Stworzenie",
   "config.db.typeLabels.characters": "Postać",
   "config.db.typeLabels.stores": "Sklep",
-  "config.db.typeLabels.quests": "Zadanie"
+  "config.db.typeLabels.quests": "Zadanie",
+  "config.internalLinks.quotes.title": "Cytaty postaci",
+  "config.internalLinks.quotes.description": "Przeszukaj każdą kwestię postaci z Baldur's Gate i Siege of Dragonspear wraz z twoimi opcjami odpowiedzi.",
+  "config.internalLinks.quotes.linkText": "Szukaj cytatów",
+  "db.dialogue.title": "Dialogi",
+  "db.dialogue.show": "Pokaż wszystkie kwestie postaci {{name}} ({{count}}, spoilery fabuły)",
+  "db.dialogue.searchAll": "Szukaj cytatów wszystkich postaci",
+  "db.quotes.description": "Przeszukaj każdą kwestię postaci wraz z opcjami odpowiedzi gracza i sprawdź, kto co mówi.",
+  "db.quotes.intro": "Przeszukaj {{lines}} kwestii {{count}} postaci. Obejmują całą fabułę, łącznie ze spoilerami.",
+  "db.quotes.placeholder": "Szukaj cytatu lub postaci…",
+  "db.quotes.loading": "Wczytywanie cytatów…",
+  "db.quotes.hint": "Wpisz co najmniej 3 litery.",
+  "db.quotes.results": "Kwestie: {{count}}",
+  "db.quotes.empty": "Żadna kwestia nie pasuje.",
+  "db.quotes.error": "Nie udało się wczytać cytatów. Odśwież stronę.",
+  "db.quotes.title": "Cytaty postaci"
 }

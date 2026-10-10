@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "生物",
   "config.db.typeLabels.characters": "角色",
   "config.db.typeLabels.stores": "商店",
-  "config.db.typeLabels.quests": "任务"
+  "config.db.typeLabels.quests": "任务",
+  "config.internalLinks.quotes.title": "角色台词",
+  "config.internalLinks.quotes.description": "搜索《博德之门》与《龙矛之围》中角色说过的每一句台词，以及你的回答选项。",
+  "config.internalLinks.quotes.linkText": "搜索台词",
+  "db.dialogue.title": "对话",
+  "db.dialogue.show": "显示{{name}}的全部{{count}}句台词（含剧情剧透）",
+  "db.dialogue.searchAll": "搜索所有角色的台词",
+  "db.quotes.description": "搜索角色说过的每一句台词以及玩家的回答选项，看看谁说了什么。",
+  "db.quotes.intro": "搜索{{count}}个角色的{{lines}}句台词。台词覆盖整个故事，包含剧透。",
+  "db.quotes.placeholder": "搜索台词或角色…",
+  "db.quotes.loading": "正在加载台词…",
+  "db.quotes.hint": "请至少输入 3 个字符。",
+  "db.quotes.results": "{{count}} 句台词",
+  "db.quotes.empty": "没有匹配的台词。",
+  "db.quotes.error": "无法加载台词。请刷新页面。",
+  "db.quotes.title": "角色台词"
 }

@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "Creature",
   "config.db.typeLabels.characters": "Character",
   "config.db.typeLabels.stores": "Store",
-  "config.db.typeLabels.quests": "Quest"
+  "config.db.typeLabels.quests": "Quest",
+  "config.internalLinks.quotes.title": "Character Quotes",
+  "config.internalLinks.quotes.description": "Search every line the characters of Baldur's Gate and Siege of Dragonspear say, with your reply options.",
+  "config.internalLinks.quotes.linkText": "Search Quotes",
+  "db.dialogue.title": "Dialogue",
+  "db.dialogue.show": "Show all {{count}} lines of {{name}} (story spoilers)",
+  "db.dialogue.searchAll": "Search every character's quotes",
+  "db.quotes.description": "Search every line the characters say, with the player's reply options, and see who says what.",
+  "db.quotes.intro": "Search {{lines}} lines from {{count}} characters. The lines span the whole story, spoilers included.",
+  "db.quotes.placeholder": "Search a quote or a character…",
+  "db.quotes.loading": "Loading the quotes…",
+  "db.quotes.hint": "Type at least 3 letters.",
+  "db.quotes.results": "{{count}} lines",
+  "db.quotes.empty": "No line matches.",
+  "db.quotes.error": "The quotes could not be loaded. Please reload the page.",
+  "db.quotes.title": "Character Quotes"
 }

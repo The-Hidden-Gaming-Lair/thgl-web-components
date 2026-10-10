@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "Creatura",
   "config.db.typeLabels.characters": "Personaggio",
   "config.db.typeLabels.stores": "Negozio",
-  "config.db.typeLabels.quests": "Missione"
+  "config.db.typeLabels.quests": "Missione",
+  "config.internalLinks.quotes.title": "Citazioni dei personaggi",
+  "config.internalLinks.quotes.description": "Cerca ogni battuta dei personaggi di Baldur's Gate e Siege of Dragonspear, con le tue opzioni di risposta.",
+  "config.internalLinks.quotes.linkText": "Cerca citazioni",
+  "db.dialogue.title": "Dialoghi",
+  "db.dialogue.show": "Mostra tutte le {{count}} battute di {{name}} (spoiler sulla storia)",
+  "db.dialogue.searchAll": "Cerca le citazioni di tutti i personaggi",
+  "db.quotes.description": "Cerca ogni battuta dei personaggi, con le opzioni di risposta del giocatore, e scopri chi dice cosa.",
+  "db.quotes.intro": "Cerca tra {{lines}} battute di {{count}} personaggi. Coprono tutta la storia, spoiler inclusi.",
+  "db.quotes.placeholder": "Cerca una citazione o un personaggio…",
+  "db.quotes.loading": "Caricamento delle citazioni…",
+  "db.quotes.hint": "Scrivi almeno 3 lettere.",
+  "db.quotes.results": "{{count}} battute",
+  "db.quotes.empty": "Nessuna battuta corrisponde.",
+  "db.quotes.error": "Impossibile caricare le citazioni. Ricarica la pagina.",
+  "db.quotes.title": "Citazioni dei personaggi"
 }

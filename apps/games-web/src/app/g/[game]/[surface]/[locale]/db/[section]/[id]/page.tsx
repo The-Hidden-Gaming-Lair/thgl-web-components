@@ -31,6 +31,7 @@ import { GenericEntityView } from "@/lib/db/generic-view";
 import { getPartnerEntryLink } from "@/lib/db/partner-links";
 import { PartnerLinkRow } from "@/lib/db/partner-link";
 import { EntryExtras } from "@/lib/db/entry-extras";
+import { EntryDialogue } from "@/lib/db/entry-dialogue";
 import { loadCrafting } from "@/lib/crafting/data";
 import { SocEntityView } from "@/games/songs-of-conquest/entity-view";
 
@@ -414,6 +415,18 @@ export default async function Page({ params }: { params: Params }) {
           >
             {translate(dict, "crafting.dbLink", { vars: { name } })} →
           </a>
+        )}
+        {/* Everything this character says (data-forge lib/dialogue.ts) */}
+        {typeof (item.props as { _dialogue?: unknown } | undefined)
+          ?._dialogue === "number" && (
+          <EntryDialogue
+            appName={appConfig.name}
+            id={item.id}
+            name={name}
+            locale={locale}
+            dict={dict}
+            count={(item.props as { _dialogue: number })._dialogue}
+          />
         )}
         {/* On the map / Related / Was this accurate? / Tips & comments */}
         <EntryExtras

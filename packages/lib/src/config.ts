@@ -1149,6 +1149,54 @@ export async function fetchDbDescription(
   return shard?.[key];
 }
 
+/** One line a character says, with the player's reply options (data-forge lib/dialogue.ts). */
+export type DialogueLine = { t: string; r?: string[] };
+
+/**
+ * A codex entry's dialogue (`config/dialogue/<locale>/<id>.json`), for entries
+ * with `props._dialogue`. Kept out of the dicts and database files (megabytes
+ * per locale). Undefined when the entry has none.
+ */
+export async function fetchDialogue(
+  appName: string,
+  locale: string,
+  id: string,
+): Promise<DialogueLine[] | undefined> {
+  for (const loc of locale === "en" ? ["en"] : [locale, "en"]) {
+    const file = await fetchDatabaseFile<{ lines: DialogueLine[] } | null>(
+      appName,
+      `dialogue/${loc}/${encodeURIComponent(id)}.json`,
+      () => null,
+    );
+    if (file) return file.lines;
+  }
+  return undefined;
+}
+
+/** Entry id → line count of every entry with dialogue (`config/dialogue/index.json`). */
+export async function fetchDialogueIndex(
+  appName: string,
+): Promise<Record<string, number>> {
+  return fetchDatabaseFile<Record<string, number>>(
+    appName,
+    "dialogue/index.json",
+    () => ({}),
+  );
+}
+
+/**
+ * Every entry's lines in one locale (`config/dialogue/<locale>.json`, entry id →
+ * lines, no replies) for the client-side Quotes search. Megabytes: fetched in
+ * the browser only, never during a render.
+ */
+export function dialogueCorpusUrl(
+  appName: string,
+  locale: string,
+  contentHash?: string,
+): string {
+  return `${DATA_FORGE_CDN_URL}/${appName}/config/dialogue/${locale}.json${contentHash ? `?v=${contentHash}` : ""}`;
+}
+
 /**
  * Database files go through the memory cache pinned to the content hash, so a
  * crawl across thousands of /db pages costs one CDN fetch per file per server

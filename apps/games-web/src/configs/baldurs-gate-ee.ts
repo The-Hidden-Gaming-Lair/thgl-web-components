@@ -52,6 +52,13 @@ export const baldursGateEE = resolveAppConfig({
       iconName: "MapPin",
       linkText: "config.internalLinks.stores.linkText",
     },
+    {
+      title: "config.internalLinks.quotes.title",
+      description: "config.internalLinks.quotes.description",
+      href: "/db/quotes",
+      iconName: "MessageSquare",
+      linkText: "config.internalLinks.quotes.linkText",
+    },
   ],
   externalLinks: [],
   keywords: [

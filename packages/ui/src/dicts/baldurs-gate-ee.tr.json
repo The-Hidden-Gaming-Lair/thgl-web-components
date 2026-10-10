@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "Yaratık",
   "config.db.typeLabels.characters": "Karakter",
   "config.db.typeLabels.stores": "Dükkân",
-  "config.db.typeLabels.quests": "Görev"
+  "config.db.typeLabels.quests": "Görev",
+  "config.internalLinks.quotes.title": "Karakter Alıntıları",
+  "config.internalLinks.quotes.description": "Baldur's Gate ve Siege of Dragonspear karakterlerinin söylediği her satırı, cevap seçeneklerinle birlikte ara.",
+  "config.internalLinks.quotes.linkText": "Alıntılarda Ara",
+  "db.dialogue.title": "Diyaloglar",
+  "db.dialogue.show": "{{name}} karakterinin {{count}} satırının tümünü göster (hikâye spoiler'ı)",
+  "db.dialogue.searchAll": "Tüm karakterlerin alıntılarında ara",
+  "db.quotes.description": "Karakterlerin söylediği her satırı oyuncunun cevap seçenekleriyle birlikte ara ve kimin ne dediğini gör.",
+  "db.quotes.intro": "{{count}} karakterin {{lines}} satırında ara. Satırlar spoiler'lar dahil tüm hikâyeyi kapsar.",
+  "db.quotes.placeholder": "Bir alıntı veya karakter ara…",
+  "db.quotes.loading": "Alıntılar yükleniyor…",
+  "db.quotes.hint": "En az 3 harf yaz.",
+  "db.quotes.results": "{{count}} satır",
+  "db.quotes.empty": "Eşleşen satır yok.",
+  "db.quotes.error": "Alıntılar yüklenemedi. Lütfen sayfayı yenile.",
+  "db.quotes.title": "Karakter Alıntıları"
 }

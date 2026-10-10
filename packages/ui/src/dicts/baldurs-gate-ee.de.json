@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "Kreatur",
   "config.db.typeLabels.characters": "Charakter",
   "config.db.typeLabels.stores": "Händler",
-  "config.db.typeLabels.quests": "Quest"
+  "config.db.typeLabels.quests": "Quest",
+  "config.internalLinks.quotes.title": "Zitate der Figuren",
+  "config.internalLinks.quotes.description": "Durchsuche jede Zeile, die die Figuren in Baldur's Gate und Siege of Dragonspear sagen, mit deinen Antwortmöglichkeiten.",
+  "config.internalLinks.quotes.linkText": "Zitate durchsuchen",
+  "db.dialogue.title": "Dialoge",
+  "db.dialogue.show": "Alle {{count}} Zeilen von {{name}} anzeigen (Story-Spoiler)",
+  "db.dialogue.searchAll": "Zitate aller Figuren durchsuchen",
+  "db.quotes.description": "Durchsuche jede Zeile, die die Figuren sagen, mit den Antwortmöglichkeiten des Spielers, und sieh, wer was sagt.",
+  "db.quotes.intro": "Durchsuche {{lines}} Zeilen von {{count}} Figuren. Die Zeilen umfassen die ganze Geschichte, Spoiler inklusive.",
+  "db.quotes.placeholder": "Zitat oder Figur suchen…",
+  "db.quotes.loading": "Zitate werden geladen…",
+  "db.quotes.hint": "Mindestens 3 Buchstaben eingeben.",
+  "db.quotes.results": "{{count}} Zeilen",
+  "db.quotes.empty": "Keine Zeile passt.",
+  "db.quotes.error": "Die Zitate konnten nicht geladen werden. Bitte lade die Seite neu.",
+  "db.quotes.title": "Zitate der Figuren"
 }

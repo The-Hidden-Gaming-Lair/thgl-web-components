@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "Criatura",
   "config.db.typeLabels.characters": "Personaje",
   "config.db.typeLabels.stores": "Tienda",
-  "config.db.typeLabels.quests": "Misión"
+  "config.db.typeLabels.quests": "Misión",
+  "config.internalLinks.quotes.title": "Citas de personajes",
+  "config.internalLinks.quotes.description": "Busca cada frase que dicen los personajes de Baldur's Gate y Siege of Dragonspear, con tus opciones de respuesta.",
+  "config.internalLinks.quotes.linkText": "Buscar citas",
+  "db.dialogue.title": "Diálogos",
+  "db.dialogue.show": "Mostrar las {{count}} frases de {{name}} (spoilers de la historia)",
+  "db.dialogue.searchAll": "Buscar las citas de todos los personajes",
+  "db.quotes.description": "Busca cada frase que dicen los personajes, con las opciones de respuesta del jugador, y descubre quién dice qué.",
+  "db.quotes.intro": "Busca entre {{lines}} frases de {{count}} personajes. Abarcan toda la historia, spoilers incluidos.",
+  "db.quotes.placeholder": "Busca una cita o un personaje…",
+  "db.quotes.loading": "Cargando las citas…",
+  "db.quotes.hint": "Escribe al menos 3 letras.",
+  "db.quotes.results": "{{count}} frases",
+  "db.quotes.empty": "Ninguna frase coincide.",
+  "db.quotes.error": "No se pudieron cargar las citas. Recarga la página.",
+  "db.quotes.title": "Citas de personajes"
 }

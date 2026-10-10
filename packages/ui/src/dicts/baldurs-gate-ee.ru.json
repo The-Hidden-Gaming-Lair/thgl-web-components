@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "Существо",
   "config.db.typeLabels.characters": "Персонаж",
   "config.db.typeLabels.stores": "Магазин",
-  "config.db.typeLabels.quests": "Задание"
+  "config.db.typeLabels.quests": "Задание",
+  "config.internalLinks.quotes.title": "Цитаты персонажей",
+  "config.internalLinks.quotes.description": "Ищите любую реплику персонажей Baldur's Gate и Siege of Dragonspear вместе с вашими вариантами ответа.",
+  "config.internalLinks.quotes.linkText": "Искать цитаты",
+  "db.dialogue.title": "Диалоги",
+  "db.dialogue.show": "Показать все реплики персонажа {{name}} ({{count}}, спойлеры сюжета)",
+  "db.dialogue.searchAll": "Искать цитаты всех персонажей",
+  "db.quotes.description": "Ищите любую реплику персонажей вместе с вариантами ответа игрока и узнайте, кто что говорит.",
+  "db.quotes.intro": "Поиск по {{lines}} репликам {{count}} персонажей. Реплики охватывают весь сюжет, включая спойлеры.",
+  "db.quotes.placeholder": "Найти цитату или персонажа…",
+  "db.quotes.loading": "Загрузка цитат…",
+  "db.quotes.hint": "Введите не менее 3 букв.",
+  "db.quotes.results": "Реплик: {{count}}",
+  "db.quotes.empty": "Совпадений нет.",
+  "db.quotes.error": "Не удалось загрузить цитаты. Перезагрузите страницу.",
+  "db.quotes.title": "Цитаты персонажей"
 }

@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "생물",
   "config.db.typeLabels.characters": "캐릭터",
   "config.db.typeLabels.stores": "상점",
-  "config.db.typeLabels.quests": "퀘스트"
+  "config.db.typeLabels.quests": "퀘스트",
+  "config.internalLinks.quotes.title": "캐릭터 대사",
+  "config.internalLinks.quotes.description": "Baldur's Gate와 Siege of Dragonspear 캐릭터의 모든 대사를 플레이어의 답변 선택지와 함께 검색하세요.",
+  "config.internalLinks.quotes.linkText": "대사 검색",
+  "db.dialogue.title": "대화",
+  "db.dialogue.show": "{{name}}의 대사 {{count}}개 모두 보기 (스토리 스포일러)",
+  "db.dialogue.searchAll": "모든 캐릭터의 대사 검색",
+  "db.quotes.description": "캐릭터의 모든 대사를 플레이어의 답변 선택지와 함께 검색하고 누가 무슨 말을 하는지 확인하세요.",
+  "db.quotes.intro": "캐릭터 {{count}}명의 대사 {{lines}}개를 검색합니다. 이야기 전체의 대사이며 스포일러가 포함됩니다.",
+  "db.quotes.placeholder": "대사 또는 캐릭터 검색…",
+  "db.quotes.loading": "대사를 불러오는 중…",
+  "db.quotes.hint": "3글자 이상 입력하세요.",
+  "db.quotes.results": "대사 {{count}}개",
+  "db.quotes.empty": "일치하는 대사가 없습니다.",
+  "db.quotes.error": "대사를 불러오지 못했습니다. 페이지를 새로고침하세요.",
+  "db.quotes.title": "캐릭터 대사"
 }

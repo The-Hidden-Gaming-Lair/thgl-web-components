@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "Tvor",
   "config.db.typeLabels.characters": "Postava",
   "config.db.typeLabels.stores": "Obchod",
-  "config.db.typeLabels.quests": "Úkol"
+  "config.db.typeLabels.quests": "Úkol",
+  "config.internalLinks.quotes.title": "Citáty postav",
+  "config.internalLinks.quotes.description": "Prohledejte každou repliku postav z Baldur's Gate a Siege of Dragonspear, včetně vašich možností odpovědí.",
+  "config.internalLinks.quotes.linkText": "Hledat citáty",
+  "db.dialogue.title": "Dialogy",
+  "db.dialogue.show": "Zobrazit všech {{count}} replik postavy {{name}} (spoilery příběhu)",
+  "db.dialogue.searchAll": "Hledat citáty všech postav",
+  "db.quotes.description": "Prohledejte každou repliku postav včetně odpovědí hráče a zjistěte, kdo co říká.",
+  "db.quotes.intro": "Prohledejte {{lines}} replik od {{count}} postav. Repliky pokrývají celý příběh včetně spoilerů.",
+  "db.quotes.placeholder": "Hledat citát nebo postavu…",
+  "db.quotes.loading": "Načítání citátů…",
+  "db.quotes.hint": "Napište alespoň 3 písmena.",
+  "db.quotes.results": "{{count}} replik",
+  "db.quotes.empty": "Žádná replika neodpovídá.",
+  "db.quotes.error": "Citáty se nepodařilo načíst. Obnovte prosím stránku.",
+  "db.quotes.title": "Citáty postav"
 }

@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "Істота",
   "config.db.typeLabels.characters": "Персонаж",
   "config.db.typeLabels.stores": "Крамниця",
-  "config.db.typeLabels.quests": "Завдання"
+  "config.db.typeLabels.quests": "Завдання",
+  "config.internalLinks.quotes.title": "Цитати персонажів",
+  "config.internalLinks.quotes.description": "Шукайте будь-яку репліку персонажів Baldur's Gate і Siege of Dragonspear разом з вашими варіантами відповіді.",
+  "config.internalLinks.quotes.linkText": "Шукати цитати",
+  "db.dialogue.title": "Діалоги",
+  "db.dialogue.show": "Показати всі репліки персонажа {{name}} ({{count}}, спойлери сюжету)",
+  "db.dialogue.searchAll": "Шукати цитати всіх персонажів",
+  "db.quotes.description": "Шукайте будь-яку репліку персонажів разом з варіантами відповіді гравця й дізнайтеся, хто що каже.",
+  "db.quotes.intro": "Пошук серед {{lines}} реплік {{count}} персонажів. Репліки охоплюють увесь сюжет, зі спойлерами.",
+  "db.quotes.placeholder": "Знайти цитату або персонажа…",
+  "db.quotes.loading": "Завантаження цитат…",
+  "db.quotes.hint": "Введіть щонайменше 3 літери.",
+  "db.quotes.results": "Реплік: {{count}}",
+  "db.quotes.empty": "Збігів немає.",
+  "db.quotes.error": "Не вдалося завантажити цитати. Перезавантажте сторінку.",
+  "db.quotes.title": "Цитати персонажів"
 }

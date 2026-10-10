@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "クリーチャー",
   "config.db.typeLabels.characters": "キャラクター",
   "config.db.typeLabels.stores": "店",
-  "config.db.typeLabels.quests": "クエスト"
+  "config.db.typeLabels.quests": "クエスト",
+  "config.internalLinks.quotes.title": "キャラクターのセリフ",
+  "config.internalLinks.quotes.description": "Baldur's Gate と Siege of Dragonspear のキャラクターが話すすべてのセリフを、選択肢の返答とあわせて検索できます。",
+  "config.internalLinks.quotes.linkText": "セリフを検索",
+  "db.dialogue.title": "会話",
+  "db.dialogue.show": "{{name}}のセリフ全{{count}}件を表示（ストーリーのネタバレあり）",
+  "db.dialogue.searchAll": "すべてのキャラクターのセリフを検索",
+  "db.quotes.description": "キャラクターのすべてのセリフをプレイヤーの返答の選択肢とあわせて検索し、誰が何を言うかを確認できます。",
+  "db.quotes.intro": "{{count}}人のキャラクターの{{lines}}件のセリフを検索。物語全体のセリフで、ネタバレを含みます。",
+  "db.quotes.placeholder": "セリフまたはキャラクターを検索…",
+  "db.quotes.loading": "セリフを読み込み中…",
+  "db.quotes.hint": "3文字以上入力してください。",
+  "db.quotes.results": "{{count}}件",
+  "db.quotes.empty": "一致するセリフはありません。",
+  "db.quotes.error": "セリフを読み込めませんでした。ページを再読み込みしてください。",
+  "db.quotes.title": "キャラクターのセリフ"
 }

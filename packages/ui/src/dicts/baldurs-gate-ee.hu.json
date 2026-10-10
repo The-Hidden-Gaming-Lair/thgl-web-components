@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "Lény",
   "config.db.typeLabels.characters": "Karakter",
   "config.db.typeLabels.stores": "Bolt",
-  "config.db.typeLabels.quests": "Küldetés"
+  "config.db.typeLabels.quests": "Küldetés",
+  "config.internalLinks.quotes.title": "Karakteridézetek",
+  "config.internalLinks.quotes.description": "Keress rá a Baldur's Gate és a Siege of Dragonspear karaktereinek minden mondatára, a válaszlehetőségeiddel együtt.",
+  "config.internalLinks.quotes.linkText": "Idézetek keresése",
+  "db.dialogue.title": "Párbeszédek",
+  "db.dialogue.show": "{{name}} mind a(z) {{count}} mondatának megjelenítése (történetspoilerek)",
+  "db.dialogue.searchAll": "Keresés az összes karakter idézetei között",
+  "db.quotes.description": "Keress rá a karakterek minden mondatára a játékos válaszlehetőségeivel együtt, és nézd meg, ki mit mond.",
+  "db.quotes.intro": "Keresés {{count}} karakter {{lines}} mondata között. A mondatok az egész történetet lefedik, spoilerekkel együtt.",
+  "db.quotes.placeholder": "Idézet vagy karakter keresése…",
+  "db.quotes.loading": "Idézetek betöltése…",
+  "db.quotes.hint": "Írj be legalább 3 betűt.",
+  "db.quotes.results": "{{count}} mondat",
+  "db.quotes.empty": "Nincs egyező mondat.",
+  "db.quotes.error": "Az idézeteket nem sikerült betölteni. Töltsd újra az oldalt.",
+  "db.quotes.title": "Karakteridézetek"
 }

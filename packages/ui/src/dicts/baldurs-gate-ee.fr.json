@@ -26,5 +26,20 @@
   "config.db.typeLabels.bestiary": "Créature",
   "config.db.typeLabels.characters": "Personnage",
   "config.db.typeLabels.stores": "Boutique",
-  "config.db.typeLabels.quests": "Quête"
+  "config.db.typeLabels.quests": "Quête",
+  "config.internalLinks.quotes.title": "Citations des personnages",
+  "config.internalLinks.quotes.description": "Recherchez chaque réplique des personnages de Baldur's Gate et Siege of Dragonspear, avec vos choix de réponse.",
+  "config.internalLinks.quotes.linkText": "Rechercher des citations",
+  "db.dialogue.title": "Dialogues",
+  "db.dialogue.show": "Afficher les {{count}} répliques de {{name}} (spoilers de l'histoire)",
+  "db.dialogue.searchAll": "Rechercher les citations de tous les personnages",
+  "db.quotes.description": "Recherchez chaque réplique des personnages, avec les choix de réponse du joueur, et voyez qui dit quoi.",
+  "db.quotes.intro": "Recherchez parmi {{lines}} répliques de {{count}} personnages. Elles couvrent toute l'histoire, spoilers compris.",
+  "db.quotes.placeholder": "Rechercher une citation ou un personnage…",
+  "db.quotes.loading": "Chargement des citations…",
+  "db.quotes.hint": "Saisissez au moins 3 lettres.",
+  "db.quotes.results": "{{count}} répliques",
+  "db.quotes.empty": "Aucune réplique ne correspond.",
+  "db.quotes.error": "Impossible de charger les citations. Veuillez recharger la page.",
+  "db.quotes.title": "Citations des personnages"
 }
