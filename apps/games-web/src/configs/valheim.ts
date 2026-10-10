@@ -82,6 +82,14 @@ export const valheim = resolveAppConfig({
         description: "config.db.building.description",
       },
       {
+        href: "/db/alternate-recipes",
+        type: "alternate-recipes",
+        titleKey: "config.db.alternate-recipes.title",
+        titleFallback: "Alternate Recipes",
+        icon: "🔀",
+        description: "config.db.alternate-recipes.description",
+      },
+      {
         href: "/db/locations",
         type: "locations",
         titleKey: "config.db.locations.title",
@@ -118,6 +126,7 @@ export const valheim = resolveAppConfig({
       inventory: "config.db.typeLabels.inventory",
       bestiary: "config.db.typeLabels.bestiary",
       building: "config.db.typeLabels.building",
+      "alternate-recipes": "config.db.typeLabels.alternate-recipes",
       locations: "config.db.typeLabels.locations",
       biomes: "config.db.typeLabels.biomes",
       skills: "config.db.typeLabels.skills",
