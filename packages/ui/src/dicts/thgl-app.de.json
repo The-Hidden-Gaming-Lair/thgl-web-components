@@ -158,7 +158,5 @@
   "settings.discord.progress": "Entdeckungsfortschritt anzeigen",
   "settings.discord.progressDesc": "Welche Marker gezählt werden, wählst du in den Karteneinstellungen des Spiels.",
   "settings.discord.elapsed": "Spielzeit anzeigen",
-  "settings.discord.mapButton": "\"Karte öffnen\"-Button anzeigen",
-  "settings.discord.locked": "Discord Rich Presence ist eine Vorschau für Elite Supporter und kommt später für alle.",
-  "settings.discord.unlock": "Freischalten"
+  "settings.discord.mapButton": "\"Karte öffnen\"-Button anzeigen"
 }

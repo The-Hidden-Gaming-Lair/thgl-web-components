@@ -26,9 +26,7 @@ export const PREVIEW_RELEASE_APPS = new Set<string>([
 
 /** Games whose IN-GAME COMPANION is Elite-only, but whose WEBSITE is public. */
 export const PREVIEW_RELEASE_COMPANION_APPS = new Set<string>([
-  // baldurs-gate-ee: new 2026-10-05 — live mode verified on one save (tutorial area); Elite
-  // preview until players confirm it across the campaign and Siege of Dragonspear.
-  "baldurs-gate-ee",
+  // baldurs-gate-ee: Elite companion preview 2026-10-05 → opened to everyone 2026-10-10.
 ]);
 // enshrouded fully opened 2026-09-13 — live chest/item tracking landed; app no
 // longer Elite-gated.
@@ -65,13 +63,8 @@ export const PREVIEW_FEATURES: Readonly<Record<string, PreviewFeature>> = {
     since: "2026-10-04",
     inboxItem: 169,
   },
-  // Companion App: the game window sends no presence hints without access,
-  // so the app shows no Discord card (discord-presence-hints.tsx).
-  "discord-presence": {
-    title: "Discord Rich Presence",
-    since: "2026-10-05",
-    inboxItem: 444,
-  },
+  // "discord-presence" (Discord Rich Presence) was an Elite preview
+  // 2026-10-05..2026-10-10; it is public now.
   // "live-mode:combined" was an Elite preview; it is public now.
   // Palworld live filter: Lucky Pals (THGLApp reads IsRarePal). Locked accounts
   // see the filter with a lock; the app is never asked for its types.

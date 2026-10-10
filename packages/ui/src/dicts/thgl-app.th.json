@@ -158,7 +158,5 @@
   "settings.discord.progress": "แสดงความคืบหน้าการค้นพบ",
   "settings.discord.progressDesc": "เลือกมาร์กเกอร์ที่จะนับได้ในการตั้งค่าแผนที่ของแต่ละเกม",
   "settings.discord.elapsed": "แสดงเวลาที่ผ่านไป",
-  "settings.discord.mapButton": "แสดงปุ่ม \"เปิดแผนที่\"",
-  "settings.discord.locked": "Discord Rich Presence เป็นเวอร์ชันพรีวิวสำหรับ Elite Supporter และจะเปิดให้ทุกคนในภายหลัง",
-  "settings.discord.unlock": "ปลดล็อก"
+  "settings.discord.mapButton": "แสดงปุ่ม \"เปิดแผนที่\""
 }

@@ -158,7 +158,5 @@
   "settings.discord.progress": "Keşif ilerlemesini göster",
   "settings.discord.progressDesc": "Hangi işaretlerin sayılacağını her oyunun harita ayarlarından seç.",
   "settings.discord.elapsed": "Geçen süreyi göster",
-  "settings.discord.mapButton": "\"Haritayı Aç\" düğmesini göster",
-  "settings.discord.locked": "Discord Rich Presence, Elite Supporter'lar için bir önizlemedir ve daha sonra herkese açılacak.",
-  "settings.discord.unlock": "Kilidi aç"
+  "settings.discord.mapButton": "\"Haritayı Aç\" düğmesini göster"
 }

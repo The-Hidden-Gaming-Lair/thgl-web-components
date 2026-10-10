@@ -4,7 +4,6 @@ import {
   FiltersConfig,
   THGLAppConfig,
   useCompactOverlay,
-  usePreviewFeature,
   useSettingsStore,
 } from "@repo/lib";
 import { SettingsDialogContent } from "../(controls)/settings-dialog-content";
@@ -19,10 +18,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { useT } from "../(providers)";
-import {
-  DISCORD_PRESENCE_FEATURE,
-  useDiscoveryProgress,
-} from "./discord-presence-hints";
+import { useDiscoveryProgress } from "./discord-presence-hints";
 import { useState } from "react";
 
 export function THGLAppSettingsDialogContent({
@@ -195,19 +191,14 @@ export function THGLAppSettingsDialogContent({
  */
 function DiscordProgressSetting({ filters }: { filters: FiltersConfig }) {
   const t = useT();
-  const access = usePreviewFeature(DISCORD_PRESENCE_FEATURE);
   const progressGroup = useSettingsStore((s) => s.discordProgressGroup);
   const setProgressGroup = useSettingsStore((s) => s.setDiscordProgressGroup);
   const counts = useDiscoveryProgress(filters);
-  if (!access.enabled) return null;
   const groups = filters.filter((filter) => counts.get(filter.group)?.total);
   return (
     <>
       <Separator />
-      <h4 className="text-md font-semibold">
-        Discord Rich Presence
-        {access.preview && <PreviewBadge />}
-      </h4>
+      <h4 className="text-md font-semibold">Discord Rich Presence</h4>
       <Label className="flex items-center gap-2 justify-between">
         Progress shown on Discord
         <Select

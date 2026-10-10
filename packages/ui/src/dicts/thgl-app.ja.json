@@ -158,7 +158,5 @@
   "settings.discord.progress": "発見の進捗を表示",
   "settings.discord.progressDesc": "数えるマーカーは各ゲームのマップ設定で選べます。",
   "settings.discord.elapsed": "経過時間を表示",
-  "settings.discord.mapButton": "「マップを開く」ボタンを表示",
-  "settings.discord.locked": "Discord Rich PresenceはElite Supporter向けのプレビューです。後日すべての方に公開されます。",
-  "settings.discord.unlock": "ロック解除"
+  "settings.discord.mapButton": "「マップを開く」ボタンを表示"
 }

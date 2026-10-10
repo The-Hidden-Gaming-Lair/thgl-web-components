@@ -6,7 +6,6 @@ import {
   games,
   getSpawnDiscoveryId,
   useGameState,
-  usePreviewFeature,
   useSettingsStore,
 } from "@repo/lib";
 import {
@@ -15,9 +14,6 @@ import {
 } from "@repo/lib/thgl-app";
 import { useEffect, useMemo, useRef } from "react";
 import { useCoordinates, useT } from "../(providers)";
-
-/** PREVIEW_FEATURES id of Discord Rich Presence (preview-release.ts). */
-export const DISCORD_PRESENCE_FEATURE = "discord-presence";
 
 // The player moves constantly; the card only changes with the map/region, and
 // the app rate-limits Discord anyway.
@@ -59,8 +55,8 @@ export function useDiscoveryProgress(filters: FiltersConfig) {
  * Sends the Discord Rich Presence hints of this game window to THGLApp: game
  * title + art, the player's map and region, discovery progress and the web map
  * URL. The app builds the card from them plus the user's Discord settings and
- * shows it only while the game runs. Without preview access it sends null, so
- * the app shows nothing. Generic: every game works without per-game code.
+ * shows it only while the game runs. Generic: every game works without
+ * per-game code.
  */
 export function DiscordPresenceHintsSender({
   appName,
@@ -71,7 +67,6 @@ export function DiscordPresenceHintsSender({
 }) {
   const t = useT();
   const { regions } = useCoordinates();
-  const access = usePreviewFeature(DISCORD_PRESENCE_FEATURE);
   const progressGroup = useSettingsStore((s) => s.discordProgressGroup);
   const progressCounts = useDiscoveryProgress(filters);
   const game = useMemo(() => games.find((g) => g.id === appName), [appName]);
@@ -97,14 +92,7 @@ export function DiscordPresenceHintsSender({
   }, [progressGroup, progressCounts, t]);
 
   useEffect(() => {
-    if (access.locked) {
-      if (lastSent.current !== "null") {
-        lastSent.current = "null";
-        setDiscordPresenceHints(null).catch(() => {});
-      }
-      return;
-    }
-    if (!access.enabled || !game) return; // account still loading
+    if (!game) return;
 
     const send = () => {
       const player = useGameState.getState().player;
@@ -136,7 +124,7 @@ export function DiscordPresenceHintsSender({
     send();
     const interval = setInterval(send, POLL_MS);
     return () => clearInterval(interval);
-  }, [access.enabled, access.locked, game, progress, regions, t]);
+  }, [game, progress, regions, t]);
 
   return null;
 }

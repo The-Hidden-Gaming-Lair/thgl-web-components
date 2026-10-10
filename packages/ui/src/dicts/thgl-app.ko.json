@@ -158,7 +158,5 @@
   "settings.discord.progress": "발견 진행도 표시",
   "settings.discord.progressDesc": "각 게임의 지도 설정에서 셀 마커를 선택하세요.",
   "settings.discord.elapsed": "경과 시간 표시",
-  "settings.discord.mapButton": "\"지도 열기\" 버튼 표시",
-  "settings.discord.locked": "Discord Rich Presence는 Elite Supporter용 미리보기이며, 나중에 모두에게 제공됩니다.",
-  "settings.discord.unlock": "잠금 해제"
+  "settings.discord.mapButton": "\"지도 열기\" 버튼 표시"
 }

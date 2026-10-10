@@ -158,7 +158,5 @@
   "settings.discord.progress": "Показувати прогрес дослідження",
   "settings.discord.progressDesc": "Які мітки рахувати, обирається в налаштуваннях карти кожної гри.",
   "settings.discord.elapsed": "Показувати час у грі",
-  "settings.discord.mapButton": "Показувати кнопку \"Відкрити карту\"",
-  "settings.discord.locked": "Discord Rich Presence — попередня версія для Elite Supporter, згодом стане доступна всім.",
-  "settings.discord.unlock": "Розблокувати"
+  "settings.discord.mapButton": "Показувати кнопку \"Відкрити карту\""
 }

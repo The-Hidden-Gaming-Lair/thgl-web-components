@@ -158,7 +158,5 @@
   "settings.discord.progress": "Show discovery progress",
   "settings.discord.progressDesc": "Choose which markers to count in each game's map settings.",
   "settings.discord.elapsed": "Show elapsed time",
-  "settings.discord.mapButton": "Show \"Open Map\" button",
-  "settings.discord.locked": "Discord Rich Presence is a Preview for Elite Supporters, coming to everyone later.",
-  "settings.discord.unlock": "Unlock"
+  "settings.discord.mapButton": "Show \"Open Map\" button"
 }

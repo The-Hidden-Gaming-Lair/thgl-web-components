@@ -158,7 +158,5 @@
   "settings.discord.progress": "顯示探索進度",
   "settings.discord.progressDesc": "在每個遊戲的地圖設定中選擇要計算的標記。",
   "settings.discord.elapsed": "顯示經過時間",
-  "settings.discord.mapButton": "顯示「開啟地圖」按鈕",
-  "settings.discord.locked": "Discord Rich Presence 是 Elite Supporter 的預覽功能，之後會向所有人開放。",
-  "settings.discord.unlock": "解鎖"
+  "settings.discord.mapButton": "顯示「開啟地圖」按鈕"
 }
