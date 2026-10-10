@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { FilterSettingsPopover } from "./filter-settings-popover";
 import { LiveOnlyIcon, useLiveOnlyHidden } from "./live-only-hint";
+import { NewBadge } from "./new-filters";
 
 export function CollapsibleCategory({
   category,
@@ -49,6 +50,26 @@ export function CollapsibleCategory({
   );
 
   const allValues = useMemo(() => filters.flatMap((f) => f.values), [filters]);
+
+  // Groups holding filters new since the last visit. One of them open (the
+  // "N new filters" chip opens them) → open the category too, so the badges
+  // are on screen.
+  const hasHydrated = useUserStore((state) => state._hasHydrated);
+  const newFilters = useUserStore((state) => state.newFilters);
+  const openGroups = useUserStore((state) => state.openGroups);
+  const newGroups = useMemo(
+    () =>
+      hasHydrated
+        ? filters
+            .filter((f) => f.values.some((v) => newFilters.includes(v.id)))
+            .map((f) => f.group)
+        : [],
+    [hasHydrated, filters, newFilters],
+  );
+  const openNewGroup = newGroups.some((group) => openGroups.includes(group));
+  useEffect(() => {
+    if (openNewGroup) setOpen(true);
+  }, [openNewGroup]);
   const { hidden: liveOnlyHidden, hint: liveOnlyHint } =
     useLiveOnlyHidden(allValues);
 
@@ -86,6 +107,7 @@ export function CollapsibleCategory({
               {activeCount}/{totalCount}
             </span>
             {liveOnlyHidden.size > 0 && <LiveOnlyIcon hint={liveOnlyHint} />}
+            {newGroups.length > 0 && <NewBadge />}
           </button>
         </CollapsibleTrigger>
         <button

@@ -41,6 +41,7 @@ import { MapLayoutSelect } from "./map-layout-select";
 import { TerraformStageSelect } from "./terraform-stage-select";
 import { Presets } from "./presets";
 import { GlobalFilters } from "./global-filters";
+import { NewFiltersChip } from "./new-filters";
 import { useCoordinates, useT } from "../(providers)";
 
 export function MarkersSearch({
@@ -152,6 +153,7 @@ export function MarkersSearch({
 
   return (
     <>
+      <NewFiltersChip embed={embed} onOpen={() => setInternalSearch("")} />
       {/* Floating filter toggle (+ the game's filter-bar widgets) when panel is hidden */}
       <div
         data-testid="filter-bar"

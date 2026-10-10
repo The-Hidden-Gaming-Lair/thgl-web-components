@@ -20,6 +20,7 @@ import { useMemo } from "react";
 import { ChevronRight, FlaskConical, Lock, PackageSearch } from "lucide-react";
 import { PreviewBadge, showPreviewUpsell } from "./preview-badge";
 import { LiveOnlyIcon, useLiveOnlyHidden } from "./live-only-hint";
+import { NewBadge, useAcknowledgeNewFilters } from "./new-filters";
 
 export function CollapsibleFilter({
   appName,
@@ -62,6 +63,15 @@ export function CollapsibleFilter({
     () => filter.values.map((v) => v.id),
     [filter.values],
   );
+
+  // Filters new since the last visit: badged until the group was open.
+  const newFilters = useUserStore((state) => state.newFilters);
+  const newIds = useMemo(
+    () =>
+      hasHydrated ? filterIds.filter((id) => newFilters.includes(id)) : [],
+    [hasHydrated, filterIds, newFilters],
+  );
+  useAcknowledgeNewFilters(open, newIds);
 
   const { hidden: liveOnlyHidden, hint: liveOnlyHint } = useLiveOnlyHidden(
     filter.values,
@@ -107,6 +117,7 @@ export function CollapsibleFilter({
               {activeFiltersLength}/{filter.values.length}
             </span>
             {liveOnlyHidden.size > 0 && <LiveOnlyIcon hint={liveOnlyHint} />}
+            {newIds.length > 0 && <NewBadge />}
           </button>
         </CollapsibleTrigger>
         <button
@@ -251,6 +262,7 @@ export function CollapsibleFilter({
                         />
                       )}
                       {preview && <PreviewBadge className="ml-0 shrink-0" />}
+                      {newIds.includes(f.id) && <NewBadge />}
                     </button>
                   </TooltipTrigger>
                   <TooltipContent side="top">

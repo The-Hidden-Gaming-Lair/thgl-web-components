@@ -80,8 +80,14 @@ export interface UserStoreState {
    * by it. Absent in selections saved before it existed. */
   knownFilters?: string[];
   /** Filter value ids that appeared since an earlier visit and were not
-   * acknowledged yet (for a "New" hint). */
+   * acknowledged yet: a "New" badge on the filter row until its group was
+   * open in the panel or the filter was toggled. */
   newFilters: string[];
+  acknowledgeNewFilters: (ids: string[]) => void;
+  /** The `newFilters` the one-time "N new filters" map chip already showed
+   * (persisted, so the chip appears once per batch of new filters). */
+  announcedNewFilters: string[];
+  announceNewFilters: () => void;
 }
 
 // A per-map view is only usable if every component is a finite number — a
@@ -390,7 +396,13 @@ export function createUserStore(
                 const filters = state.filters.includes(filter)
                   ? state.filters.filter((f) => f !== filter)
                   : [...state.filters, filter];
-                return { filters };
+                // Toggling a new filter is acknowledging it.
+                return state.newFilters.includes(filter)
+                  ? {
+                      filters,
+                      newFilters: state.newFilters.filter((f) => f !== filter),
+                    }
+                  : { filters };
               });
             },
             openGroups: [],
@@ -443,6 +455,26 @@ export function createUserStore(
               filter.values.map((value) => value.id),
             ),
             newFilters: [],
+            acknowledgeNewFilters: (ids) => {
+              set((state) => {
+                if (!ids.some((id) => state.newFilters.includes(id))) {
+                  return {};
+                }
+                const newFilters = state.newFilters.filter(
+                  (id) => !ids.includes(id),
+                );
+                return {
+                  newFilters,
+                  announcedNewFilters: state.announcedNewFilters.filter((id) =>
+                    newFilters.includes(id),
+                  ),
+                };
+              });
+            },
+            announcedNewFilters: [],
+            announceNewFilters: () => {
+              set((state) => ({ announcedNewFilters: [...state.newFilters] }));
+            },
           };
         },
         {
@@ -508,6 +540,14 @@ export function createUserStore(
                 ),
               );
             }
+            if (!Array.isArray(result.newFilters)) result.newFilters = [];
+            result.announcedNewFilters = Array.isArray(
+              result.announcedNewFilters,
+            )
+              ? result.announcedNewFilters.filter((id) =>
+                  result.newFilters.includes(id),
+                )
+              : [];
             if (view.globalFilters) {
               result.globalFilters = view.globalFilters;
             }

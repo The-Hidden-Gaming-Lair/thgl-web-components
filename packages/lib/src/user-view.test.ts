@@ -507,6 +507,32 @@ describe("user store: new / removed filters (#987)", () => {
     ]);
   });
 
+  it("toggling or acknowledging a new filter drops it from newFilters (#1107)", () => {
+    persist({ filters: ["tree"], knownFilters: ["tree", "rock", "shiny"] });
+    const store = createWith();
+    store.getState().announceNewFilters();
+    expect(store.getState().announcedNewFilters).toEqual([
+      "tree_amber",
+      "rock_amber",
+    ]);
+    store.getState().toggleFilter("tree_amber");
+    expect(store.getState().filters).not.toContain("tree_amber");
+    expect(store.getState().newFilters).toEqual(["rock_amber"]);
+    store.getState().acknowledgeNewFilters(["rock_amber", "tree"]);
+    expect(store.getState().newFilters).toEqual([]);
+    expect(store.getState().announcedNewFilters).toEqual([]);
+  });
+
+  it("the chip's announced list survives a reload, pruned to newFilters (#1107)", () => {
+    persist({
+      filters: ["tree"],
+      knownFilters: [...ALL, "gone"],
+      newFilters: ["gone", "rock_amber"],
+      announcedNewFilters: ["gone", "rock_amber"],
+    });
+    expect(createWith().getState().announcedNewFilters).toEqual(["rock_amber"]);
+  });
+
   it("an empty filters config leaves the saved selection alone", () => {
     persist({ filters: ["tree"], knownFilters: ALL });
     const state = createUserStore({}, MAPS, []).getState();
