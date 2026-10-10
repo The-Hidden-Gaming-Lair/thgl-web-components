@@ -122,6 +122,14 @@ export const diablo4 = resolveAppConfig({
         description: "runes_home_desc",
       },
       {
+        href: "/db/runewords",
+        type: "runewords",
+        titleKey: "runewords",
+        titleFallback: "Runewords",
+        icon: "⚜️",
+        description: "runewords_home_desc",
+      },
+      {
         href: "/db/glyphs",
         type: "glyphs",
         titleKey: "glyphs",
@@ -201,6 +209,7 @@ export const diablo4 = resolveAppConfig({
       bosses: "bosses_one",
       gems: "gems_one",
       runes: "runes_one",
+      runewords: "runewords_one",
       glyphs: "glyphs_one",
       temper_manuals: "temper_manuals_one",
       seals: "seals_one",
