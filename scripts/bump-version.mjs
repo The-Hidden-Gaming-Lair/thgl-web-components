@@ -7,6 +7,7 @@
 //   node scripts/bump-version.mjs minor           # bump minor for all apps  (X.Y.0)
 //   node scripts/bump-version.mjs fix             # bump patch for all apps  (X.Y.Z+1)
 //   node scripts/bump-version.mjs fix diablo4     # bump patch for one app only
+//   node scripts/bump-version.mjs fix diablo4 palworld  # several apps, ONE smoke run
 //   node scripts/bump-version.mjs fix --skip-e2e  # bump without the smoke suite
 //
 // "patch" is accepted as an alias for "fix". Bumping follows semver: a major
@@ -38,8 +39,10 @@ function usage() {
       "",
       "Usage:",
       "  node scripts/bump-version.mjs                 dump current versions",
-      "  node scripts/bump-version.mjs <major|minor|fix> [app] [--skip-e2e]",
-      "                                                bump (all apps, or one)",
+      "  node scripts/bump-version.mjs <major|minor|fix> [app...] [--skip-e2e]",
+      "                                                bump (all apps, or the named ones)",
+      "",
+      "Name every app in ONE call: each call runs the 5-minute smoke suite.",
       "",
       "'patch' is an alias for 'fix'. Major/minor bumps reset lower parts to 0.",
       "A bump runs the map smoke suite (bun run test:e2e) first and aborts on",
@@ -122,8 +125,10 @@ async function smokeSuitePasses() {
   });
   if (result.status !== 0) {
     console.error(
-      "\nSmoke suite failed — nothing was bumped. Fix the regression (or pass " +
-        "--skip-e2e if you really must ship).",
+      "\nSmoke suite failed — nothing was bumped. The failing specs are listed " +
+        "above; re-run just those (`bun run --cwd apps/games-web test:e2e " +
+        "<spec>`) to tell a flake from a regression before bumping again. " +
+        "Fix the regression (or pass --skip-e2e if you really must ship).",
     );
     return false;
   }
@@ -139,7 +144,7 @@ async function main() {
   const skipE2e = argv.includes("--skip-e2e");
   const args = argv.filter((a) => !a.startsWith("--"));
 
-  const [type, appFilter] = args;
+  const [type, ...appFilters] = args;
   if (type !== undefined && !(type in BUMP_TYPES)) {
     console.error(`Unknown bump type "${type}". Use major, minor, or fix.\n`);
     usage();
@@ -148,16 +153,19 @@ async function main() {
   }
 
   let manifests = findManifests();
-  if (appFilter) {
-    const want = appFilter.endsWith("-overwolf")
-      ? appFilter
-      : `${appFilter}-overwolf`;
-    manifests = manifests.filter((m) => m.app === want);
-    if (manifests.length === 0) {
-      console.error(`No Overwolf app matching "${appFilter}".`);
+  if (appFilters.length) {
+    // Several apps in one call share one smoke run (2026-10-09 #944: four
+    // one-app bumps ran the 5-minute suite 8 times, flaky retries included).
+    const wants = appFilters.map((a) =>
+      a.endsWith("-overwolf") ? a : `${a}-overwolf`,
+    );
+    const unknown = wants.filter((w) => !manifests.some((m) => m.app === w));
+    if (unknown.length) {
+      console.error(`No Overwolf app matching: ${unknown.join(", ")}.`);
       process.exitCode = 1;
       return;
     }
+    manifests = manifests.filter((m) => wants.includes(m.app));
   }
 
   const pad = Math.max(...manifests.map((m) => m.app.length));
