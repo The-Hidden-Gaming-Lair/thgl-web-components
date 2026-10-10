@@ -486,7 +486,7 @@ export function GenericEntityView({
             <Link
               href={localizePath(`/db/${r.section}/${r.id}`, locale)}
               prefetch={false}
-              className="group flex w-16 flex-col items-center gap-1"
+              className={`group flex ${r.tooltip ? "w-24" : "w-16"} flex-col items-center gap-1`}
             >
               <span className="relative flex h-12 w-12 items-center justify-center rounded border border-slate-700 bg-slate-900/60 transition-colors group-hover:border-amber-700/70 group-hover:bg-slate-900">
                 {ic ? (
@@ -508,6 +508,12 @@ export function GenericEntityView({
               <span className="line-clamp-2 text-center text-[10px] leading-tight text-slate-300 group-hover:text-amber-300">
                 {label}
               </span>
+              {/* The ref's own note (a spawn chance, a price) — the hover card is the entry's. */}
+              {r.tooltip && (
+                <span className="line-clamp-2 text-center text-[9px] leading-tight text-amber-500/80 break-words">
+                  {dictText(r.tooltip)}
+                </span>
+              )}
             </Link>
           </EntityTooltip>
         );
