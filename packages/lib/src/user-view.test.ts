@@ -408,3 +408,129 @@ describe("user store: renamed / split filters", () => {
     );
   });
 });
+
+describe("user store: new / removed filters (#987)", () => {
+  const icon = "icon.webp";
+  const FILTERS = [
+    {
+      group: "trees",
+      defaultOn: false,
+      values: [
+        { id: "tree", icon },
+        { id: "rock", icon },
+        { id: "shiny", icon, defaultOn: true },
+      ],
+    },
+    {
+      group: "amber",
+      defaultOn: true,
+      values: [
+        { id: "tree_amber", icon, follows: "tree" },
+        { id: "rock_amber", icon, follows: "rock" },
+      ],
+    },
+  ];
+  const ALL = ["tree", "rock", "shiny", "tree_amber", "rock_amber"];
+  const createWith = (view: View = {}) => createUserStore(view, MAPS, FILTERS);
+
+  it("a fresh user knows every filter and has nothing new", () => {
+    const state = createWith().getState();
+    expect(state.knownFilters).toEqual(ALL);
+    expect(state.newFilters).toEqual([]);
+    expect(state.filters.sort()).toEqual(
+      ["shiny", "tree_amber", "rock_amber"].sort(),
+    );
+  });
+
+  it("rollout (no known list): only the follows rule, everything marked known", () => {
+    persist({ filters: ["tree", "region_x"] });
+    const state = createWith().getState();
+    // shiny is defaultOn but may have been switched off - left alone.
+    expect(state.filters.sort()).toEqual(
+      ["region_x", "tree", "tree_amber"].sort(),
+    );
+    expect(state.knownFilters).toEqual(ALL);
+    expect(state.newFilters).toEqual([]);
+    expect(persisted().knownFilters).toEqual(ALL);
+  });
+
+  it("a new filter copies the state of the filter it follows", () => {
+    persist({
+      filters: ["tree"],
+      knownFilters: ["tree", "rock", "shiny"],
+      newFilters: [],
+    });
+    const state = createWith().getState();
+    expect(state.filters.sort()).toEqual(["tree", "tree_amber"].sort());
+    expect(state.newFilters).toEqual(["tree_amber", "rock_amber"]);
+  });
+
+  it("a new filter without follows gets its defaultOn", () => {
+    persist({ filters: ["tree"], knownFilters: ["tree", "rock"] });
+    const state = createWith({}).getState();
+    expect(state.filters).toContain("shiny");
+    expect(state.filters).not.toContain("rock");
+  });
+
+  it("a known filter the user switched off stays off", () => {
+    persist({ filters: ["tree"], knownFilters: ALL, newFilters: [] });
+    const state = createWith().getState();
+    expect(state.filters).toEqual(["tree"]);
+    expect(state.newFilters).toEqual([]);
+  });
+
+  it("drops removed filters it knew, keeps ids it never knew", () => {
+    persist({
+      filters: ["tree", "gone", "my_marker"],
+      knownFilters: [...ALL, "gone"],
+      newFilters: ["gone", "rock_amber"],
+    });
+    const state = createWith().getState();
+    expect(state.filters.sort()).toEqual(["my_marker", "tree"].sort());
+    expect(state.knownFilters).toEqual(ALL);
+    expect(state.newFilters).toEqual(["rock_amber"]);
+  });
+
+  it("a replacing filter is left to the replaces rule, not defaultOn", () => {
+    const filters = [
+      {
+        group: "g",
+        defaultOn: true,
+        values: [{ id: "new", icon, replaces: ["old"] }],
+      },
+    ];
+    persist({ filters: [], knownFilters: ["old"] });
+    expect(createUserStore({}, MAPS, filters).getState().filters).toEqual([]);
+    persist({ filters: ["old"], knownFilters: ["old"] });
+    expect(createUserStore({}, MAPS, filters).getState().filters).toEqual([
+      "new",
+    ]);
+  });
+
+  it("an empty filters config leaves the saved selection alone", () => {
+    persist({ filters: ["tree"], knownFilters: ALL });
+    const state = createUserStore({}, MAPS, []).getState();
+    expect(state.filters).toEqual(["tree"]);
+    expect(state.knownFilters).toEqual(ALL);
+  });
+});
+
+describe("user store: follows chains (#987)", () => {
+  it("resolves a chain whose follower is listed first", () => {
+    const icon = "icon.webp";
+    const filters = [
+      {
+        group: "shells",
+        values: [
+          { id: "medium", icon },
+          { id: "sapling", icon, follows: "small" },
+          { id: "small", icon, follows: "medium" },
+        ],
+      },
+    ];
+    persist({ filters: ["medium"] });
+    expect(
+      createUserStore({}, MAPS, filters).getState().filters.sort(),
+    ).toEqual(["medium", "sapling", "small"]);
+  });
+});

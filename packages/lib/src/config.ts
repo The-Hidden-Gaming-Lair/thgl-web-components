@@ -1411,6 +1411,11 @@ export type FiltersConfig = {
     // selection that still holds one of them gets this type switched on
     // instead (`migrateReplacedFilters` in user.ts).
     replaces?: string[];
+    // Existing filter id this type was split off from while that id stays
+    // (Palia "<type>_amber" follows "<type>"). The first time a saved
+    // selection meets this type it copies the followed filter's on/off state
+    // instead of `defaultOn` (`migrateFilterChanges` in user.ts).
+    follows?: string;
     // Codex/database section this marker type has an entry in. When set, the
     // marker panel/tooltip shows a "View in Codex" link to
     // `/db/<dbSection>/<spawn.dbEntryId ?? spawn.id ?? spawn.type>`: a spawn can

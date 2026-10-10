@@ -75,6 +75,13 @@ export interface UserStoreState {
   globalFilters: string[];
   setGlobalFilters: (filters: string[]) => void;
   toggleGlobalFilter: (filter: string) => void;
+  /** Every filter value id of the game this user has already met (persisted).
+   * `migrateFilterChanges` tells new filters from ones the user switched off
+   * by it. Absent in selections saved before it existed. */
+  knownFilters?: string[];
+  /** Filter value ids that appeared since an earlier visit and were not
+   * acknowledged yet (for a "New" hint). */
+  newFilters: string[];
 }
 
 // A per-map view is only usable if every component is a finite number — a
@@ -140,6 +147,73 @@ export const migrateReplacedFilters = (
     }
   }
   return [...result];
+};
+
+/**
+ * Brings a saved filter selection up to date with the game's current filters
+ * (#987: Palia's per-target amber filters started OFF for every player with a
+ * saved selection, and amber trees/ores they tracked vanished):
+ * - renamed/split ids → `migrateReplacedFilters`;
+ * - a filter the user has never met (not in `known`) copies the on/off state
+ *   of the filter it `follows`, else gets its `defaultOn`; one that `replaces`
+ *   another is left to the replaces rule;
+ * - ids the user met that no longer exist are dropped.
+ * A selection saved before `known` existed only gets the follows rule (it
+ * cannot tell new filters from switched-off ones); everything is marked met.
+ * Ids the config never had (regions, drawings, own markers) are left alone.
+ */
+export const migrateFilterChanges = (
+  saved: string[],
+  known: string[] | undefined,
+  newFilters: string[],
+  filters: FiltersConfig,
+): { filters: string[]; knownFilters: string[]; newFilters: string[] } => {
+  const values = filters.flatMap((filter) =>
+    filter.values.map((value) => ({ filter, value })),
+  );
+  const current = new Set(values.map(({ value }) => value.id));
+  const result = new Set(migrateReplacedFilters(saved, filters));
+  const knownSet = known ? new Set(known) : undefined;
+  const added = new Set<string>();
+  const following: { id: string; follows: string }[] = [];
+  for (const { filter, value } of values) {
+    if (knownSet?.has(value.id)) continue;
+    if (knownSet) added.add(value.id);
+    if (result.has(value.id)) continue;
+    if (value.follows) {
+      following.push({ id: value.id, follows: value.follows });
+    } else if (
+      knownSet &&
+      !value.replaces?.length &&
+      (value.defaultOn ?? filter.defaultOn)
+    ) {
+      result.add(value.id);
+    }
+  }
+  // Repeat until stable: a follows chain (sapling → small → medium) can list
+  // a follower before the filter it follows.
+  for (let changed = true; changed; ) {
+    changed = false;
+    for (const { id, follows } of following) {
+      if (!result.has(id) && result.has(follows)) {
+        result.add(id);
+        changed = true;
+      }
+    }
+  }
+  if (knownSet) {
+    for (const id of knownSet) {
+      if (!current.has(id)) result.delete(id);
+    }
+  }
+  return {
+    filters: [...result],
+    knownFilters: [...current],
+    newFilters: [
+      ...newFilters.filter((id) => current.has(id) && !added.has(id)),
+      ...added,
+    ],
+  };
 };
 
 const getStorageName = () => {
@@ -365,6 +439,10 @@ export function createUserStore(
                 return { globalFilters };
               });
             },
+            knownFilters: filters.flatMap((filter) =>
+              filter.values.map((value) => value.id),
+            ),
+            newFilters: [],
           };
         },
         {
@@ -393,7 +471,8 @@ export function createUserStore(
             if (!persisted) {
               return current;
             }
-            const result = { ...current, ...persisted };
+            const saved = persisted as Partial<UserStoreState>;
+            const result = { ...current, ...saved };
             // Heal corrupted persisted views (e.g. a NaN/Infinity camera that
             // serialized to null) so an affected map recovers on next load.
             result.viewByMap = sanitizeViewByMap(result.viewByMap);
@@ -412,8 +491,22 @@ export function createUserStore(
             }
             if (view.filters) {
               result.filters = view.filters;
-            } else if (Array.isArray(result.filters)) {
-              result.filters = migrateReplacedFilters(result.filters, filters);
+              if (filters.length > 0) {
+                result.knownFilters = current.knownFilters;
+              }
+            } else if (Array.isArray(result.filters) && filters.length > 0) {
+              Object.assign(
+                result,
+                migrateFilterChanges(
+                  result.filters,
+                  // `result` already holds the fresh-user default.
+                  Array.isArray(saved.knownFilters)
+                    ? saved.knownFilters
+                    : undefined,
+                  Array.isArray(result.newFilters) ? result.newFilters : [],
+                  filters,
+                ),
+              );
             }
             if (view.globalFilters) {
               result.globalFilters = view.globalFilters;
