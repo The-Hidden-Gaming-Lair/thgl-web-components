@@ -27,7 +27,7 @@ type FactionProps = {
   faction?: string;
   bonuses?: {
     type: string;
-    params: (string | number)[];
+    params?: (string | number)[];
     activationLevel?: number;
     upgrade?: { increment: number; levelStep: number };
   }[];
@@ -39,7 +39,7 @@ type FactionProps = {
     cost: number;
     bonuses: {
       type: string;
-      params: (string | number)[];
+      params?: (string | number)[];
       activationLevel?: number;
     }[];
   }[];
@@ -73,7 +73,7 @@ function substituteTemplate(
   if (!bonuses || bonuses.length === 0) return text;
   const values: string[] = [];
   for (const bonus of bonuses) {
-    for (const p of bonus.params) {
+    for (const p of bonus.params ?? []) {
       const num = parseFloat(String(p));
       if (
         !isNaN(num) &&

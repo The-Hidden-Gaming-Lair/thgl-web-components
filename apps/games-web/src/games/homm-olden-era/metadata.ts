@@ -14,12 +14,12 @@ const KEYWORDS = hommOldenEra.keywords ?? [];
 
 function resolveTemplatePlaceholders(
   text: string,
-  bonuses?: { type: string; params: (string | number)[] }[],
+  bonuses?: { type: string; params?: (string | number)[] }[],
 ): string {
   if (!text.includes("{") || !bonuses?.length) return text;
   const values: string[] = [];
   for (const b of bonuses) {
-    for (const p of b.params) {
+    for (const p of b.params ?? []) {
       const n = parseFloat(String(p));
       if (
         !isNaN(n) &&

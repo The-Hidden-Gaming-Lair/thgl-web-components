@@ -6,7 +6,7 @@ import { MechanicTerm } from "@/lib/db/mechanic-term";
 
 type Bonus = {
   type: string;
-  params: (string | number)[];
+  params?: (string | number)[];
   upgrade?: { increment: number; levelStep: number };
   activationLevel?: number;
 };
@@ -61,9 +61,20 @@ export function BonusList({
   );
 }
 
-function SchoolLink({ school, dict, locale, children }: { school: string; dict: Record<string, string>; locale: string; children: ReactNode }) {
+function SchoolLink({
+  school,
+  dict,
+  locale,
+  children,
+}: {
+  school: string;
+  dict: Record<string, string>;
+  locale: string;
+  children: ReactNode;
+}) {
   return (
-    <Link prefetch={false}
+    <Link
+      prefetch={false}
       href={localizePath(`/db/spells/${school}`, locale)}
       className="text-amber-400 hover:text-amber-300 transition-colors"
     >
@@ -72,8 +83,12 @@ function SchoolLink({ school, dict, locale, children }: { school: string; dict: 
   );
 }
 
-function formatBonus(bonus: Bonus, dict: Record<string, string>, locale: string): ReactNode {
-  const { type, params } = bonus;
+function formatBonus(
+  bonus: Bonus,
+  dict: Record<string, string>,
+  locale: string,
+): ReactNode {
+  const { type, params = [] } = bonus;
 
   switch (type) {
     case "heroStatBattle":
@@ -86,35 +101,112 @@ function formatBonus(bonus: Bonus, dict: Record<string, string>, locale: string)
         const spellLevel = Number(params[3] ?? 0);
         if (tier === 0 && spellLevel === 0) return null;
         const parts: ReactNode[] = [];
-        if (tier > 0) parts.push(<span key="tier">Learn <SchoolLink school={school} dict={dict} locale={locale}>{schoolName}</SchoolLink> spells (up to tier {tier})</span>);
-        if (spellLevel > 0) parts.push(<span key="lvl"><SchoolLink school={school} dict={dict} locale={locale}>{schoolName}</SchoolLink> spells +{spellLevel} level</span>);
-        if (spellLevel < 0) parts.push(<span key="lvl"><SchoolLink school={school} dict={dict} locale={locale}>{schoolName}</SchoolLink> spells {spellLevel} level</span>);
-        return parts.length > 0 ? <>{parts.map((p, i) => <span key={i}>{i > 0 && ", "}{p}</span>)}</> : <><SchoolLink school={school} dict={dict} locale={locale}>{schoolName}</SchoolLink> spells</>;
+        if (tier > 0)
+          parts.push(
+            <span key="tier">
+              Learn{" "}
+              <SchoolLink school={school} dict={dict} locale={locale}>
+                {schoolName}
+              </SchoolLink>{" "}
+              spells (up to tier {tier})
+            </span>,
+          );
+        if (spellLevel > 0)
+          parts.push(
+            <span key="lvl">
+              <SchoolLink school={school} dict={dict} locale={locale}>
+                {schoolName}
+              </SchoolLink>{" "}
+              spells +{spellLevel} level
+            </span>,
+          );
+        if (spellLevel < 0)
+          parts.push(
+            <span key="lvl">
+              <SchoolLink school={school} dict={dict} locale={locale}>
+                {schoolName}
+              </SchoolLink>{" "}
+              spells {spellLevel} level
+            </span>,
+          );
+        return parts.length > 0 ? (
+          <>
+            {parts.map((p, i) => (
+              <span key={i}>
+                {i > 0 && ", "}
+                {p}
+              </span>
+            ))}
+          </>
+        ) : (
+          <>
+            <SchoolLink school={school} dict={dict} locale={locale}>
+              {schoolName}
+            </SchoolLink>{" "}
+            spells
+          </>
+        );
       }
       if (statKey === "magicCostSchoolSet") {
         const school = params[1] as string;
         const schoolName = resolveSchool(dict, school);
         const cost = Number(params[2]);
-        if (cost === 0) return <><SchoolLink school={school} dict={dict} locale={locale}>{schoolName}</SchoolLink> spell cost reduction unlocked</>;
-        return <><SchoolLink school={school} dict={dict} locale={locale}>{schoolName}</SchoolLink> spell cost: –{Math.round(cost * 100)}%</>;
+        if (cost === 0)
+          return (
+            <>
+              <SchoolLink school={school} dict={dict} locale={locale}>
+                {schoolName}
+              </SchoolLink>{" "}
+              spell cost reduction unlocked
+            </>
+          );
+        return (
+          <>
+            <SchoolLink school={school} dict={dict} locale={locale}>
+              {schoolName}
+            </SchoolLink>{" "}
+            spell cost: –{Math.round(cost * 100)}%
+          </>
+        );
       }
       if (statKey === "magicCostSidSet") {
         const spellId = params[1] as string;
         const spellName = resolveDict(dict, spellId);
         const cost = Number(params[2]);
         const sign = cost < 0 ? "–" : "+";
-        return <>{spellName} mana cost: {sign}{Math.abs(cost)}</>;
+        return (
+          <>
+            {spellName} mana cost: {sign}
+            {Math.abs(cost)}
+          </>
+        );
       }
       if (statKey === "spellPowerSchoolSet") {
         const school = params[1] as string;
         const schoolName = resolveSchool(dict, school);
         const value = Number(params[2]);
-        return <><SchoolLink school={school} dict={dict} locale={locale}>{schoolName}</SchoolLink> Spell Power: {value > 0 ? "+" : ""}{value}</>;
+        return (
+          <>
+            <SchoolLink school={school} dict={dict} locale={locale}>
+              {schoolName}
+            </SchoolLink>{" "}
+            Spell Power: {value > 0 ? "+" : ""}
+            {value}
+          </>
+        );
       }
       if (statKey === "magicCounterSet") {
         const school = params[1] as string;
         const schoolName = resolveSchool(dict, school);
-        return <>Counters <SchoolLink school={school} dict={dict} locale={locale}>{schoolName}</SchoolLink> magic</>;
+        return (
+          <>
+            Counters{" "}
+            <SchoolLink school={school} dict={dict} locale={locale}>
+              {schoolName}
+            </SchoolLink>{" "}
+            magic
+          </>
+        );
       }
       if (statKey === "heroResPercentSet") {
         const target = params[1] as string;
@@ -133,7 +225,14 @@ function formatBonus(bonus: Bonus, dict: Record<string, string>, locale: string)
       const value = params[1];
       const mechanicKey = MECHANIC_STAT_MAP[statKey];
       if (mechanicKey) {
-        return <><MechanicTerm termKey={mechanicKey} locale={locale}>{stat}</MechanicTerm>: {formatValue(value)}</>;
+        return (
+          <>
+            <MechanicTerm termKey={mechanicKey} locale={locale}>
+              {stat}
+            </MechanicTerm>
+            : {formatValue(value)}
+          </>
+        );
       }
       return `${stat}: ${formatValue(value)}`;
     }
@@ -148,7 +247,8 @@ function formatBonus(bonus: Bonus, dict: Record<string, string>, locale: string)
       const school = params[0] as string;
       const tier = params[1];
       const count = params[2];
-      const schoolLabel = school === "any" ? "" : ` ${resolveSchool(dict, school)}`;
+      const schoolLabel =
+        school === "any" ? "" : ` ${resolveSchool(dict, school)}`;
       const tierLabel = tier === "any" ? "" : ` tier ${tier}`;
       return `Grants ${count}${schoolLabel}${tierLabel} spell(s)`;
     }
@@ -183,7 +283,15 @@ function formatBonus(bonus: Bonus, dict: Record<string, string>, locale: string)
     case "learnMagicRemoteFromMagicGuild": {
       const school = params[0] as string;
       const schoolName = resolveSchool(dict, school);
-      return <>Learn <SchoolLink school={school} dict={dict} locale={locale}>{schoolName}</SchoolLink> spells remotely from Magic Guild</>;
+      return (
+        <>
+          Learn{" "}
+          <SchoolLink school={school} dict={dict} locale={locale}>
+            {schoolName}
+          </SchoolLink>{" "}
+          spells remotely from Magic Guild
+        </>
+      );
     }
     case "unitStat": {
       if (params[0] === "modifierSet") {
@@ -229,7 +337,9 @@ function formatBonus(bonus: Bonus, dict: Record<string, string>, locale: string)
           return formatValue(p);
         })
         .join(", ");
-      return `${humanizeStat(type)}: ${formattedParams}`;
+      return formattedParams
+        ? `${humanizeStat(type)}: ${formattedParams}`
+        : humanizeStat(type);
     }
   }
 }
@@ -256,9 +366,12 @@ function resolveName(dict: Record<string, string>, key: string): string {
 }
 
 function resolveBuffName(dict: Record<string, string>, key: string): string {
-  if (dict[key]) return dict[key].startsWith("@") ? resolveDict(dict, key) : dict[key];
+  if (dict[key])
+    return dict[key].startsWith("@") ? resolveDict(dict, key) : dict[key];
 
-  let m = key.match(/^skill_.+?_sub_skill_[a-z0-9_]+?_(warrior|mage|campaign|arena)_bonus$/);
+  let m = key.match(
+    /^skill_.+?_sub_skill_[a-z0-9_]+?_(warrior|mage|campaign|arena)_bonus$/,
+  );
   if (m) return resolveDict(dict, `ui.variant_${m[1]}`);
 
   m = key.match(/^(sub_skill_[a-z0-9_]+?)_bonus$/);
@@ -282,7 +395,10 @@ function resolveBuffName(dict: Record<string, string>, key: string): string {
     if (dict[candidate]) return resolveDict(dict, candidate);
   }
 
-  const tail = key.replace(/^skill_[^_]+(?:_[^_]+)*?_(?=(?:warrior|mage|campaign|arena|bonus|offence|defence))/i, "");
+  const tail = key.replace(
+    /^skill_[^_]+(?:_[^_]+)*?_(?=(?:warrior|mage|campaign|arena|bonus|offence|defence))/i,
+    "",
+  );
   return humanizeStat(tail !== key ? tail : key);
 }
 

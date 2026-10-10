@@ -81,13 +81,13 @@ function formatValue(value: string | number): string {
   return value;
 }
 
-type Bonus = { type: string; params: (string | number)[] };
+type Bonus = { type: string; params?: (string | number)[] };
 
 function formatBonus(
   bonus: Bonus,
   dict: Record<string, string>,
 ): string | null {
-  const { type, params } = bonus;
+  const { type, params = [] } = bonus;
   switch (type) {
     case "heroStatBattle":
     case "heroStat": {
@@ -200,6 +200,7 @@ function formatBonus(
     case "heroUnfrozenBattleBonus":
       return `${humanizeStat(params[0] as string)}: ${formatValue(params[1])}`;
     default:
+      if (params.length === 0) return humanizeStat(type);
       return `${humanizeStat(type)}: ${params.map((p) => (typeof p === "string" ? humanizeStat(p) : formatValue(p))).join(", ")}`;
   }
 }

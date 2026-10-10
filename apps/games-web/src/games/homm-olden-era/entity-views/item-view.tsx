@@ -17,7 +17,7 @@ type ItemProps = {
   maxLevel: number;
   bonuses: {
     type: string;
-    params: (string | number)[];
+    params?: (string | number)[];
     upgrade?: { increment: number; levelStep: number };
   }[];
 };
@@ -77,24 +77,38 @@ export function ItemView({
             </h2>
             <div className="space-y-2">
               {props.bonuses.map((tier: any, i: number) => {
-                const tierDesc = tier.desc ? resolveDict(dict, tier.desc) : undefined;
+                const tierDesc = tier.desc
+                  ? resolveDict(dict, tier.desc)
+                  : undefined;
                 const hasTierDesc = tierDesc && tierDesc !== tier.desc;
 
                 return (
-                  <div key={i} className="bg-slate-900/30 border border-slate-800/50 rounded-lg p-4">
+                  <div
+                    key={i}
+                    className="bg-slate-900/30 border border-slate-800/50 rounded-lg p-4"
+                  >
                     <div className="text-sm font-medium text-amber-400 mb-1">
-                      {tier.requiredItems} {resolveDict(dict, "ui.items_in_set").toLowerCase()}
+                      {tier.requiredItems}{" "}
+                      {resolveDict(dict, "ui.items_in_set").toLowerCase()}
                     </div>
                     {hasTierDesc ? (
                       <p className="text-sm">
-                        {tierDesc.replace(/\{(\d+)\}/g, (_: string, idx: string) => {
-                          const paramIdx = parseInt(idx);
-                          const value = tier.effects?.[0]?.params?.[paramIdx + 1];
-                          return value != null ? String(value) : `{${idx}}`;
-                        })}
+                        {tierDesc.replace(
+                          /\{(\d+)\}/g,
+                          (_: string, idx: string) => {
+                            const paramIdx = parseInt(idx);
+                            const value =
+                              tier.effects?.[0]?.params?.[paramIdx + 1];
+                            return value != null ? String(value) : `{${idx}}`;
+                          },
+                        )}
                       </p>
                     ) : tier.effects && tier.effects.length > 0 ? (
-                      <BonusList bonuses={tier.effects} dict={dict} locale={locale} />
+                      <BonusList
+                        bonuses={tier.effects}
+                        dict={dict}
+                        locale={locale}
+                      />
                     ) : null}
                   </div>
                 );
@@ -131,7 +145,14 @@ export function ItemView({
   return (
     <div className="space-y-5">
       <div className="flex items-center gap-4">
-        {icon && <SpriteIcon icon={icon} appName={APP_NAME} size={64} iconsHash={iconsHash} />}
+        {icon && (
+          <SpriteIcon
+            icon={icon}
+            appName={APP_NAME}
+            size={64}
+            iconsHash={iconsHash}
+          />
+        )}
         <div>
           <h1 className="text-3xl font-bold tracking-tight">{name}</h1>
           <div className="flex items-center gap-2 mt-1 flex-wrap">
@@ -149,11 +170,13 @@ export function ItemView({
               })()}
             </span>
             {props.itemSet && (
-              <Link prefetch={false}
+              <Link
+                prefetch={false}
                 href={localizePath(`/db/artifacts/${props.itemSet}`, locale)}
                 className="text-xs text-amber-400 hover:text-amber-300 transition-colors"
               >
-                {resolveDict(dict, "ui.set_prefix")} {resolveDict(dict, props.itemSet)}
+                {resolveDict(dict, "ui.set_prefix")}{" "}
+                {resolveDict(dict, props.itemSet)}
               </Link>
             )}
           </div>
@@ -164,7 +187,7 @@ export function ItemView({
         if (!desc || desc === name || desc.includes("_desc")) return null;
         const numericValues: string[] = [];
         for (const b of props.bonuses ?? []) {
-          for (const p of b.params) {
+          for (const p of b.params ?? []) {
             if (/^\d+$/.test(String(p)) && !numericValues.includes(String(p))) {
               numericValues.push(String(p));
             }

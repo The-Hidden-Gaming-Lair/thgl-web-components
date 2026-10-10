@@ -39,7 +39,7 @@ type IconSprite = {
 };
 
 type SpecBonus = {
-  params: (string | number)[];
+  params?: (string | number)[];
   upgrade?: { increment: number; levelStep?: number };
 };
 
@@ -59,7 +59,7 @@ function substituteSpecTemplate(
   if (!bonuses || bonuses.length === 0) return text.replace(/\{(\d+)\}/g, "");
   const values: string[] = [];
   for (const bonus of bonuses) {
-    for (const p of bonus.params) {
+    for (const p of bonus.params ?? []) {
       const num = parseFloat(String(p));
       if (
         !isNaN(num) &&
