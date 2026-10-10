@@ -2,21 +2,14 @@
 import { useMemo } from "react";
 import { isPointInsidePolygon, type Region } from "./coordinates";
 import { games, type CompactOverlayWidget } from "./games";
-import { usePreviewFeature } from "./hooks";
 import { useSettingsStore } from "./settings";
 
 const NO_WIDGETS: CompactOverlayWidget[] = [];
 
-/** PREVIEW_FEATURES id of Widgets Only (preview-release.ts). */
-export const COMPACT_OVERLAY_FEATURE = "widgets-only-overlay";
-
 /**
- * The overlay's "Widgets Only" mode for one game. `offered` = the game lists
- * `compactOverlay` widgets. `available` = offered AND usable (while it is a
- * preview feature: the account has Elite Preview Release Access); `locked` =
- * offered but denied (the UI shows it with a lock + upsell); `preview` = still
- * in preview (show the Preview badge). `active` = available and switched on;
- * only the in-game overlay window consumes it (desktop/web keep the map).
+ * The overlay's "Widgets Only" mode for one game. `available` = the game
+ * lists `compactOverlay` widgets. `active` = available and switched on; only
+ * the in-game overlay window consumes it (desktop/web keep the map).
  */
 export function useCompactOverlay(appName: string) {
   const widgets = useMemo(
@@ -24,17 +17,12 @@ export function useCompactOverlay(appName: string) {
       games.find((game) => game.id === appName)?.compactOverlay ?? NO_WIDGETS,
     [appName],
   );
-  const preview = usePreviewFeature(COMPACT_OVERLAY_FEATURE);
   const enabled = useSettingsStore((state) => state.compactOverlay ?? false);
   const toggle = useSettingsStore((state) => state.toggleCompactOverlay);
-  const offered = widgets.length > 0;
-  const available = offered && preview.enabled;
+  const available = widgets.length > 0;
   return {
     widgets,
-    offered,
     available,
-    preview: preview.preview,
-    locked: offered && preview.locked,
     active: available && enabled,
     toggle,
   };

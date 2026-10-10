@@ -7,43 +7,78 @@ import {
 } from "./preview-release";
 import { PREVIEW_LIVE_MODES } from "./settings";
 
+// The real registry can be empty (every preview public); the gating logic is
+// tested against this one.
+const TEST_REGISTRY = {
+  "filter:palworld:lucky_pal": { title: "Lucky Pals", since: "2026-10-06" },
+  "widgets-only-overlay": { title: "Widgets Only", since: "2026-10-04" },
+};
+
 describe("preview filters", () => {
   const typesIdMap = {
     BP_SheepBall_C: "sheepball",
     "BP_SheepBall_C_Variant.Lucky": "lucky_pal",
   };
 
-  it("Palworld Lucky Pals is a preview filter", () => {
-    expect(isPreviewFeature(previewFilterId("palworld", "lucky_pal"))).toBe(
-      true,
-    );
+  it("a registered filter value is a preview filter", () => {
+    expect(
+      isPreviewFeature(previewFilterId("palworld", "lucky_pal"), TEST_REGISTRY),
+    ).toBe(true);
   });
 
   it("a preview live filter is only requested with access", () => {
     const enabled = ["sheepball", "lucky_pal"];
     expect(
-      selectRequestedActorTypes("palworld", typesIdMap, enabled, false),
+      selectRequestedActorTypes(
+        "palworld",
+        typesIdMap,
+        enabled,
+        false,
+        TEST_REGISTRY,
+      ),
     ).toEqual(["BP_SheepBall_C"]);
     expect(
-      selectRequestedActorTypes("palworld", typesIdMap, enabled, true),
+      selectRequestedActorTypes(
+        "palworld",
+        typesIdMap,
+        enabled,
+        true,
+        TEST_REGISTRY,
+      ),
     ).toEqual(["BP_SheepBall_C", "BP_SheepBall_C_Variant.Lucky"]);
   });
 
   it("disabled filters and other games are unaffected", () => {
     expect(
-      selectRequestedActorTypes("palworld", typesIdMap, ["sheepball"], true),
+      selectRequestedActorTypes(
+        "palworld",
+        typesIdMap,
+        ["sheepball"],
+        true,
+        TEST_REGISTRY,
+      ),
     ).toEqual(["BP_SheepBall_C"]);
     expect(
-      selectRequestedActorTypes("palia", typesIdMap, ["lucky_pal"], false),
+      selectRequestedActorTypes(
+        "palia",
+        typesIdMap,
+        ["lucky_pal"],
+        false,
+        TEST_REGISTRY,
+      ),
     ).toEqual(["BP_SheepBall_C_Variant.Lucky"]);
   });
 });
 
 describe("preview features", () => {
   it("a registered feature needs Elite preview access", () => {
-    expect(isPreviewFeature("widgets-only-overlay")).toBe(true);
-    expect(isPreviewFeatureEnabled("widgets-only-overlay", false)).toBe(false);
-    expect(isPreviewFeatureEnabled("widgets-only-overlay", true)).toBe(true);
+    expect(isPreviewFeature("widgets-only-overlay", TEST_REGISTRY)).toBe(true);
+    expect(
+      isPreviewFeatureEnabled("widgets-only-overlay", false, TEST_REGISTRY),
+    ).toBe(false);
+    expect(
+      isPreviewFeatureEnabled("widgets-only-overlay", true, TEST_REGISTRY),
+    ).toBe(true);
   });
 
   it("an unregistered (or since public) feature is open to everyone", () => {

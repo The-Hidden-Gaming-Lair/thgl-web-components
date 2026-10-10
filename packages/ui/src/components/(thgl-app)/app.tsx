@@ -160,7 +160,7 @@ function AppWindow({
   // Per-map overlay auto-hide — the hook must stay mounted even while hidden
   // (it tracks player.mapName and feeds the hotkey override).
   const { hidden: overlayMapHidden } = useOverlayMapHidden();
-  // "Widgets Only" overlay (Elite preview, games with `compactOverlay`).
+  // "Widgets Only" overlay (games with `compactOverlay`).
   const compactOverlay = useCompactOverlay(appConfig.name);
   const toggleCompactOverlay = compactOverlay.toggle;
   // Overlay window only: the mode doesn't exist on the desktop window, and a
@@ -446,12 +446,8 @@ function AppWindow({
                       additionalTooltip={additionalTooltip}
                       withoutLiveMode={withoutLiveMode}
                       compactOverlay={
-                        isOverlay && compactOverlay.offered
-                          ? {
-                              locked: compactOverlay.locked,
-                              preview: compactOverlay.preview,
-                              onToggle: compactOverlay.toggle,
-                            }
+                        isOverlay && compactOverlay.available
+                          ? { onToggle: compactOverlay.toggle }
                           : undefined
                       }
                     />

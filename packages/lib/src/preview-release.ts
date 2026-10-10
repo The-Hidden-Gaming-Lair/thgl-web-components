@@ -58,21 +58,11 @@ export type PreviewFeature = {
  * `PREVIEW_LIVE_MODES` in settings.ts. Filter values use `previewFilterId()`.
  */
 export const PREVIEW_FEATURES: Readonly<Record<string, PreviewFeature>> = {
-  "widgets-only-overlay": {
-    title: "Widgets Only",
-    since: "2026-10-04",
-    inboxItem: 169,
-  },
+  // "widgets-only-overlay" (Widgets Only) was an Elite preview 2026-10-04..2026-10-10.
   // "discord-presence" (Discord Rich Presence) was an Elite preview
   // 2026-10-05..2026-10-10; it is public now.
   // "live-mode:combined" was an Elite preview; it is public now.
-  // Palworld live filter: Lucky Pals (THGLApp reads IsRarePal). Locked accounts
-  // see the filter with a lock; the app is never asked for its types.
-  "filter:palworld:lucky_pal": {
-    title: "Lucky Pals",
-    since: "2026-10-06",
-    inboxItem: 111,
-  },
+  // "filter:palworld:lucky_pal" (Lucky Pals) was an Elite preview 2026-10-06..2026-10-10.
 };
 
 /**
@@ -93,19 +83,23 @@ export function selectRequestedActorTypes(
   typesIdMap: Record<string, string>,
   enabledFilters: Iterable<string>,
   previewAllowed: boolean,
+  registry: Readonly<Record<string, PreviewFeature>> = PREVIEW_FEATURES,
 ): string[] {
   const enabled = new Set(enabledFilters);
   return Object.keys(typesIdMap).filter(
     (key) =>
       enabled.has(typesIdMap[key]) &&
       (previewAllowed ||
-        !isPreviewFeature(previewFilterId(appName, typesIdMap[key]))),
+        !isPreviewFeature(previewFilterId(appName, typesIdMap[key]), registry)),
   );
 }
 
 /** True while `id` is in preview (listed in PREVIEW_FEATURES). */
-export function isPreviewFeature(id: string): boolean {
-  return Object.prototype.hasOwnProperty.call(PREVIEW_FEATURES, id);
+export function isPreviewFeature(
+  id: string,
+  registry: Readonly<Record<string, PreviewFeature>> = PREVIEW_FEATURES,
+): boolean {
+  return Object.prototype.hasOwnProperty.call(registry, id);
 }
 
 /**
@@ -116,8 +110,9 @@ export function isPreviewFeature(id: string): boolean {
 export function isPreviewFeatureEnabled(
   id: string,
   hasPreviewAccess: boolean,
+  registry: Readonly<Record<string, PreviewFeature>> = PREVIEW_FEATURES,
 ): boolean {
-  return hasPreviewAccess || !isPreviewFeature(id);
+  return hasPreviewAccess || !isPreviewFeature(id, registry);
 }
 
 /**

@@ -4,15 +4,13 @@ import {
   findPlayerRegion,
   gridCellAt,
   useGameState,
-  usePreviewFeature,
   useSettingsStore,
-  COMPACT_OVERLAY_FEATURE,
   type CompactOverlayWidget,
 } from "@repo/lib";
 import { Map as MapIcon, Move } from "lucide-react";
 import { useEffect, useRef, type ReactNode } from "react";
 import Moveable from "react-moveable";
-import { Button, PreviewBadge } from "../(controls)";
+import { Button } from "../(controls)";
 import { useCoordinates, useT } from "../(providers)";
 import { PaliaClock } from "../(data)/palia-clock";
 import { PALIA_GRID_BOUNDS } from "../(data)/palia-grid";
@@ -33,7 +31,6 @@ export function CompactOverlay({
   onShowMap: () => void;
 }) {
   const t = useT();
-  const isPreview = usePreviewFeature(COMPACT_OVERLAY_FEATURE).preview;
   const panelRef = useRef<HTMLDivElement>(null);
   const handleRef = useRef<HTMLButtonElement>(null);
   const moveableRef = useRef<Moveable>(null);
@@ -99,7 +96,6 @@ export function CompactOverlay({
               </Button>
               <span className="grow truncate text-xs text-muted-foreground">
                 {t("compactOverlay.title", { fallback: "Widgets Only" })}
-                {isPreview && <PreviewBadge />}
               </span>
               <Button
                 className="h-7 px-2 text-xs"

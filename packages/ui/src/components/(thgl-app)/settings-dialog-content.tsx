@@ -7,7 +7,6 @@ import {
   useSettingsStore,
 } from "@repo/lib";
 import { SettingsDialogContent } from "../(controls)/settings-dialog-content";
-import { PreviewBadge } from "../(controls)/preview-badge";
 import { Separator } from "../ui/separator";
 import { Hotkey } from "./hotkey";
 import {
@@ -166,10 +165,7 @@ export function THGLAppSettingsDialogContent({
           </Label>
           {compactOverlay.available && (
             <Label className="flex items-center gap-2 justify-between">
-              <span>
-                Widgets Only Overlay
-                {compactOverlay.preview && <PreviewBadge />}
-              </span>
+              <span>Widgets Only Overlay</span>
               <Hotkey
                 name={HOTKEYS.TOGGLE_COMPACT_OVERLAY}
                 isActive={recordingName === HOTKEYS.TOGGLE_COMPACT_OVERLAY}

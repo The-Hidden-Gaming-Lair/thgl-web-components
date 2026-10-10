@@ -17,23 +17,11 @@ import {
   type RefObject,
 } from "react";
 import Moveable from "react-moveable";
-import {
-  cn,
-  COMPACT_OVERLAY_FEATURE,
-  MAP_FILTERS,
-  useSettingsStore,
-} from "@repo/lib";
-import {
-  LayoutList,
-  Lock,
-  Move,
-  Settings,
-  Maximize2,
-  Minimize2,
-} from "lucide-react";
+import { cn, MAP_FILTERS, useSettingsStore } from "@repo/lib";
+import { LayoutList, Move, Settings, Maximize2, Minimize2 } from "lucide-react";
 import { useMap } from "../(interactive-map)/store";
 import { Toggle } from "../ui/toggle";
-import { Button, previewLockedText, showPreviewUpsell } from "../(controls)";
+import { Button } from "../(controls)";
 import { useT } from "../(providers)";
 import { toast } from "sonner";
 
@@ -123,27 +111,11 @@ function MinimapToolbar({
           className="relative rounded-none"
           size="icon"
           variant="secondary"
-          onClick={() => {
-            if (compactOverlay.locked) {
-              showPreviewUpsell(
-                COMPACT_OVERLAY_FEATURE,
-                COMPACT_OVERLAY_DETAIL,
-              );
-              return;
-            }
-            compactOverlay.onToggle();
-          }}
+          onClick={compactOverlay.onToggle}
           aria-label="Widgets Only"
-          title={
-            compactOverlay.locked
-              ? `${previewLockedText(COMPACT_OVERLAY_FEATURE)} ${COMPACT_OVERLAY_DETAIL}`
-              : `Widgets Only${compactOverlay.preview ? " (Preview)" : ""}: hide the map, keep a small widget panel`
-          }
+          title="Widgets Only: hide the map, keep a small widget panel"
         >
           <LayoutList className="w-4 h-4" />
-          {compactOverlay.locked && (
-            <Lock className="absolute right-0.5 bottom-0.5 h-2.5! w-2.5!" />
-          )}
         </Button>
       )}
       <Toggle
@@ -301,13 +273,8 @@ const TOOLBAR_MIN_TOP = 8;
 const TOOLBAR_HEADER_CLEARANCE = 36;
 
 export type CompactOverlayToggle = {
-  locked: boolean;
-  preview: boolean;
   onToggle: () => void;
 };
-
-const COMPACT_OVERLAY_DETAIL =
-  "It hides the map and keeps a small panel with this game's widgets.";
 
 export function MapContainer({
   children,
