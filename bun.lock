@@ -331,6 +331,9 @@
       },
     },
   },
+  "patchedDependencies": {
+    "next@16.3.3": "patches/next@16.3.3.patch",
+  },
   "overrides": {
     "embla-carousel": "8.6.0",
     "embla-carousel-reactive-utils": "8.6.0",

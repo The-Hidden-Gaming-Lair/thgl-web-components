@@ -108,7 +108,7 @@ export const onRequestError: Instrumentation.onRequestError = async (
   request,
   context,
 ) => {
-  const e = err as Error & { digest?: string };
+  const e = err as Error & { digest?: string; thglComponentStack?: string };
   // Don't log "errors" that are normal control-flow primitives.
   if (e.digest === "NEXT_NOT_FOUND" || e.digest === "NEXT_REDIRECT") return;
   if (STALE_CLIENT_PATTERNS.some((re) => re.test(e.message))) return;
@@ -120,5 +120,11 @@ export const onRequestError: Instrumentation.onRequestError = async (
   console.error(`  message: ${e.message}`);
   if (e.stack && !networkErrorCode(e)) {
     console.error(`  stack:\n${e.stack}`);
+  }
+  // React's component stack for SSR render errors: prod stacks are React
+  // internals only, this names the component (patches/next@16.3.3.patch copies
+  // it onto the error; data-forge inbox #1116, "Element type is invalid").
+  if (e.thglComponentStack) {
+    console.error(`  componentStack:${e.thglComponentStack}`);
   }
 };
