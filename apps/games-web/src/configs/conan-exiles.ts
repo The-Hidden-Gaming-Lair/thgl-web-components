@@ -154,6 +154,14 @@ export const conanExiles = resolveAppConfig({
         icon: "🪨",
         description: "config.db.resources.description",
       },
+      {
+        href: "/db/recipes",
+        type: "recipes",
+        titleKey: "recipes",
+        titleFallback: "Recipes",
+        icon: "⚗️",
+        description: "config.db.recipes.description",
+      },
     ],
     // Section labels come from the per-locale dict terms (inventory, knowledge, …).
   },

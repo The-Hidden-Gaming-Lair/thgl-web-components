@@ -9,5 +9,6 @@
   "config.db.perks.description": "Vantagens de atributos e os pontos necessários para desbloqueá-las.",
   "config.db.emotes.description": "Todos os emotes por categoria e onde encontrar seus itens no mapa.",
   "config.db.creatures.description": "Criaturas, NPCs e servos com coleta e saque, profissões de servos e onde surgem no mapa.",
-  "config.db.resources.description": "Rochas, minérios, árvores e plantas: o que cada recurso fornece e onde coletá-lo no mapa."
+  "config.db.resources.description": "Rochas, minérios, árvores e plantas: o que cada recurso fornece e onde coletá-lo no mapa.",
+  "config.db.recipes.description": "Receitas alternativas e subprodutos: todas as outras formas de fabricar um item e o que as estações de processamento rendem de quebra."
 }

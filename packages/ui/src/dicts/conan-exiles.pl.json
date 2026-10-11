@@ -9,5 +9,6 @@
   "config.db.perks.description": "Atuty atrybutów i punkty potrzebne do ich odblokowania.",
   "config.db.emotes.description": "Wszystkie emotki według kategorii i miejsca ich znajdziek na mapie.",
   "config.db.creatures.description": "Stworzenia, NPC i niewolnicy wraz z tym, co z nich pozyskasz i co upuszczają, profesjami niewolników i miejscami pojawiania się na mapie.",
-  "config.db.resources.description": "Skały, rudy, drzewa i rośliny: co daje każdy surowiec i gdzie go zebrać na mapie."
+  "config.db.resources.description": "Skały, rudy, drzewa i rośliny: co daje każdy surowiec i gdzie go zebrać na mapie.",
+  "config.db.recipes.description": "Alternatywne przepisy i produkty uboczne: każdy inny sposób wytworzenia przedmiotu i to, co stacje przetwórcze dają przy okazji."
 }

@@ -9,5 +9,6 @@
   "config.db.perks.description": "能力値のパークと解放に必要なポイント。",
   "config.db.emotes.description": "カテゴリ別の全エモートと、マップ上のエモート入手場所。",
   "config.db.creatures.description": "クリーチャー、NPC、奴隷の採取物とドロップ、奴隷の職業、マップ上の出現地点。",
-  "config.db.resources.description": "岩、鉱石、木、植物：各資源から採取できるものと、マップ上の採取場所。"
+  "config.db.resources.description": "岩、鉱石、木、植物：各資源から採取できるものと、マップ上の採取場所。",
+  "config.db.recipes.description": "代替レシピと副産物：アイテムを作るほかの方法と、加工設備から一緒に得られるもの。"
 }

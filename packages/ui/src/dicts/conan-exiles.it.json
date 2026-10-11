@@ -9,5 +9,6 @@
   "config.db.perks.description": "Perk degli attributi e i punti necessari per sbloccarli.",
   "config.db.emotes.description": "Tutte le emote per categoria e dove trovarne gli oggetti sulla mappa.",
   "config.db.creatures.description": "Creature, PNG e servi con raccolta e bottino, professioni dei servi e dove compaiono sulla mappa.",
-  "config.db.resources.description": "Rocce, minerali, alberi e piante: cosa fornisce ogni risorsa e dove raccoglierla sulla mappa."
+  "config.db.resources.description": "Rocce, minerali, alberi e piante: cosa fornisce ogni risorsa e dove raccoglierla sulla mappa.",
+  "config.db.recipes.description": "Ricette alternative e sottoprodotti: ogni altro modo per creare un oggetto e ciò che le stazioni di lavorazione producono in aggiunta."
 }

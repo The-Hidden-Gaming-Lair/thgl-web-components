@@ -9,5 +9,6 @@
   "config.db.perks.description": "Attributs-Perks und die Punkte, die zum Freischalten nötig sind.",
   "config.db.emotes.description": "Alle Emotes nach Kategorie und wo die Emote-Fundstücke auf der Karte liegen.",
   "config.db.creatures.description": "Kreaturen, NSCs und Leibeigene mit Ernte- und Beute-Drops, Leibeigenen-Berufen und ihren Spawnpunkten auf der Karte.",
-  "config.db.resources.description": "Felsen, Erze, Bäume und Pflanzen: was jedes Vorkommen liefert und wo du es auf der Karte sammelst."
+  "config.db.resources.description": "Felsen, Erze, Bäume und Pflanzen: was jedes Vorkommen liefert und wo du es auf der Karte sammelst.",
+  "config.db.recipes.description": "Alternative Rezepte und Nebenprodukte: jeder weitere Weg, einen Gegenstand herzustellen, und was Verarbeitungsstationen nebenbei liefern."
 }

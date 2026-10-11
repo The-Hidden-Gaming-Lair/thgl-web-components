@@ -9,5 +9,6 @@
   "config.db.perks.description": "능력치 특전과 해금에 필요한 포인트.",
   "config.db.emotes.description": "카테고리별 모든 감정 표현과 지도에서 감정 표현 아이템을 찾을 수 있는 위치.",
   "config.db.creatures.description": "생물, NPC, 노예의 채집물과 전리품, 노예 직업, 지도상의 출현 지점.",
-  "config.db.resources.description": "바위, 광석, 나무, 식물: 각 자원에서 얻는 것과 지도상의 채집 위치."
+  "config.db.resources.description": "바위, 광석, 나무, 식물: 각 자원에서 얻는 것과 지도상의 채집 위치.",
+  "config.db.recipes.description": "대체 제작법과 부산물: 아이템을 만드는 다른 모든 방법과 가공 시설에서 함께 얻는 것."
 }

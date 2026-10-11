@@ -9,5 +9,6 @@
   "config.db.perks.description": "属性天赋及解锁所需的点数。",
   "config.db.emotes.description": "按类别列出的所有表情，以及地图上表情拾取物的位置。",
   "config.db.creatures.description": "生物、NPC 和奴隶的采集物与掉落、奴隶职业以及在地图上的刷新点。",
-  "config.db.resources.description": "岩石、矿石、树木和植物：每种资源可采集的物品及其在地图上的位置。"
+  "config.db.resources.description": "岩石、矿石、树木和植物：每种资源可采集的物品及其在地图上的位置。",
+  "config.db.recipes.description": "替代配方与副产品：制作物品的其他所有方法，以及加工设施额外产出的东西。"
 }
