@@ -5,12 +5,17 @@ import { partners } from "./partners";
 import { PageShell } from "@/games/thgl-web/components/page-shell";
 import { PageHeader } from "@/games/thgl-web/components/page-header";
 import { BenefitList } from "@/games/thgl-web/components/benefit-list";
+import { InfoCard } from "@/games/thgl-web/components/info-card";
+import { MapIcon, MousePointer2, Video } from "lucide-react";
 import Link from "next/link";
 
+const TITLE = "Partner With TH.GL – Streamers, Creators & Websites";
+const DESCRIPTION =
+  "Share TH.GL maps and tools with your viewers or readers: a creator kit for YouTube and Twitch, embeddable maps and item tooltips for websites, and perks for partners.";
+
 export const metadata = {
-  title: "Partner With TH.GL – Streamers, Creators & Sharers",
-  description:
-    "Partner with The Hidden Gaming Lair and get free perks, exposure, and more for sharing my tools or featuring them in your content.",
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: {
     canonical: "/partner-program",
   },
@@ -28,16 +33,15 @@ export default function PartnerProgramPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebPage",
-            name: "Partner With TH.GL – Streamers, Creators & Sharers",
-            description:
-              "Partner with The Hidden Gaming Lair and get free perks, exposure, and more for sharing my tools or featuring them in your content.",
+            name: TITLE,
+            description: DESCRIPTION,
             url: "https://www.th.gl/partner-program",
           }).replace(/</g, "\\u003c"),
         }}
       />
       <PageHeader
         title="Partner With TH.GL"
-        description="Are you a streamer, content creator, or someone who shares useful tools with others? Partner with TH.GL and get rewarded for spreading the word."
+        description="Streaming, making videos or running a guide site? Share our maps and tools with your community. Everything below is free and needs no sign-up, and partners get perks on top."
       />
       <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground">
         <ol className="flex items-center gap-1">
@@ -50,6 +54,36 @@ export default function PartnerProgramPage() {
           <li aria-current="page">Partner Program</li>
         </ol>
       </nav>
+
+      {/* Start Sharing Section */}
+      <section className="space-y-6">
+        <h2 className="text-3xl font-bold text-center">Start Sharing</h2>
+        <div className="grid md:grid-cols-3 gap-6 text-left">
+          <InfoCard
+            title="Creator kit for YouTube and Twitch"
+            description="Paste the map you show and your channel name: get description links, a chat command and an OBS browser source to put the map on stream. Every link carries your own ref tag."
+            href="/developers#creators"
+            linkLabel="Open the creator kit"
+            icon={Video}
+          />
+          <InfoCard
+            title="Embed a map on your website"
+            description="Put any TH.GL map on your guide or blog with markers, zoom and your own filters, without our menus or ads. Copy-paste, no API key."
+            href="/developers#maps"
+            linkLabel="Get the embed code"
+            icon={MapIcon}
+          />
+          <InfoCard
+            title="Tooltips for item links"
+            description="Add one script line and every link to a TH.GL database entry shows a tooltip with icon, stats and description when readers hover it."
+            href="/developers#tooltips"
+            linkLabel="Add tooltips"
+            icon={MousePointer2}
+          />
+        </div>
+      </section>
+
+      <hr className="border-border" />
 
       {/* Partners Section */}
       <section className="space-y-8">
@@ -70,7 +104,7 @@ export default function PartnerProgramPage() {
 
       {/* Why Partner Section */}
       <section className="space-y-6 max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold text-center">Why Partner?</h2>
+        <h2 className="text-3xl font-bold text-center">Partner Perks</h2>
         <BenefitList
           items={[
             {
@@ -103,44 +137,32 @@ export default function PartnerProgramPage() {
 
       <hr className="border-border" />
 
-      {/* Who It's For Section */}
-      <section className="space-y-6 max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold text-center">Who It's For</h2>
-        <BenefitList
-          spacing="normal"
-          iconSize="sm"
-          items={[
-            {
-              icon: "🎬",
-              description: "Streamers using overlays or tools during gameplay",
-            },
-            {
-              icon: "📺",
-              description:
-                "YouTubers including TH.GL in guides or descriptions",
-            },
-            {
-              icon: "🔗",
-              description:
-                "Website/blog owners linking to TH.GL or partner apps",
-            },
-            {
-              icon: "📣",
-              description:
-                "Anyone who shares useful tools and drives visibility",
-            },
-          ]}
-        />
-      </section>
-
-      <hr className="border-border" />
-
       {/* How to Join Section */}
       <section className="space-y-6 max-w-3xl mx-auto">
         <h2 className="text-3xl font-bold text-center">How to Join</h2>
         <ol className="space-y-4 text-muted-foreground">
           <li className="flex gap-3">
             <span className="text-foreground font-semibold shrink-0">1.</span>
+            <div>
+              Share TH.GL with the{" "}
+              <Link
+                href="/developers#creators"
+                className="text-primary hover:underline font-medium"
+              >
+                creator kit
+              </Link>
+              , a{" "}
+              <Link
+                href="/developers#maps"
+                className="text-primary hover:underline font-medium"
+              >
+                map embed
+              </Link>{" "}
+              or plain links in your videos, streams or guides
+            </div>
+          </li>
+          <li className="flex gap-3">
+            <span className="text-foreground font-semibold shrink-0">2.</span>
             <div>
               Join the{" "}
               <a
@@ -149,19 +171,15 @@ export default function PartnerProgramPage() {
                 className="text-primary hover:underline font-medium"
               >
                 Discord server
-              </a>
-            </div>
-          </li>
-          <li className="flex gap-3">
-            <span className="text-foreground font-semibold shrink-0">2.</span>
-            <div>
-              Send me a DM (<strong className="text-foreground">devleon</strong>
-              ) and tell me what you do
+              </a>{" "}
+              and send me a DM (
+              <strong className="text-foreground">devleon</strong>) with your
+              channel or site
             </div>
           </li>
           <li className="flex gap-3">
             <span className="text-foreground font-semibold shrink-0">3.</span>
-            <div>I'll set you up with access, a code, and shareable assets</div>
+            <div>I'll set you up with your perks and a discount code</div>
           </li>
         </ol>
         <p className="text-sm italic text-muted-foreground text-center pt-4">
