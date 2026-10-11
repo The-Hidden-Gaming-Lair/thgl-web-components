@@ -8,5 +8,6 @@
   "config.db.journeys.description": "Exiled Lands 與 Isle of Siptah 的旅程步驟、經驗和獎勵。",
   "config.db.perks.description": "屬性天賦及解鎖所需的點數。",
   "config.db.emotes.description": "依類別列出的所有表情，以及地圖上表情拾取物的位置。",
-  "config.db.creatures.description": "生物、NPC 和奴隸的採集物與掉落、奴隸職業以及在地圖上的重生點。"
+  "config.db.creatures.description": "生物、NPC 和奴隸的採集物與掉落、奴隸職業以及在地圖上的重生點。",
+  "config.db.resources.description": "岩石、礦石、樹木和植物：每種資源可採集的物品及其在地圖上的位置。"
 }

@@ -8,5 +8,6 @@
   "config.db.journeys.description": "Journey steps, XP and rewards for the Exiled Lands and the Isle of Siptah.",
   "config.db.perks.description": "Attribute perks and the points needed to unlock them.",
   "config.db.emotes.description": "All emotes by category and where to find the emote pickups on the map.",
-  "config.db.creatures.description": "Creatures, NPCs and thralls with their harvest and kill loot, thrall professions and where they spawn on the map."
+  "config.db.creatures.description": "Creatures, NPCs and thralls with their harvest and kill loot, thrall professions and where they spawn on the map.",
+  "config.db.resources.description": "Rocks, ores, trees and plants: what each resource node yields and where to gather it on the map."
 }

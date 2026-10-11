@@ -8,5 +8,6 @@
   "config.db.journeys.description": "Pasos del viaje, XP y recompensas para Exiled Lands y la Isle of Siptah.",
   "config.db.perks.description": "Ventajas de atributos y los puntos necesarios para desbloquearlas.",
   "config.db.emotes.description": "Todos los gestos por categoría y dónde encontrar sus objetos en el mapa.",
-  "config.db.creatures.description": "Criaturas, PNJ y siervos con lo que se recolecta y saquea de ellos, sus profesiones y dónde aparecen en el mapa."
+  "config.db.creatures.description": "Criaturas, PNJ y siervos con lo que se recolecta y saquea de ellos, sus profesiones y dónde aparecen en el mapa.",
+  "config.db.resources.description": "Rocas, minerales, árboles y plantas: qué da cada recurso y dónde recolectarlo en el mapa."
 }

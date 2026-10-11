@@ -8,5 +8,6 @@
   "config.db.journeys.description": "Étapes du voyage, XP et récompenses pour les Exiled Lands et l'Isle of Siptah.",
   "config.db.perks.description": "Les bonus d'attributs et les points nécessaires pour les débloquer.",
   "config.db.emotes.description": "Toutes les emotes par catégorie et où trouver leurs objets sur la carte.",
-  "config.db.creatures.description": "Créatures, PNJ et esclaves avec leur récolte et leur butin, les professions d'esclave et leurs points d'apparition sur la carte."
+  "config.db.creatures.description": "Créatures, PNJ et esclaves avec leur récolte et leur butin, les professions d'esclave et leurs points d'apparition sur la carte.",
+  "config.db.resources.description": "Roches, minerais, arbres et plantes : ce que donne chaque ressource et où la récolter sur la carte."
 }

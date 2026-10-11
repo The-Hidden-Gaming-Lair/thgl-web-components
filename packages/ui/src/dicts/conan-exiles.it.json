@@ -8,5 +8,6 @@
   "config.db.journeys.description": "Tappe del viaggio, PE e ricompense per le Exiled Lands e l'Isle of Siptah.",
   "config.db.perks.description": "Perk degli attributi e i punti necessari per sbloccarli.",
   "config.db.emotes.description": "Tutte le emote per categoria e dove trovarne gli oggetti sulla mappa.",
-  "config.db.creatures.description": "Creature, PNG e servi con raccolta e bottino, professioni dei servi e dove compaiono sulla mappa."
+  "config.db.creatures.description": "Creature, PNG e servi con raccolta e bottino, professioni dei servi e dove compaiono sulla mappa.",
+  "config.db.resources.description": "Rocce, minerali, alberi e piante: cosa fornisce ogni risorsa e dove raccoglierla sulla mappa."
 }
