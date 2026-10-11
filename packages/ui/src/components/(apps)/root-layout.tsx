@@ -24,7 +24,6 @@ import {
   AudioAlertUnlocker,
   NewVersionWatcher,
   Links,
-  LocaleSwitcher,
   SiteFooter,
   ThemeScript,
 } from "../(controls)";
@@ -35,7 +34,6 @@ import {
   isValidLocale,
 } from "../../dicts";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { DidYouKnowCompanionApp } from "../(tips)";
 import { AppSurfaceRoot } from "../(thgl-app)/app-surface-root";
 import { NavigationProgress } from "./navigation-progress";
@@ -210,16 +208,11 @@ export function createRootLayout(
                 <Brand title={appConfig.domain} />
               </Link>
 
-              <Links appConfig={appConfig} hasMap={hasMap}>
-                {appConfig.supportedLocales.length > 1 && (
-                  <Suspense>
-                    <LocaleSwitcher
-                      locales={appConfig.supportedLocales}
-                      current={locale}
-                    />
-                  </Suspense>
-                )}
-              </Links>
+              <Links
+                appConfig={appConfig}
+                hasMap={hasMap}
+                locales={appConfig.supportedLocales}
+              />
 
               <Account />
             </Header>

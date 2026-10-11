@@ -4,7 +4,6 @@ import "@repo/ui/styles/globals.css";
 import "@repo/ui/fonts/inter.css";
 
 import Link from "next/link";
-import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import {
   AppConfig,
@@ -26,8 +25,6 @@ import {
 } from "@repo/ui/header";
 import {
   Links,
-  LocaleSwitcher,
-  LocaleSwitcherInline,
   SiteFooter,
   AudioAlertUnlocker,
   NewVersionWatcher,
@@ -191,29 +188,11 @@ export function createDbRootLayout(
 
               <Links
                 appConfig={appConfig}
-                childrenDropdown={
-                  appConfig.supportedLocales.length > 1 ? (
-                    <Suspense>
-                      <LocaleSwitcherInline
-                        locales={appConfig.supportedLocales}
-                        current={locale}
-                      />
-                    </Suspense>
-                  ) : undefined
-                }
                 hasMap={hasMap}
                 hasGuides={hasFilters}
                 guideLinks={guideLinks}
-              >
-                {appConfig.supportedLocales.length > 1 && (
-                  <Suspense>
-                    <LocaleSwitcher
-                      locales={appConfig.supportedLocales}
-                      current={locale}
-                    />
-                  </Suspense>
-                )}
-              </Links>
+                locales={appConfig.supportedLocales}
+              />
 
               <DbSearch
                 locale={locale}

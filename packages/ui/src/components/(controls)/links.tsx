@@ -1,6 +1,13 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo, type JSX } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+  Suspense,
+  type JSX,
+} from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
@@ -30,6 +37,7 @@ import { usePreviewReleaseGate } from "../(apps)/preview-release-guard";
 import { useI18n } from "../(providers)";
 import { ScriptLoader } from "../(ads)";
 import ConsentLink from "../(ads)/consent-link";
+import { LocaleSwitcher, LocaleSwitcherInline } from "./locale-switcher";
 
 /**
  * Header navigation, grouped by what a page IS rather than one flat list:
@@ -262,8 +270,7 @@ export function Links({
   inlineLinks,
   guideLinks,
   routeFolder,
-  children,
-  childrenDropdown,
+  locales,
 }: {
   appConfig: AppConfig;
   /**
@@ -289,15 +296,20 @@ export function Links({
   inlineLinks?: number;
   /** Written guides for the "Guides" menu (see useNavGroups). */
   guideLinks?: GuideNavLink[];
-  /** Language switcher (dropdown) shown at the right of the nav. */
-  children?: React.ReactNode;
-  /** Flat language list for the mobile menu sheet (falls back to `children`). */
-  childrenDropdown?: React.ReactNode;
+  /**
+   * Site locales: with more than one, a language dropdown sits at the right of
+   * the nav and a flat list in the mobile menu sheet. Links renders the
+   * switchers itself: as server-built elements passed in as children they
+   * intermittently reached SSR with a null element type, a 500 on cold
+   * renders (data-forge inbox #1116).
+   */
+  locales?: string[];
 }): JSX.Element {
   const pathname = usePathname() ?? "/";
   const { locale, t } = useI18n();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const hasLocales = !!locales && locales.length > 1;
   const navRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
@@ -631,7 +643,13 @@ export function Links({
             </ExternalAnchor>
           ))}
 
-          {children && <div className="shrink-0">{children}</div>}
+          {hasLocales && (
+            <div className="shrink-0">
+              <Suspense>
+                <LocaleSwitcher locales={locales} current={locale} />
+              </Suspense>
+            </div>
+          )}
 
           <div
             className="relative"
@@ -753,7 +771,7 @@ export function Links({
             </>
           )}
 
-          {(childrenDropdown ?? children) && (
+          {hasLocales && (
             <>
               <div className="border-t border-neutral-800 my-1" />
               {/* Up to 16 languages — collapsed so they don't bury the rest. */}
@@ -765,7 +783,11 @@ export function Links({
                   </span>
                   <ChevronDown className="w-4 h-4 opacity-60 transition-transform group-open/details:rotate-180" />
                 </summary>
-                <div className="px-2 py-1">{childrenDropdown ?? children}</div>
+                <div className="px-2 py-1">
+                  <Suspense>
+                    <LocaleSwitcherInline locales={locales} current={locale} />
+                  </Suspense>
+                </div>
               </details>
             </>
           )}
