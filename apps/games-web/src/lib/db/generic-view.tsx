@@ -109,6 +109,9 @@ type DbRef = {
   count?: number;
   group?: string;
   tooltip?: string;
+  /** Which variant of the linked entry this ref means (a rarity "★4", a quality), shown
+   *  inline: one entry covers every rarity of a Duet Night Abyss wedge. Plain text or a dict key. */
+  badge?: string;
   /** This ref's row in a table-shaped ref list (see `asRefTable`). */
   cells?: (string | number)[];
 };
@@ -383,8 +386,13 @@ export function GenericEntityView({
   const dictText = (s: string | undefined) =>
     s && dict?.[s] ? resolveDict(dict, s) : s;
   const localizeRef = (r: DbRef): DbRef =>
-    r.group || r.tooltip
-      ? { ...r, group: dictText(r.group), tooltip: dictText(r.tooltip) }
+    r.group || r.tooltip || r.badge
+      ? {
+          ...r,
+          group: dictText(r.group),
+          tooltip: dictText(r.tooltip),
+          badge: dictText(r.badge),
+        }
       : r;
   // A prop's heading: the game's own label (`prop.<key>`) when the dict has one,
   // then the UI dict's label for the shared recipe keys.
@@ -435,6 +443,7 @@ export function GenericEntityView({
           </span>
         )}
         <span className="text-slate-200">{refName(r)}</span>
+        {r.badge && <span className="text-amber-300">{dictText(r.badge)}</span>}
         {typeof r.count === "number" && r.count > 1 && (
           <span className="font-mono text-muted-foreground">×{r.count}</span>
         )}
@@ -507,6 +516,7 @@ export function GenericEntityView({
               </span>
               <span className="line-clamp-2 text-center text-[10px] leading-tight text-slate-300 group-hover:text-amber-300">
                 {label}
+                {r.badge && ` ${dictText(r.badge)}`}
               </span>
               {/* The ref's own note (a spawn chance, a price) — the hover card is the entry's. */}
               {r.tooltip && (

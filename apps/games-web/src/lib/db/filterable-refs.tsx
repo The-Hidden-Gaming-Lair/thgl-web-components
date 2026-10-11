@@ -20,6 +20,7 @@ export type FilterableRef = {
   name: string;
   group?: string;
   tooltip?: string;
+  badge?: string;
   count?: number;
   icon?: IconSprite;
 };
@@ -110,6 +111,7 @@ export function FilterableRefs({
         />
       )}
       <span className="text-slate-200">{r.name ?? r.id}</span>
+      {r.badge && <span className="text-amber-300">{r.badge}</span>}
       {typeof r.count === "number" && r.count > 1 && (
         <span className="font-mono text-muted-foreground">×{r.count}</span>
       )}
